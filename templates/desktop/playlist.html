@@ -1,0 +1,104 @@
+<div class="playlist-outer-container" x-data="{playlist:false}">
+    <div class="playlist-main-container transition-all duration-700" id="playlist-container"
+        x-bind:class="playlist ? 'right-[0%]' : '-right-full' ">
+        <div>
+            <h1 class="text-white xl:text-[1rem] text-2xl font-poppinsRegular xl:mb-14 ml-6">Playlist</h1>
+        </div>
+        <div>
+            <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                    <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                        <i class="fa-regular fa-user xl:text-[12px]"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                    <p class="playlist-names">some other names</p>
+                    <p class="playlist-names">some other names</p>
+
+                    <div class="flex flex-row lg:gap-x-2 mt-2">
+                        <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                        <p class="playlist-names">song name</p>
+                    </div>
+
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                    <span class="text-[10px]">37 m</span>
+                </div>
+            </div>
+            <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                    <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                        <i class="fa-regular fa-user xl:text-[12px]"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                    <p class="playlist-names">some other names</p>
+                    <p class="playlist-names">some other names</p>
+                    <div class="flex flex-row gap-x-2 mt-2">
+                        <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                        <p class="playlist-names">song name</p>
+
+                    </div>
+
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                    <span class="text-[10px]">37 m</span>
+                </div>
+            </div>
+            <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                    <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                        <i class="fa-regular fa-user xl:text-[12px]"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                    <p class="playlist-names">some other names</p>
+                    <p class="playlist-names">some other names</p>
+                    <div class="flex flex-row gap-x-2 mt-2">
+                        <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                        <p class="playlist-names">song name</p>
+
+                    </div>
+
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                    <span class="text-[10px]">37 m</span>
+                </div>
+            </div>
+            <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                    <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                        <i class="fa-regular fa-user xl:text-[12px]"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                    <p class="playlist-names">some other names</p>
+                    <p class="playlist-names">some other names</p>
+                    <div class="flex flex-row gap-x-2 mt-2">
+                        <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                        <p class="playlist-names">song name</p>
+                    </div>
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                    <span class="text-[10px]">37 m</span>
+                </div>
+            </div>
+            <div class="flex justify-center w-[100%]">
+                <a href="#" class="white_btn">FIND SONG</a>
+            </div>
+        </div>
+    </div>
+
+    <button class="outline_btn text-2xl transition-all duration-500 fixed -right-[1.5%] top-1/2 z-20"
+        id="playlist-toggler" x-bind:class="playlist ? 'rotate-0 pr-4' : 'rotate-180 pl-4'"
+        x-on:click="playlist=!playlist">
+        < </button>
+</div>

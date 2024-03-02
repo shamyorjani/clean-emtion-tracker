@@ -1,0 +1,70 @@
+<div class="mt-16 xl:mt-20 w-full flex-center xl:pr-[75px]" id="top-audio-player">
+    <div
+        class="flex items-center justify-center text-white font-poppinsRegular 2xl:w-[70%] lg:w-[85%] xl:w-[70%] md:w-[80%]">
+        <!-- <div class="ms-4"> -->
+        <div class="right-audio-player">
+            <div class="player-upper-part md:items-center xl:flex xl:items-end gap-3 max-[400px]:flex-col md:flex">
+                <div class="left xl:mb-1">
+                    <div class="left-audio-player-img">
+                        <img src="../static/assets/images/girl1.jpg"
+                            class="w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[63px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm"
+                            alt="singer_image">
+                    </div>
+                </div>
+                <div class="right" x-data="{heart:false}">
+                    <div class="my-5 leading-4">
+                        <h5 class="inline text-[11px] song-title">Song Title Some Name</h5>
+                        <span x-on:click="heart = !heart" class="cursor-pointer p-2">
+                            <i class="fa-solid fa-heart cursor-pointer text-[12px]"
+                                x-bind:style="heart ? 'color:red;': '' "></i>
+                        </span>
+                        <h6 class="text-[12px] text-gray-400 song-author">Sia</h6>
+                    </div>
+                    <!-- progress bar -->
+                    <div class="audio-player">
+                        <div class="audio-player-info-left">00:00</div>
+                        <div class="audio-player-progressbar" onclick="seeking(event)">
+                            <div class="audio-player-progressmeter"></div>
+                        </div>
+                        <div class="audio-player-info-right">06:00</div>
+                    </div>
+                    <!-- end progress bar -->
+                </div>
+            </div>
+            <!-- player-lowerpart -->
+            <div class="player-lower-part">
+                <!-- controls starts here -->
+                <div class="controls my-3">
+                    <!-- <button class="stopBtn">
+                <i class="fa fa-stop" aria-hidden="true"></i>
+              </button> -->
+
+                    <button class="shuffleBtn">
+                        <i class="fa fa-shuffle text-[12px]" aria-hidden="true"></i>
+                    </button>
+                    <button class="previousBtn">
+                        <i class="fa fa-backward-step text-[12px]" aria-hidden="true"></i>
+                    </button>
+                    <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
+                        x-bind:class="controls ? '': 'hidden' ">
+                        <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
+                    </button>
+                    <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
+                        x-bind:class="controls ? 'hidden': '' ">
+                        <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+                    </button>
+                    <button class="nextBtn">
+                        <i class="fa fa-forward-step text-[12px]" aria-hidden="true"></i>
+                    </button>
+                    <button class="repeatBtn">
+                        <i class="fa fa-repeat text-[12px]" aria-hidden="true"></i>
+                    </button>
+                </div>
+                <!-- controls ends here -->
+            </div>
+        </div>
+        <!-- player-lowerpart -->
+        <!-- </div> -->
+    </div>
+</div>
+<!-- audio player ends here -->

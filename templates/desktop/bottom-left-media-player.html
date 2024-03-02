@@ -1,0 +1,87 @@
+<div class="left-media-player">
+    <div class="left-author-image">
+        <div class="author-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+            <!-- author image set in background -->
+        </div>
+        <div class="text-white my-3 text-[11px] text-center">
+            <h3 class="text-[#8d8d8d] 2xl:my-1">Next Song</h3>
+            <h2>Adele - Hello</h2>
+        </div>
+    </div>
+    <div class="bottom-player">
+        <div class="bars flex flex-row justify-center items-baseline xl:w-[100px] gap-[1px]">
+            <!-- <img src="../static/assets/icons/audio-visualizer.png" alt="">
+        <img src="../static/assets/icons/audio-visualizer.png" alt=""> -->
+            <img class="xl:h-[50px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[30px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[55px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[40px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[45px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[50px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+        </div>
+        <div class="flex justify-center items-center">
+            <div class="left xl:mb-1 flex justify-center items-center">
+                <div class="left-audio-player-img">
+                    <img src="../static/assets/images/girl1.jpg"
+                        class="w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[60px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm"
+                        alt="singer_image">
+                </div>
+            </div>
+            <div class="flex flex-col justify-center items-center w-1/2">
+                <div class="px-2">
+                    <h3 class="capitalize text-[13px] xl:text-[11px] text-left text-wrap song-title">i am still here
+                        <i class="fa-solid fa-heart mx-2 xl:mx-1"></i>
+                    </h3>
+                    <h4 class="text-[10px] xl:text-[9px] capitalize">sia</h4>
+                </div>
+                <div class="flex justify-center items-center my-2">
+                    <i class="fa-solid fa-volume-high text-sm xl:text-[12px]"></i>
+                    <div class="volume-progressbar" onclick="seeking(event)">
+                        <div class="volume-progressmeter"></div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- progress bar -->
+        <div class="bottom-player-bar">
+            <div class="bottom-audio-player w-[15vw] flex flex-row justify-center items-center">
+                <div class="audio-player-info-left-short">00:00</div>
+                <div class="bottom-player-progressbar" onclick="seeking(event)">
+                    <div class="bottom-player-progressmeter"></div>
+                </div>
+                <div class="audio-player-info-right-short">06:00</div>
+            </div>
+        </div>
+        <!-- end progress bar -->
+        <div class="player-lower-part">
+            <!-- controls starts here -->
+            <div class="controls">
+                <!-- <button class="stopBtn">
+              <i class="fa fa-stop" aria-hidden="true"></i>
+            </button> -->
+
+                <button class="shuffleBtn">
+                    <i class="fa fa-shuffle text-[12px]" aria-hidden="true"></i>
+                </button>
+                <button class="previousBtn">
+                    <i class="fa fa-backward-step text-[12px]" aria-hidden="true"></i>
+                </button>
+                <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
+                    x-bind:class="controls ? '': 'hidden' ">
+                    <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
+                </button>
+                <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
+                    x-bind:class="controls ? 'hidden': '' ">
+                    <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+                </button>
+                <button class="nextBtn">
+                    <i class="fa fa-forward-step text-[12px]" aria-hidden="true"></i>
+                </button>
+                <button class="repeatBtn">
+                    <i class="fa fa-repeat text-[12px]" aria-hidden="true"></i>
+                </button>
+            </div>
+            <!-- controls ends here -->
+        </div>
+    </div>
+</div>
