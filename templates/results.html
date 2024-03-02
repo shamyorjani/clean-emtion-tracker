@@ -1,36 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 
-  <head>
-    <meta charset="UTF-8" />
-    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-    <link rel="shortcut icon" href="../static/assets/favicons/favicon.ico" type="image/x-icon" />
-
-    <title>Mood Wave</title>
-    <style>
-      [x-cloak] {
-        display: none;
-      }
-    </style>
-    <!-- <script src="../static/alpine.js" defer></script>
-    <link rel="stylesheet" href="../static/fontawesome/css/all.min.css" />
-    <link rel="stylesheet" href="./slick/slick/slick.css">
-    <link rel="stylesheet" href="./slick/slick/slick-theme.css">
-    <link rel="stylesheet" href="../static/output.css" />
-    <link rel="stylesheet" href="../static/audio-controls.css">
-    <link rel="stylesheet" href="../static/scrollbar-style.css">
-    <link rel="stylesheet" href="../static/animation.css"> -->
-
-    <!-- for python execution -->
-    <script src="{{url_for('static',filename='alpine.js')}}" defer></script>
-    <link rel="stylesheet" href="{{url_for('static',filename='fontawesome/css/all.min.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='slick/slick/slick.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='slick//slick/slick-theme.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='output.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='audio-controls.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='scrollbar-style.css')}}" />
-    <link rel="stylesheet" href="{{url_for('static',filename='animation.css')}}" />
-  </head>
+  {% include 'header.html' %}
   <!-- <body class="bg-gradient-to-r from-[#26292e] to-[#26292d]"> -->
   <!-- #2c2f35 -->
   <!-- #181b1f -->
@@ -42,304 +13,7 @@
     </div>
     <!-- desktop view -->
     <main class="app main-desktop section overflow-x-hidden" id="top-section">
-      <!-- navigation -->
-      <nav class="flex-between w-full 2xl:mb-5 xl:mb-3 2xl:pt-6 xl:pt-2">
-        <div class="flex">
-          <a href="/" class="flex flex-center items-center">
-            <img src="../static/assets/images/websiteLogoBgRemoved-1.png" alt="" class="xl:w-[60px] w-[65px]" />
-          </a>
-          <a href="/" class="flex flex-center items-center mx-4">
-            <p class="logo_text">Your Library</p>
-          </a>
-          <a href="/" class="flex flex-center items-center mx-4">
-            <p class="logo_text">Playlists</p>
-          </a>
-        </div>
-        <!-- {/* Desktop Navigation */} -->
-
-        <div class="right-navigation-container">
-          <div x-cloak class="w-full flex flex-center  gap-3 md:gap-8"
-            :class="desktopNavSearchopen ? 'items-start' : 'items-center'">
-            <div class="navbar-input-and-show-container" x-cloak>
-              <input type="text" x-on:focus="desktopNavSearchopen = true"
-                :class="desktopNavSearchopen ? 'hidden' : 'search_input'" placeholder="Search"
-                class="transition-all duration-500" x-cloak />
-              <!-- <div x-cloak> -->
-              <div class="search-main-box"
-                :class="desktopNavSearchopen ? 'bg-[#2c2f35] xl:w-[55vw] w-[75vw] xl:h-[50vh] h-[60vh] visible xl:mt-[20px] xl:right-[100%] 2xl:right-[70%] min-[1600px]:right-[100%]': 'invisible w-[6vw] h-[2vh] right-[60%] xl:right-[71.5%] min-[1600px]:right-[70%] xl:mt-7 bg-white' "
-                x-cloak>
-                <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak class="search-inner-box">
-                  <span :class="desktopNavSearchopen ? '': 'hidden'" x-cloak><i
-                      class="fa-solid fa-magnifying-glass"></i></span>
-                  <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak
-                    class="search-inner-box-main">
-                    <input
-                      :class="desktopNavSearchopen ? 'h-[100%] xl:w-[88.7%] w-[92.5%] px-4 py-1 border-none focus:outline-none hover:border-[#0f1013] hover:border-[0.1px] rounded-xl bg-[#2c2f35]': 'hidden' "
-                      x-cloak type="text">
-
-                    <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
-                      <span><i class="fa-solid fa-microphone"></i></span>
-                    </button>
-                    <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
-                      <span><i class="fa-solid fa-camera"></i></span>
-                    </button>
-                  </div>
-
-                  <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>Clear</button>
-                  <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak
-                    x-on:click="desktopNavSearchopen = false">
-                    <span><i class="fa-solid fa-circle-xmark text-white"></i>
-                    </span>
-                  </button>
-                </div>
-                <div :class="desktopNavSearchopen ? '': 'hidden'" x-cloak class="search-outer-result-box">
-                  <div class="every-result">
-                    <div class="capitalize xl:text-[14px]">
-                      top result
-                    </div>
-                    <div class="result-container">
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text text-[1px]">
-                          <h4 class="">arijit singh</h4>
-                          <h5 class="text-slate-300">arijit</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="every-result">
-                    <div class="capitalize xl:text-[14px]">
-                      playlist
-                    </div>
-                    <div class="result-container">
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="every-result">
-                    <div class="capitalize xl:text-[14px]">
-                      playlist
-                    </div>
-                    <div class="result-container">
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="every-result">
-                    <div class="capitalize xl:text-[14px]">
-                      playlist
-                    </div>
-                    <div class="result-container">
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                      <div class="result">
-                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
-                        </div>
-                        <div class="result-text">
-                          <h4>arijit singh - sad songs - hindi</h4>
-                          <h5 class="text-slate-300">mood wave</h5>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-
-                </div>
-              </div>
-              <!-- </div> -->
-            </div>
-            <!-- dropdown menu -->
-            <div x-data="{
-                dropdownOpen: false
-            }" class="relative">
-
-              <button @click="dropdownOpen=true, desktopNavSearchopen=false"
-                class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
-                <i class="fa-solid fa-ellipsis rounded-full text-2xl xl:text-xl text-white"></i></button>
-
-              <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200"
-                x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0"
-                class="absolute top-0 z-50 w-56 mt-12 right-full" x-cloak>
-                <div
-                  class="p-1 mt-1 text-sm bg-[#2C2F35] border rounded-md shadow-sm shadow-black border-[#2C2F35] text-white">
-                  <a href="#_" @click="menuBarOpen=false"
-                    class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                    <span>New Tab</span>
-                    <span class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-black">⌘T</span>
-                  </a>
-                  <a href="#_" @click="menuBarOpen=false"
-                    class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                    <span>New Window</span>
-                    <span
-                      class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⌘N</span>
-                  </a>
-                  <div @click="menuBarOpen=false"
-                    class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none"
-                    data-disabled>
-                    <span>New Private Window</span>
-                    <span
-                      class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⇧⌘N</span>
-                  </div>
-                  <div class="relative w-full group">
-                    <div
-                      class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
-                      <span>More Tools</span>
-                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="w-4 h-4 ml-auto">
-                        <polyline points="9 18 15 12 9 6"></polyline>
-                      </svg>
-                    </div>
-                    <div data-submenu
-                      class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
-                      <div
-                        class="z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48">
-                        <div @click="contextMenuOpen=false"
-                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                          Save Page As...<span class="ml-auto text-xs tracking-widest text-muted-foreground">⇧⌘S</span>
-                        </div>
-                        <div @click="contextMenuOpen=false"
-                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                          Create Shortcut...</div>
-                        <div @click="contextMenuOpen=false"
-                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                          Name Window...</div>
-                        <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                        <div @click="contextMenuOpen=false"
-                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                          Developer Tools</div>
-                      </div>
-                    </div>
-                  </div>
-                  <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                  <div x-data="{ showBookmarks: true }" @click="showBookmarks=!showBookmarks; contextMenuOpen=false"
-                    class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                    <span x-show="showBookmarks"
-                      class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="w-4 h-4">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg></span>
-                    <span>Show Bookmarks Bar</span>
-                    <span
-                      class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⌘⇧B</span>
-                  </div>
-                  <div x-data="{ showFullUrl: false }" @click="showFullUrl=!showFullUrl; contextMenuOpen=false"
-                    class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                    <span x-show="showFullUrl" class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
-                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                        class="w-4 h-4">
-                        <polyline points="20 6 9 17 4 12"></polyline>
-                      </svg></span>
-                    <span>Show Full URLs</span>
-                  </div>
-                  <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                  <div x-data="{ contextMenuPeople: 'adam' }" class="relative">
-                    <div @click="contextMenuPeople='adam'; contextMenuOpen=false"
-                      class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                      <span x-show="contextMenuPeople=='adam'"
-                        class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
-                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="w-2 h-2 fill-current">
-                          <circle cx="12" cy="12" r="10"></circle>
-                        </svg></span>
-                      <span>Adam Wathan</span>
-                    </div>
-                    <div @click="contextMenuPeople='caleb'; contextMenuOpen=false"
-                      class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                      <span x-show="contextMenuPeople=='caleb'"
-                        class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
-                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
-                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                          class="w-2 h-2 fill-current">
-                          <circle cx="12" cy="12" r="10"></circle>
-                        </svg></span>
-                      <span>Caleb Porzio</span>
-                    </div>
-                  </div>
-                </div>
-              </div>
-            </div>
-            <!-- end dropdown menu -->
-
-            <div id="profile-name-container">
-              <div id="profile-name-icon">
-                <i class="fa-solid fa-user text-[12.9px] text-white"></i>
-              </div>
-              <a href="#" class="text-[#bdc0c0]">ehtishamfarman</a>
-            </div>
-
-          </div>
-        </div>
-        <!-- {/* mobile navigation */} -->
-        <div class="sm:hidden flex relative">
-          <div>
-            <button type="button" class="black_btn">Sign In</button>
-          </div>
-      </nav>
-      </nav>
-      <!-- Navigation end -->
+      {% include 'navbar.html' %}
 
       <section class="grid 2xl:w-[90%] xl:w-[88%] lg:w-[80%] md:w-[80%] overflow-hidden">
         <div class="w-full flex-start xl:mt-0 max-2xl:mt-0 lg:mt-[350px] md:mt-[250px]">
@@ -1413,22 +1087,22 @@
 
         var audioPlayer = new Audio();
         var trackList = [
-              {
-                title: "Some misuse of audio equipment",
-                src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
-                type: "audio/mpeg",
-              },
-              {
-                title: "Example speech",
-                src: "{{url_for('static', filename='sounds/makada.mp3')}}",
-                type: "audio/mpeg",
-              },
-              {
-                title: "A rendition of the wikipedia random game",
-                src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
-                type: "audio/mpeg",
-              },
-            ];
+          {
+            title: "Some misuse of audio equipment",
+            src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
+            type: "audio/mpeg",
+          },
+          {
+            title: "Example speech",
+            src: "{{url_for('static', filename='sounds/makada.mp3')}}",
+            type: "audio/mpeg",
+          },
+          {
+            title: "A rendition of the wikipedia random game",
+            src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
+            type: "audio/mpeg",
+          },
+        ];
         var trackListLen = trackList.length;
         var currentTrack = 0;
         var isShuffle = false;
