@@ -1,0 +1,50 @@
+<nav class="mobile-main-nav mobile-section" x-data="{dropdownOpen:false, searchOption:false}" id="home" x-cloak>
+    <div class="mobile-navigation">
+        <div class="mobile-back-button" :class="searchOption ? 'hidden':'' ">
+            <span>
+                <!-- dropdown menu -->
+                <div>
+                    <button @click="dropdownOpen=true"
+                        class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                        <i class="fa-solid fa-ellipsis-vertical rounded-full text-md text-white"></i></button>
+
+                    <div x-show="dropdownOpen" @click.away="dropdownOpen=false"
+                        x-transition:enter="ease-out duration-200" x-transition:enter-start="-translate-y-2"
+                        x-transition:enter-end="translate-y-0" class="absolute top-0 left-0 z-50 w-full h-full mt-12"
+                        x-cloak>
+                        <div
+                            class="p-1 mt-1 text-lg bg-[#2C2F35] border rounded-md shadow-sm shadow-black border-[#2C2F35] text-white h-[90vh] w-full flex flex-col items-center justify-top pt-5">
+                            <a href="#home"
+                                @click="dropdownOpen=false, mobileHome=true, mobileAlbums=false, mobileArtist=false"
+                                class="relative flex justify-center w-[80%] cursor-default select-none group items-center rounded px-2 py-4 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                <span>Home</span>
+                            </a>
+                            <a href="#albums"
+                                @click="dropdownOpen=false, mobileHome=false, mobileAlbums=true, mobileArtist=false"
+                                class="relative flex justify-center w-[80%] cursor-default select-none group items-center rounded px-2 py-4 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                <span>Albums</span>
+                            </a>
+                            <a href="#artist"
+                                @click="dropdownOpen=false, mobileHome=false, mobileAlbums=false, mobileArtist=true"
+                                class="relative flex justify-center w-[80%] cursor-default select-none group items-center rounded px-2 py-4 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                                <span>Artist</span>
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <!-- end dropdown menu -->
+            </span>
+        </div>
+        <div :class="searchOption ? 'hidden':'' ">
+            <h3 class="inline-block uppercase font-bold text-md">Now playing</h3>
+        </div>
+        <div :class="searchOption ? '':'hidden' " class="flex justify-center items-center w-full">
+            <span @click="searchOption=false" class="mx-2"><i class="fa-solid fa-close"></i></span>
+            <input type="search" name="mobileSearch" class="mobile-search" id="mobileSearch">
+        </div>
+        <div class="flex items-center justify-center" @click="searchOption=true">
+            <span><i class="fa-solid fa-magnifying-glass mx-3 text-md"></i></span>
+            <span><i class="fa-solid fa-microphone mx-3 text-md"></i></span>
+        </div>
+    </div>
+</nav>

@@ -1,0 +1,41 @@
+<div class="mobile-player">
+    <div class="mobile-player-inside-container">
+        <div class="mobile-player-bars">
+            <img src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img src="../static/assets/icons/audio-visualizer.png" alt="">
+        </div>
+        <div class="mobile-player-author">
+            <div class="mobile-player-author-image bg-[url('../static/assets/images/girl1.jpg')] ">
+            </div>
+            <div class="flex flex-col justify-center ">
+                <div class="px-2 landscape:w-[200px]">
+                    <h3 class="capitalize text-[13px] text-left song-title">i am still here <i
+                            class="fa-solid fa-heart mx-2"></i>
+                    </h3>
+                    <h4 class="text-[10px] capitalize">sia</h4>
+                </div>
+                <div class="flex justify-center items-center my-2">
+                    <i class="fa-solid fa-volume-high text-sm landscape:mx-2"></i>
+                    <div class="mobile-volume-progressbar" onclick="seeking(event)">
+                        <div class="mobile-volume-progressmeter"></div>
+                    </div>
+                </div>
+            </div>
+            <!-- </div> -->
+        </div>
+        <div class="mobile-player-progressbar-main">
+            <!-- progress bar -->
+            <div class="bottom-player-bar">
+                <div class="mobile-audio-player w-[50vw]">
+                    <div class="audio-player-info-left">00:00</div>
+                    <div class="mobile-bottom-player-progressbar" onclick="seeking(event)">
+                        <div class="mobile-audio-player-progressmeter"></div>
+                    </div>
+                    <div class="audio-player-info-right">06:00</div>
+                </div>
+            </div>
+            <!-- end progress bar -->
+        </div>
+    </div>
+</div>

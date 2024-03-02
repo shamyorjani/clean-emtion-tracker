@@ -1,0 +1,37 @@
+<div class="artist-profile-bottom-player">
+    <div class="artist-profile-detail">
+        <div class="artist-name">Sia</div>
+        <div class="song-title text-center">"I am Still Here"</div>
+        <div class="song-duration">4:01</div>
+    </div>
+    <div class="artist-buttons-container">
+        <button class="shuffleBtn controlBtn">
+            <i class="fa fa-shuffle small-control-btn" aria-hidden="true"></i>
+        </button>
+        <button class="previousBtn controlBtn">
+            <i class="fa fa-backward-step small-control-btn" aria-hidden="true"></i>
+        </button>
+        <button class="playBtn flex justify-center items-center p-[18px] controlBtn" x-on:click="controls = false"
+            x-bind:class="controls ? '': 'hidden' ">
+            <i class="fa-solid fa-play big-control-btn ml-[15px]" aria-hidden="true"></i>
+        </button>
+        <button class="pauseBtn flex justify-center items-center p-[18px] controlBtn" x-on:click="controls = true"
+            x-bind:class="controls ? 'hidden': '' ">
+            <i class="fa fa-pause big-control-btn" aria-hidden="true"></i>
+        </button>
+        <button class="nextBtn controlBtn">
+            <i class="fa fa-forward-step small-control-btn" aria-hidden="true"></i>
+        </button>
+        <button class="repeatBtn controlBtn">
+            <i class="fa fa-repeat small-control-btn" aria-hidden="true"></i>
+        </button>
+    </div>
+    <div class="play-btn-icon-speaker-screen">
+        <div class="play-icon">
+            <img src="../static/assets/icons/computer-speaker.png" alt="">
+        </div>
+        <div class="text-[10px]">
+            <p>Devices Available</p>
+        </div>
+    </div>
+</div>

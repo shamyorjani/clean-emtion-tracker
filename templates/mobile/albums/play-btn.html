@@ -1,0 +1,36 @@
+<div class="mobile-play-btn-box">
+    <div class="play-btn-box-item">
+        <div class="play-btn-item-text text-[#c0c0c0]">
+            <h4>Sia</h4>
+        </div>
+        <div class="play-btn-item-text text-white">
+            <h2>'I am still here'</h2>
+        </div>
+        <div class="singer-share-items">
+            <div class="player-lower-part">
+                <!-- controls starts here -->
+                <div class="controls my-3">
+
+                    <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
+                        x-bind:class="controls ? '': 'hidden' ">
+                        <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
+                    </button>
+                    <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
+                        x-bind:class="controls ? 'hidden': '' ">
+                        <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+                    </button>
+
+                </div>
+                <!-- controls ends here -->
+            </div>
+        </div>
+    </div>
+    <div class="play-btn-icon-speaker-screen">
+        <div class="play-icon">
+            <img src="../static/assets/icons/computer-speaker.png" alt="">
+        </div>
+        <div class="text-[10px]">
+            <p>Devices Available</p>
+        </div>
+    </div>
+</div>

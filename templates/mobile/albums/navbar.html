@@ -1,0 +1,19 @@
+<nav class=" mobile-main-nav mobile-section" x-data="{dropdownOpen:false, searchOption:false}" id="albums" x-cloak>
+    <div class="mobile-navigation">
+        <div class="mobile-back-button" @click="mobileAlbums=false, mobileHome=true, mobileArtist=false"
+            :class="searchOption ? 'hidden':'' ">
+            <span><i class="fa-solid fa-angle-left text-md"></i> </span>
+        </div>
+        <div :class="searchOption ? 'hidden':'' ">
+            <h3 class="inline-block uppercase font-bold text-md">New Realease</h3>
+        </div>
+        <div :class="searchOption ? '':'hidden' " class="flex justify-center items-center w-full">
+            <span @click="searchOption=false" class="mx-2"><i class="fa-solid fa-close"></i></span>
+            <input type="search" name="mobileSearch" class="mobile-search" id="mobileSearch">
+        </div>
+        <div class="flex items-center justify-center" @click="searchOption=true">
+            <span><i class="fa-solid fa-magnifying-glass mx-3 text-md"></i></span>
+            <span><i class="fa-solid fa-microphone mx-3 text-md"></i></span>
+        </div>
+    </div>
+</nav>
