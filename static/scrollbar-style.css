@@ -1,0 +1,21 @@
+/* For WebKit browsers (Chrome, Safari) */
+::-webkit-scrollbar {
+  width: 6px; /* Set the width of the scrollbar */
+}
+
+::-webkit-scrollbar-thumb {
+  background-color: #f1f1f1; /* Set the color of the scrollbar thumb */
+  border-radius: 10px; /* Set the border radius of the thumb */
+}
+
+::-webkit-scrollbar-track {
+  /* background-color: #2f3238; Set the color of the scrollbar track */
+  background-color: transparent;
+}
+
+/* For Firefox
+scrollbar-color: #3498db #f1f1f1; Set the color of the scrollbar thumb and track in Firefox
+
+For Microsoft Edge and IE
+scrollbar-face-color: #3498db; Set the color of the scrollbar thumb in Microsoft Edge and IE
+scrollbar-track-color: #f1f1f1; */

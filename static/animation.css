@@ -1,0 +1,225 @@
+.animate-once {
+  animation: moveDownAndUp 2s ease;
+}
+.animate-toggler {
+  animation: moveRightToLeft 2s ease;
+}
+.background-fade {
+  animation: BlackToNothing 1.5s ease forwards;
+}
+
+.playlist-container-fade {
+  animation: playerFade 3s linear;
+}
+.bottom-player-fade {
+  animation: playerFade 2.5s linear;
+}
+.animate-from-up-to-down {
+  animation: moveFromUpToDown 1.5s ease;
+}
+@keyframes moveFromUpToDown {
+  0% {
+    transform: translateY(-30px);
+    opacity: 0;
+  }
+
+  10% {
+    transform: translateY(-20px);
+    opacity: 0.2;
+  }
+
+  30% {
+    opacity: 0.4;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes moveDownAndUp {
+  0% {
+    transform: translateY(20px);
+    opacity: 0;
+  }
+
+  10% {
+    transform: translateY(20px);
+    opacity: 0.2;
+  }
+
+  30% {
+    opacity: 0.4;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+@keyframes moveRightToLeft {
+  0% {
+    transform: translateX(20px);
+    opacity: 0;
+  }
+
+  10% {
+    transform: translateX(20px);
+    opacity: 0.2;
+  }
+
+  30% {
+    opacity: 0.4;
+  }
+
+  60% {
+    opacity: 0.6;
+  }
+
+  100% {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+@keyframes BlackToNothing {
+  0% {
+    background-color: rgb(32, 32, 32);
+    opacity: 1;
+    z-index: 50;
+  }
+
+  5% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.95;
+    z-index: 50;
+  }
+
+  10% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.9;
+    z-index: 50;
+  }
+
+  15% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.85;
+    z-index: 50;
+  }
+
+  20% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.8;
+    z-index: 50;
+  }
+
+  25% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.75;
+    z-index: 50;
+  }
+
+  30% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.7;
+    z-index: 50;
+  }
+
+  35% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.65;
+    z-index: 50;
+  }
+
+  40% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.6;
+    z-index: 50;
+  }
+
+  45% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.55;
+    z-index: 50;
+  }
+
+  50% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.5;
+    z-index: 50;
+  }
+
+  55% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.45;
+    z-index: 50;
+  }
+
+  60% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.4;
+    z-index: 50;
+  }
+
+  65% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.35;
+    z-index: 50;
+  }
+
+  70% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.3;
+    z-index: 50;
+  }
+
+  75% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.25;
+    z-index: 50;
+  }
+
+  80% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.2;
+    z-index: 50;
+  }
+
+  85% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.15;
+    z-index: 50;
+  }
+
+  90% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.1;
+    z-index: 50;
+  }
+
+  95% {
+    background-color: rgb(32, 32, 32);
+    opacity: 0.05;
+    z-index: 50;
+  }
+
+  100% {
+    background-color: transparent;
+    display: hidden;
+  }
+}
+@keyframes playerFade {
+  from {
+    opacity: 0.1;
+  }
+  to {
+    opacity: 1;
+  }
+}

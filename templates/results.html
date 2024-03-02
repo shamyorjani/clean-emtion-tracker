@@ -1,0 +1,1672 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" href="../static/assets/favicons/favicon.ico" type="image/x-icon" />
+
+    <title>Mood Wave</title>
+    <style>
+      [x-cloak] {
+        display: none;
+      }
+    </style>
+    <!-- <script src="../static/alpine.js" defer></script>
+    <link rel="stylesheet" href="../static/fontawesome/css/all.min.css" />
+    <link rel="stylesheet" href="./slick/slick/slick.css">
+    <link rel="stylesheet" href="./slick/slick/slick-theme.css">
+    <link rel="stylesheet" href="../static/output.css" />
+    <link rel="stylesheet" href="../static/audio-controls.css">
+    <link rel="stylesheet" href="../static/scrollbar-style.css">
+    <link rel="stylesheet" href="../static/animation.css"> -->
+
+    <!-- for python execution -->
+    <script src="{{url_for('static',filename='alpine.js')}}" defer></script>
+    <link rel="stylesheet" href="{{url_for('static',filename='fontawesome/css/all.min.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='slick/slick/slick.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='slick//slick/slick-theme.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='output.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='audio-controls.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='scrollbar-style.css')}}" />
+    <link rel="stylesheet" href="{{url_for('static',filename='animation.css')}}" />
+  </head>
+  <!-- <body class="bg-gradient-to-r from-[#26292e] to-[#26292d]"> -->
+  <!-- #2c2f35 -->
+  <!-- #181b1f -->
+
+  <body class="bg-[#181b1f] overflow-hidden"
+    x-data="{controls:false, mobileHome:true, mobileAlbums:false, mobileArtist:false, desktopNavSearchopen:false}">
+    <div id="fullscreen-animator"></div>
+    <div class="main" style="background-image: url(../static/assets/images/girl-with-light-2.jpg);">
+    </div>
+    <!-- desktop view -->
+    <main class="app main-desktop section overflow-x-hidden" id="top-section">
+      <!-- navigation -->
+      <nav class="flex-between w-full 2xl:mb-5 xl:mb-3 2xl:pt-6 xl:pt-2">
+        <div class="flex">
+          <a href="/" class="flex flex-center items-center">
+            <img src="../static/assets/images/websiteLogoBgRemoved-1.png" alt="" class="xl:w-[60px] w-[65px]" />
+          </a>
+          <a href="/" class="flex flex-center items-center mx-4">
+            <p class="logo_text">Your Library</p>
+          </a>
+          <a href="/" class="flex flex-center items-center mx-4">
+            <p class="logo_text">Playlists</p>
+          </a>
+        </div>
+        <!-- {/* Desktop Navigation */} -->
+
+        <div class="right-navigation-container">
+          <div x-cloak class="w-full flex flex-center  gap-3 md:gap-8"
+            :class="desktopNavSearchopen ? 'items-start' : 'items-center'">
+            <div class="navbar-input-and-show-container" x-cloak>
+              <input type="text" x-on:focus="desktopNavSearchopen = true"
+                :class="desktopNavSearchopen ? 'hidden' : 'search_input'" placeholder="Search"
+                class="transition-all duration-500" x-cloak />
+              <!-- <div x-cloak> -->
+              <div class="search-main-box"
+                :class="desktopNavSearchopen ? 'bg-[#2c2f35] xl:w-[55vw] w-[75vw] xl:h-[50vh] h-[60vh] visible xl:mt-[20px] xl:right-[100%] 2xl:right-[70%] min-[1600px]:right-[100%]': 'invisible w-[6vw] h-[2vh] right-[60%] xl:right-[71.5%] min-[1600px]:right-[70%] xl:mt-7 bg-white' "
+                x-cloak>
+                <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak class="search-inner-box">
+                  <span :class="desktopNavSearchopen ? '': 'hidden'" x-cloak><i
+                      class="fa-solid fa-magnifying-glass"></i></span>
+                  <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak
+                    class="search-inner-box-main">
+                    <input
+                      :class="desktopNavSearchopen ? 'h-[100%] xl:w-[88.7%] w-[92.5%] px-4 py-1 border-none focus:outline-none hover:border-[#0f1013] hover:border-[0.1px] rounded-xl bg-[#2c2f35]': 'hidden' "
+                      x-cloak type="text">
+
+                    <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
+                      <span><i class="fa-solid fa-microphone"></i></span>
+                    </button>
+                    <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
+                      <span><i class="fa-solid fa-camera"></i></span>
+                    </button>
+                  </div>
+
+                  <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>Clear</button>
+                  <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak
+                    x-on:click="desktopNavSearchopen = false">
+                    <span><i class="fa-solid fa-circle-xmark text-white"></i>
+                    </span>
+                  </button>
+                </div>
+                <div :class="desktopNavSearchopen ? '': 'hidden'" x-cloak class="search-outer-result-box">
+                  <div class="every-result">
+                    <div class="capitalize xl:text-[14px]">
+                      top result
+                    </div>
+                    <div class="result-container">
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text text-[1px]">
+                          <h4 class="">arijit singh</h4>
+                          <h5 class="text-slate-300">arijit</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="every-result">
+                    <div class="capitalize xl:text-[14px]">
+                      playlist
+                    </div>
+                    <div class="result-container">
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="every-result">
+                    <div class="capitalize xl:text-[14px]">
+                      playlist
+                    </div>
+                    <div class="result-container">
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="every-result">
+                    <div class="capitalize xl:text-[14px]">
+                      playlist
+                    </div>
+                    <div class="result-container">
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                      <div class="result">
+                        <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                        </div>
+                        <div class="result-text">
+                          <h4>arijit singh - sad songs - hindi</h4>
+                          <h5 class="text-slate-300">mood wave</h5>
+                        </div>
+                      </div>
+                    </div>
+                  </div>
+
+                </div>
+              </div>
+              <!-- </div> -->
+            </div>
+            <!-- dropdown menu -->
+            <div x-data="{
+                dropdownOpen: false
+            }" class="relative">
+
+              <button @click="dropdownOpen=true, desktopNavSearchopen=false"
+                class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                <i class="fa-solid fa-ellipsis rounded-full text-2xl xl:text-xl text-white"></i></button>
+
+              <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200"
+                x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0"
+                class="absolute top-0 z-50 w-56 mt-12 right-full" x-cloak>
+                <div
+                  class="p-1 mt-1 text-sm bg-[#2C2F35] border rounded-md shadow-sm shadow-black border-[#2C2F35] text-white">
+                  <a href="#_" @click="menuBarOpen=false"
+                    class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                    <span>New Tab</span>
+                    <span class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-black">⌘T</span>
+                  </a>
+                  <a href="#_" @click="menuBarOpen=false"
+                    class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                    <span>New Window</span>
+                    <span
+                      class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⌘N</span>
+                  </a>
+                  <div @click="menuBarOpen=false"
+                    class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none"
+                    data-disabled>
+                    <span>New Private Window</span>
+                    <span
+                      class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⇧⌘N</span>
+                  </div>
+                  <div class="relative w-full group">
+                    <div
+                      class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
+                      <span>More Tools</span>
+                      <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="w-4 h-4 ml-auto">
+                        <polyline points="9 18 15 12 9 6"></polyline>
+                      </svg>
+                    </div>
+                    <div data-submenu
+                      class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                      <div
+                        class="z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48">
+                        <div @click="contextMenuOpen=false"
+                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                          Save Page As...<span class="ml-auto text-xs tracking-widest text-muted-foreground">⇧⌘S</span>
+                        </div>
+                        <div @click="contextMenuOpen=false"
+                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                          Create Shortcut...</div>
+                        <div @click="contextMenuOpen=false"
+                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                          Name Window...</div>
+                        <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                        <div @click="contextMenuOpen=false"
+                          class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                          Developer Tools</div>
+                      </div>
+                    </div>
+                  </div>
+                  <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                  <div x-data="{ showBookmarks: true }" @click="showBookmarks=!showBookmarks; contextMenuOpen=false"
+                    class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
+                    <span x-show="showBookmarks"
+                      class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="w-4 h-4">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg></span>
+                    <span>Show Bookmarks Bar</span>
+                    <span
+                      class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⌘⇧B</span>
+                  </div>
+                  <div x-data="{ showFullUrl: false }" @click="showFullUrl=!showFullUrl; contextMenuOpen=false"
+                    class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
+                    <span x-show="showFullUrl" class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
+                        xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                        stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                        class="w-4 h-4">
+                        <polyline points="20 6 9 17 4 12"></polyline>
+                      </svg></span>
+                    <span>Show Full URLs</span>
+                  </div>
+                  <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
+                  <div x-data="{ contextMenuPeople: 'adam' }" class="relative">
+                    <div @click="contextMenuPeople='adam'; contextMenuOpen=false"
+                      class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
+                      <span x-show="contextMenuPeople=='adam'"
+                        class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
+                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="w-2 h-2 fill-current">
+                          <circle cx="12" cy="12" r="10"></circle>
+                        </svg></span>
+                      <span>Adam Wathan</span>
+                    </div>
+                    <div @click="contextMenuPeople='caleb'; contextMenuOpen=false"
+                      class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
+                      <span x-show="contextMenuPeople=='caleb'"
+                        class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
+                          xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
+                          stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
+                          class="w-2 h-2 fill-current">
+                          <circle cx="12" cy="12" r="10"></circle>
+                        </svg></span>
+                      <span>Caleb Porzio</span>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <!-- end dropdown menu -->
+
+            <div id="profile-name-container">
+              <div id="profile-name-icon">
+                <i class="fa-solid fa-user text-[12.9px] text-white"></i>
+              </div>
+              <a href="#" class="text-[#bdc0c0]">ehtishamfarman</a>
+            </div>
+
+          </div>
+        </div>
+        <!-- {/* mobile navigation */} -->
+        <div class="sm:hidden flex relative">
+          <div>
+            <button type="button" class="black_btn">Sign In</button>
+          </div>
+      </nav>
+      </nav>
+      <!-- Navigation end -->
+
+      <section class="grid 2xl:w-[90%] xl:w-[88%] lg:w-[80%] md:w-[80%] overflow-hidden">
+        <div class="w-full flex-start xl:mt-0 max-2xl:mt-0 lg:mt-[350px] md:mt-[250px]">
+          <div class="w-[300px]" id="sia-album-text">
+            <div class="flex justify-left min-[1600px]:mb-[170px]">
+              <a href="/show_results" class="upgrade">scan face</a>
+            </div>
+            <div class="flex items-center justify-between">
+
+              <h2 class="song-album-name">Sia Album</h2>
+              <div class="rating">
+                <span><i class="fa-solid fa-star xl:text-[14px] text-yellow-500"></i></span>
+                <span><i class="fa-solid fa-star xl:text-[14px] text-yellow-500"></i></span>
+                <span><i class="fa-solid fa-star xl:text-[14px] text-yellow-500"></i></span>
+                <span><i class="fa-solid fa-star xl:text-[14px] text-slate-500"></i></span>
+                <span><i class="fa-solid fa-star xl:text-[14px] text-slate-500"></i></span>
+              </div>
+            </div>
+            <div class="mt-2">
+              <p class="song-album-description">
+                Lorem ipsum dolor sit amet consectetur adipisicing elit. Dolor
+                dolorum aliquam inventore consequatur porro eveniet eius nam,
+                suscipit autem deleniti quo.
+              </p>
+              <a href="#" class="outline_btn_w_according mt-3">VIEW MORE</a>
+            </div>
+          </div>
+        </div>
+        <!-- audio player starts here -->
+        <div class="mt-16 xl:mt-20 w-full flex-center xl:pr-[75px]" id="top-audio-player">
+          <div
+            class="flex items-center justify-center text-white font-poppinsRegular 2xl:w-[70%] lg:w-[85%] xl:w-[70%] md:w-[80%]">
+            <!-- <div class="ms-4"> -->
+            <div class="right-audio-player">
+              <div class="player-upper-part md:items-center xl:flex xl:items-end gap-3 max-[400px]:flex-col md:flex">
+                <div class="left xl:mb-1">
+                  <div class="left-audio-player-img">
+                    <img src="../static/assets/images/girl1.jpg"
+                      class="w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[63px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm"
+                      alt="singer_image">
+                  </div>
+                </div>
+                <div class="right" x-data="{heart:false}">
+                  <div class="my-5 leading-4">
+                    <h5 class="inline text-[11px] song-title">Song Title Some Name</h5>
+                    <span x-on:click="heart = !heart" class="cursor-pointer p-2">
+                      <i class="fa-solid fa-heart cursor-pointer text-[12px]"
+                        x-bind:style="heart ? 'color:red;': '' "></i>
+                    </span>
+                    <h6 class="text-[12px] text-gray-400 song-author">Sia</h6>
+                  </div>
+                  <!-- progress bar -->
+                  <div class="audio-player">
+                    <div class="audio-player-info-left">00:00</div>
+                    <div class="audio-player-progressbar" onclick="seeking(event)">
+                      <div class="audio-player-progressmeter"></div>
+                    </div>
+                    <div class="audio-player-info-right">06:00</div>
+                  </div>
+                  <!-- end progress bar -->
+                </div>
+              </div>
+              <!-- player-lowerpart -->
+              <div class="player-lower-part">
+                <!-- controls starts here -->
+                <div class="controls my-3">
+                  <!-- <button class="stopBtn">
+                      <i class="fa fa-stop" aria-hidden="true"></i>
+                    </button> -->
+
+                  <button class="shuffleBtn">
+                    <i class="fa fa-shuffle text-[12px]" aria-hidden="true"></i>
+                  </button>
+                  <button class="previousBtn">
+                    <i class="fa fa-backward-step text-[12px]" aria-hidden="true"></i>
+                  </button>
+                  <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
+                    x-bind:class="controls ? '': 'hidden' ">
+                    <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
+                  </button>
+                  <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
+                    x-bind:class="controls ? 'hidden': '' ">
+                    <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+                  </button>
+                  <button class="nextBtn">
+                    <i class="fa fa-forward-step text-[12px]" aria-hidden="true"></i>
+                  </button>
+                  <button class="repeatBtn">
+                    <i class="fa fa-repeat text-[12px]" aria-hidden="true"></i>
+                  </button>
+                </div>
+                <!-- controls ends here -->
+              </div>
+            </div>
+            <!-- player-lowerpart -->
+            <!-- </div> -->
+          </div>
+        </div>
+        <!-- audio player ends here -->
+
+        <!-- playlist starts here -->
+        <div class="playlist-outer-container" x-data="{playlist:false}">
+          <div class="playlist-main-container transition-all duration-700" id="playlist-container"
+            x-bind:class="playlist ? 'right-[0%]' : '-right-full' ">
+            <div>
+              <h1 class="text-white xl:text-[1rem] text-2xl font-poppinsRegular xl:mb-14 ml-6">Playlist</h1>
+            </div>
+            <div>
+              <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                  <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                    <i class="fa-regular fa-user xl:text-[12px]"></i>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                  <p class="playlist-names">some other names</p>
+                  <p class="playlist-names">some other names</p>
+
+                  <div class="flex flex-row lg:gap-x-2 mt-2">
+                    <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                    <p class="playlist-names">song name</p>
+                  </div>
+
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                  <span class="text-[10px]">37 m</span>
+                </div>
+              </div>
+              <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                  <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                    <i class="fa-regular fa-user xl:text-[12px]"></i>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                  <p class="playlist-names">some other names</p>
+                  <p class="playlist-names">some other names</p>
+                  <div class="flex flex-row gap-x-2 mt-2">
+                    <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                    <p class="playlist-names">song name</p>
+
+                  </div>
+
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                  <span class="text-[10px]">37 m</span>
+                </div>
+              </div>
+              <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                  <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                    <i class="fa-regular fa-user xl:text-[12px]"></i>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                  <p class="playlist-names">some other names</p>
+                  <p class="playlist-names">some other names</p>
+                  <div class="flex flex-row gap-x-2 mt-2">
+                    <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                    <p class="playlist-names">song name</p>
+
+                  </div>
+
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                  <span class="text-[10px]">37 m</span>
+                </div>
+              </div>
+              <div class="playlist-short-container">
+                <div class="flex justify-center items-center pb-4">
+                  <div class="border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%]">
+                    <i class="fa-regular fa-user xl:text-[12px]"></i>
+                  </div>
+                </div>
+
+                <div>
+                  <h3 class="font-poppinsRegular xl:text-[12px] 2xl:text-[14px]">Lauren Stachie</h3>
+                  <p class="playlist-names">some other names</p>
+                  <p class="playlist-names">some other names</p>
+                  <div class="flex flex-row gap-x-2 mt-2">
+                    <i class="fa-solid fa-music text-[10px] text-[#c0c0c0]"></i>
+                    <p class="playlist-names">song name</p>
+                  </div>
+                </div>
+                <div class="flex justify-end lg:ml-[10%] 2xl:ml-[20%]">
+                  <span class="text-[10px]">37 m</span>
+                </div>
+              </div>
+              <div class="flex justify-center w-[100%]">
+                <a href="#" class="white_btn">FIND SONG</a>
+              </div>
+            </div>
+          </div>
+
+          <button class="outline_btn text-2xl transition-all duration-500 fixed -right-[1.5%] top-1/2 z-20"
+            id="playlist-toggler" x-bind:class="playlist ? 'rotate-0 pr-4' : 'rotate-180 pl-4'"
+            x-on:click="playlist=!playlist">
+            < </button>
+        </div>
+        <!-- playlist ends here -->
+      </section>
+    </main>
+
+    <!-- bottom section -->
+    <section class="w-[100%] lg:flex lg:flex-row hidden section" id="bottom-section">
+      <div class="left-media-player">
+        <div class="left-author-image">
+          <div class="author-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+            <!-- author image set in background -->
+          </div>
+          <div class="text-white my-3 text-[11px] text-center">
+            <h3 class="text-[#8d8d8d] 2xl:my-1">Next Song</h3>
+            <h2>Adele - Hello</h2>
+          </div>
+        </div>
+        <div class="bottom-player">
+          <div class="bars flex flex-row justify-center items-baseline xl:w-[100px] gap-[1px]">
+            <!-- <img src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img src="../static/assets/icons/audio-visualizer.png" alt=""> -->
+            <img class="xl:h-[50px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[30px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[55px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[40px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[45px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+            <img class="xl:h-[50px] w-[15px]" src="../static/assets/icons/audio-visualizer.png" alt="">
+          </div>
+          <div class="flex justify-center items-center">
+            <div class="left xl:mb-1 flex justify-center items-center">
+              <div class="left-audio-player-img">
+                <img src="../static/assets/images/girl1.jpg"
+                  class="w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[60px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm"
+                  alt="singer_image">
+              </div>
+            </div>
+            <div class="flex flex-col justify-center items-center w-1/2">
+              <div class="px-2">
+                <h3 class="capitalize text-[13px] xl:text-[11px] text-left text-wrap song-title">i am still here
+                  <i class="fa-solid fa-heart mx-2 xl:mx-1"></i>
+                </h3>
+                <h4 class="text-[10px] xl:text-[9px] capitalize">sia</h4>
+              </div>
+              <div class="flex justify-center items-center my-2">
+                <i class="fa-solid fa-volume-high text-sm xl:text-[12px]"></i>
+                <div class="volume-progressbar" onclick="seeking(event)">
+                  <div class="volume-progressmeter"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- progress bar -->
+          <div class="bottom-player-bar">
+            <div class="bottom-audio-player w-[15vw] flex flex-row justify-center items-center">
+              <div class="audio-player-info-left-short">00:00</div>
+              <div class="bottom-player-progressbar" onclick="seeking(event)">
+                <div class="bottom-player-progressmeter"></div>
+              </div>
+              <div class="audio-player-info-right-short">06:00</div>
+            </div>
+          </div>
+          <!-- end progress bar -->
+          <div class="player-lower-part">
+            <!-- controls starts here -->
+            <div class="controls">
+              <!-- <button class="stopBtn">
+                  <i class="fa fa-stop" aria-hidden="true"></i>
+                </button> -->
+
+              <button class="shuffleBtn">
+                <i class="fa fa-shuffle text-[12px]" aria-hidden="true"></i>
+              </button>
+              <button class="previousBtn">
+                <i class="fa fa-backward-step text-[12px]" aria-hidden="true"></i>
+              </button>
+              <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
+                x-bind:class="controls ? '': 'hidden' ">
+                <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
+              </button>
+              <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
+                x-bind:class="controls ? 'hidden': '' ">
+                <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+              </button>
+              <button class="nextBtn">
+                <i class="fa fa-forward-step text-[12px]" aria-hidden="true"></i>
+              </button>
+              <button class="repeatBtn">
+                <i class="fa fa-repeat text-[12px]" aria-hidden="true"></i>
+              </button>
+            </div>
+            <!-- controls ends here -->
+          </div>
+        </div>
+      </div>
+      <div class="albums-playlist" id="albums-bottom-section">
+        <div class="albums-playlist-body sticky top-0">
+          <div>
+
+            <ul x-data="{ activeTab: 'overview' }" class="flex">
+              <li class="mr-4" x-on:click="activeTab = 'overview'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">OVERVIEW</a>
+                <div>
+                  <hr x-show="activeTab === 'overview'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+              <li class="mr-4" x-on:click="activeTab = 'podcasts'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">PODCASTS</a>
+                <div>
+                  <hr x-show="activeTab === 'podcasts'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+              <li class="mr-4" x-on:click="activeTab = 'charts'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">CHARTS</a>
+                <div>
+                  <hr x-show="activeTab === 'charts'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+              <li class="mr-4" x-on:click="activeTab = 'new releases'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">NEW RELEASES</a>
+                <div>
+                  <hr x-show="activeTab === 'new releases'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+              <li class="mr-4" x-on:click="activeTab = 'genres & moods'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">GENRES & MOODS</a>
+                <div>
+                  <hr x-show="activeTab === 'genres & moods'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+              <li class="mr-4" x-on:click="activeTab = 'discover'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">DISCOVER</a>
+                <div>
+                  <hr x-show="activeTab === 'discover'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+              <li class="mr-4" x-on:click="activeTab = 'concerts'">
+                <a class="text-[#c0c0c0] font-semibold cursor-pointer">CONCERTS</a>
+                <div>
+                  <hr x-show="activeTab === 'concerts'" x-transition:enter="transition ease-out duration-300"
+                    x-transition:enter-start="origin-center opacity-0 scale-90"
+                    x-transition:enter-end="opacity-100 scale-100" x-transition:leave="transition ease-in duration-300"
+                    x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
+                    class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
+                </div>
+              </li>
+
+              <!-- Repeat for other tabs, changing the value of activeTab accordingly -->
+            </ul>
+          </div>
+          <div class="pr-4">
+            <hr class="w-[580px] pr-96 h-[2px] mx-auto bg-gray-100 border-0 rounded md:mt-7 dark:bg-gray-700">
+          </div>
+        </div>
+        <div>
+          <div class="flex flex-row w-[56vw] gap-2 mt-12">
+            <div class="basis-3/6 bg-transparent   flex justify-top w-[100%] h-[115px]">
+              <div class="flex flex-col justify-center items-start text-white text-[18px] font-semibold">
+                <h1>The Best</h1>
+                <h1>New Release</h1>
+              </div>
+            </div>
+
+
+            <div class="basis-2/6 bg-transparent">
+              <div class="left-audio-player-img border-none rounded-full">
+                <img src="../static/assets/images/img1.jpeg" class="best-release-img" alt="singer_image">
+              </div>
+              <h2 class="font-poppinsRegular text-white text-[11px] mt-1">Lorem ipsum dolor sit amet.</h2>
+              <h3 class="text-[#c0c0c0] text-[10px]">Lorem ipsum dolor.</h3>
+            </div>
+            <div class="basis-2/6">
+              <div class="left-audio-player-img">
+                <img src="../static/assets/images/img2.jpeg" class="best-release-img " alt="singer_image">
+              </div>
+              <h2 class="font-poppinsRegular text-white text-[11px] mt-1">Lorem ipsum dolor sit amet.</h2>
+              <h3 class="text-[#c0c0c0] text-[10px]">Lorem ipsum dolor.</h3>
+            </div>
+            <div class="basis-2/6">
+              <div class="left-audio-player-img">
+                <img src="../static/assets/images/img3.jpeg" class="best-release-img" alt="singer_image">
+              </div>
+              <h2 class="font-poppinsRegular text-white text-[11px] mt-1">Lorem ipsum dolor sit amet.</h2>
+              <h3 class="text-[#c0c0c0] text-[10px]">Lorem ipsum dolor.</h3>
+            </div>
+            <div class="basis-2/6">
+              <div class="left-audio-player-img">
+                <img src="../static/assets/images/img4.jpeg" class="best-release-img" alt="singer_image">
+              </div>
+              <h2 class="font-poppinsRegular text-white text-[11px] mt-1">Lorem ipsum dolor sit amet.</h2>
+              <h3 class="text-[#c0c0c0] text-[10px]">Lorem ipsum dolor.</h3>
+            </div>
+
+            <div class="basis-2/6 bg-transparent"></div>
+          </div>
+        </div>
+
+        <div class="my-10">
+          <div class="flex flex-row flex-wrap w-[50vw] gap-2">
+
+            <div class=" text-white text-[18px] font-semibold mb-2 w-[50vw]">
+              <h1>New Album & Singles</h1>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img2.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img3.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="left-audio-player-img border-none rounded-full">
+                <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img2.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img3.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img3.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+            <div class="mt-4">
+              <div class="">
+                <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
+              </div>
+              <div class="max-w-[130px]">
+                <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
+                <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+    <!-- end bottom section -->
+    <!-- end desktop view -->
+
+    <!-- mobile view  -->
+
+    <!-- now playing mobile view -->
+    <!-- mobile navigation  -->
+    <div :class="mobileHome ? '': 'hidden' " class="mobile-main-container-of-every-page">
+
+      <nav class="mobile-main-nav mobile-section" x-data="{dropdownOpen:false, searchOption:false}" id="home" x-cloak>
+        <div class="mobile-navigation">
+          <div class="mobile-back-button" :class="searchOption ? 'hidden':'' ">
+            <span>
+              <!-- dropdown menu -->
+              <div>
+                <button @click="dropdownOpen=true"
+                  class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                  <i class="fa-solid fa-ellipsis-vertical rounded-full text-md text-white"></i></button>
+
+                <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200"
+                  x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0"
+                  class="absolute top-0 left-0 z-50 w-full h-full mt-12" x-cloak>
+                  <div
+                    class="p-1 mt-1 text-lg bg-[#2C2F35] border rounded-md shadow-sm shadow-black border-[#2C2F35] text-white h-[90vh] w-full flex flex-col items-center justify-top pt-5">
+                    <a href="#home" @click="dropdownOpen=false, mobileHome=true, mobileAlbums=false, mobileArtist=false"
+                      class="relative flex justify-center w-[80%] cursor-default select-none group items-center rounded px-2 py-4 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                      <span>Home</span>
+                    </a>
+                    <a href="#albums"
+                      @click="dropdownOpen=false, mobileHome=false, mobileAlbums=true, mobileArtist=false"
+                      class="relative flex justify-center w-[80%] cursor-default select-none group items-center rounded px-2 py-4 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                      <span>Albums</span>
+                    </a>
+                    <a href="#artist"
+                      @click="dropdownOpen=false, mobileHome=false, mobileAlbums=false, mobileArtist=true"
+                      class="relative flex justify-center w-[80%] cursor-default select-none group items-center rounded px-2 py-4 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                      <span>Artist</span>
+                    </a>
+                  </div>
+                </div>
+              </div>
+              <!-- end dropdown menu -->
+            </span>
+          </div>
+          <div :class="searchOption ? 'hidden':'' ">
+            <h3 class="inline-block uppercase font-bold text-md">Now playing</h3>
+          </div>
+          <div :class="searchOption ? '':'hidden' " class="flex justify-center items-center w-full">
+            <span @click="searchOption=false" class="mx-2"><i class="fa-solid fa-close"></i></span>
+            <input type="search" name="mobileSearch" class="mobile-search" id="mobileSearch">
+          </div>
+          <div class="flex items-center justify-center" @click="searchOption=true">
+            <span><i class="fa-solid fa-magnifying-glass mx-3 text-md"></i></span>
+            <span><i class="fa-solid fa-microphone mx-3 text-md"></i></span>
+          </div>
+        </div>
+      </nav>
+      <!-- end mobile navigation -->
+
+      <main class="mobile-main">
+        <!-- mobile mid content player -->
+        <div class="mobile-player">
+          <div class="mobile-player-inside-container">
+            <div class="mobile-player-bars">
+              <img src="../static/assets/icons/audio-visualizer.png" alt="">
+              <img src="../static/assets/icons/audio-visualizer.png" alt="">
+              <img src="../static/assets/icons/audio-visualizer.png" alt="">
+            </div>
+            <div class="mobile-player-author">
+              <div class="mobile-player-author-image bg-[url('../static/assets/images/girl1.jpg')] ">
+              </div>
+              <div class="flex flex-col justify-center ">
+                <div class="px-2 landscape:w-[200px]">
+                  <h3 class="capitalize text-[13px] text-left song-title">i am still here <i
+                      class="fa-solid fa-heart mx-2"></i>
+                  </h3>
+                  <h4 class="text-[10px] capitalize">sia</h4>
+                </div>
+                <div class="flex justify-center items-center my-2">
+                  <i class="fa-solid fa-volume-high text-sm landscape:mx-2"></i>
+                  <div class="mobile-volume-progressbar" onclick="seeking(event)">
+                    <div class="mobile-volume-progressmeter"></div>
+                  </div>
+                </div>
+              </div>
+              <!-- </div> -->
+            </div>
+            <div class="mobile-player-progressbar-main">
+              <!-- progress bar -->
+              <div class="bottom-player-bar">
+                <div class="mobile-audio-player w-[50vw]">
+                  <div class="audio-player-info-left">00:00</div>
+                  <div class="mobile-bottom-player-progressbar" onclick="seeking(event)">
+                    <div class="mobile-audio-player-progressmeter"></div>
+                  </div>
+                  <div class="audio-player-info-right">06:00</div>
+                </div>
+              </div>
+              <!-- end progress bar -->
+            </div>
+          </div>
+        </div>
+        <!-- next and previous text -->
+        <div class="mobile-next-previous-bottom-text">
+          <div class="up-next-text">
+            <div>
+              Up Next
+            </div>
+            <div class="next-song-name">
+              "Adele - Hello"
+            </div>
+          </div>
+          <!-- end mobile mid content player -->
+          <div class="previous-text">
+            <div>
+              Previous
+            </div>
+            <div class="previous-song-name">
+              "Ayu Tingting - Alamat Paisu"
+            </div>
+          </div>
+        </div>
+        <!-- end next and previous text -->
+
+        <!-- controls starts here -->
+        <div class="mobile-bottom-controls">
+          <!-- <button class="stopBtn">
+                  <i class="fa fa-stop" aria-hidden="true"></i>
+                </button> -->
+          <div class="control-buttons-container">
+            <button class="shuffleBtn">
+              <i class="fa fa-shuffle text-[20px]" aria-hidden="true"></i>
+            </button>
+            <button class="previousBtn">
+              <i class="fa fa-backward-step text-[20px]" aria-hidden="true"></i>
+            </button>
+            <button class="playBtn flex justify-center items-center p-3" x-on:click="controls = false"
+              x-bind:class="controls ? '': 'hidden' ">
+              <i class="fa-solid fa-play text-[24px] ml-[3px]" aria-hidden="true"></i>
+            </button>
+            <button class="pauseBtn flex justify-center items-center p-3" x-on:click="controls = true"
+              x-bind:class="controls ? 'hidden': '' ">
+              <i class="fa fa-pause text-[24px]" aria-hidden="true"></i>
+            </button>
+            <button class="nextBtn">
+              <i class="fa fa-forward-step text-[20px]" aria-hidden="true"></i>
+            </button>
+            <button class="repeatBtn">
+              <i class="fa fa-repeat text-[20px]" aria-hidden="true"></i>
+            </button>
+          </div>
+        </div>
+        <!-- controls ends here -->
+      </main>
+
+    </div>
+    <!-- end mobile view -->
+    <!-- end now playing mobile view -->
+
+    <!-- albums playlist -->
+    <!-- mobile navigation  -->
+    <div :class="mobileAlbums ? '':'hidden' " class="mobile-main-container-of-every-page">
+
+      <nav class=" mobile-main-nav mobile-section" x-data="{dropdownOpen:false, searchOption:false}" id="albums"
+        x-cloak>
+        <div class="mobile-navigation">
+          <div class="mobile-back-button" @click="mobileAlbums=false, mobileHome=true, mobileArtist=false"
+            :class="searchOption ? 'hidden':'' ">
+            <span><i class="fa-solid fa-angle-left text-md"></i> </span>
+          </div>
+          <div :class="searchOption ? 'hidden':'' ">
+            <h3 class="inline-block uppercase font-bold text-md">New Realease</h3>
+          </div>
+          <div :class="searchOption ? '':'hidden' " class="flex justify-center items-center w-full">
+            <span @click="searchOption=false" class="mx-2"><i class="fa-solid fa-close"></i></span>
+            <input type="search" name="mobileSearch" class="mobile-search" id="mobileSearch">
+          </div>
+          <div class="flex items-center justify-center" @click="searchOption=true">
+            <span><i class="fa-solid fa-magnifying-glass mx-3 text-md"></i></span>
+            <span><i class="fa-solid fa-microphone mx-3 text-md"></i></span>
+          </div>
+        </div>
+      </nav>
+      <!-- end mobile navigation -->
+      <div class="albums-tabs-container">
+
+        <div class="albums-tabs">
+          <div>
+            <h4>overview</h4>
+          </div>
+          <div>
+            <h4>podcasts</h4>
+          </div>
+          <div>
+            <h4>charts</h4>
+          </div>
+          <div>
+            <h4>discover</h4>
+          </div>
+          <div>
+            <h4>new releases</h4>
+          </div>
+          <div>
+            <h4>genres & moods</h4>
+          </div>
+
+          <div>
+            <h4>concerts</h4>
+          </div>
+        </div>
+      </div>
+      <main class="mobile-albums-main">
+        <div class="mobile-albums-inner-main">
+          <div class="mobile-albums-new-release">
+            <div class="new-release-heading">
+              <h2>the best <br>new release</h2>
+            </div>
+            <div class="mobile-albums-list-carousel">
+              <div class="mobile-albums-list-item">
+                <div class="albums-item-image">
+                  <img src="../static/assets/images/sia-album.jpg" alt="singer_image">
+                </div>
+                <div class="albums-item-text">
+                  <h2>i'm still here</h2>
+                  <h4>Sia</h4>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item">
+                <div class="albums-item-image">
+                  <img src="../static/assets/images/img1.jpeg" alt="singer_image">
+                </div>
+                <div class="albums-item-text">
+                  <h2>i'm still here</h2>
+                  <h4>Sia</h4>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item">
+                <div class="albums-item-image">
+                  <img src="../static/assets/images/img1.jpeg" alt="singer_image">
+                </div>
+                <div class="albums-item-text">
+                  <h2>i'm still here</h2>
+                  <h4>Sia</h4>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item">
+                <div class="albums-item-image">
+                  <img src="../static/assets/images/img1.jpeg" alt="singer_image">
+                </div>
+                <div class="albums-item-text">
+                  <h2>i'm still here</h2>
+                  <h4>Sia</h4>
+                </div>
+              </div>
+            </div>
+          </div>
+          <!-- New Albums and Singers -->
+          <div class="mobile-albums-new-release pt-2">
+            <div class="new-release-heading">
+              <h2>New Albums & Singers</h2>
+            </div>
+            <div class="new-album-and-singers-list">
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/img1.jpeg" alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/sia-album.jpg"
+                  alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/img1.jpeg" alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/sia-album.jpg"
+                  alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/sia-album.jpg"
+                  alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/sia-album.jpg"
+                  alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/img1.jpeg" alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/sia-album.jpg"
+                  alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+
+              <div class="mobile-albums-list-item-for-singers">
+                <img class="albums-item-image-for-singer" src="../static/assets/images/sia-album.jpg"
+                  alt="singer_image">
+                <div class="singer-share-item-text">
+                  <h2>I am still here</h2>
+                  <h4>Sia</h4>
+                </div>
+                <div class="singer-share-items">
+                  <h2>22.69</h2>
+                  <span><i class="fa-solid fa-share-nodes"></i></span>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <div class="mobile-play-btn-box">
+          <div class="play-btn-box-item">
+            <div class="play-btn-item-text text-[#c0c0c0]">
+              <h4>Sia</h4>
+            </div>
+            <div class="play-btn-item-text text-white">
+              <h2>'I am still here'</h2>
+            </div>
+            <div class="singer-share-items">
+              <div class="player-lower-part">
+                <!-- controls starts here -->
+                <div class="controls my-3">
+
+                  <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
+                    x-bind:class="controls ? '': 'hidden' ">
+                    <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
+                  </button>
+                  <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
+                    x-bind:class="controls ? 'hidden': '' ">
+                    <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+                  </button>
+
+                </div>
+                <!-- controls ends here -->
+              </div>
+            </div>
+          </div>
+          <div class="play-btn-icon-speaker-screen">
+            <div class="play-icon">
+              <img src="../static/assets/icons/computer-speaker.png" alt="">
+            </div>
+            <div class="text-[10px]">
+              <p>Devices Available</p>
+            </div>
+          </div>
+        </div>
+      </main>
+
+    </div>
+    <!-- end albums playlist -->
+
+    <!-- artist profile -->
+
+    <main class="artist-profile-main mobile-main-container-of-every-page" id=" artist"
+      :class="mobileArtist ? '':'hidden' ">
+      <nav class="mobile-main-nav mobile-section" x-data="{dropdownOpen:false, searchOption:false}" x-cloak>
+        <div class="mobile-navigation">
+          <div class="mobile-back-button" @click="mobileAlbums=true, mobileHome=false, mobileArtist=false"
+            :class="searchOption ? 'hidden': '' ">
+            <span><i class="fa-solid fa-angle-left text-md"></i></span>
+          </div>
+          <div :class="searchOption ? 'hidden': '' ">
+            <h3 class="inline-block uppercase font-bold text-md">ARTIST PROFILE</h3>
+          </div>
+          <div :class="searchOption ? '':'hidden' " class="flex justify-center items-center w-full">
+            <span @click="searchOption=false" class="mx-2"><i class="fa-solid fa-close"></i></span>
+            <input type="search" name="mobileSearch" class="mobile-search" id="mobileSearch">
+          </div>
+          <div class="flex items-center justify-center" @click="searchOption=true">
+            <span><i class="fa-solid fa-magnifying-glass mx-3 text-md"></i></span>
+            <span><i class="fa-solid fa-microphone mx-3 text-md"></i></span>
+          </div>
+        </div>
+      </nav>
+      <div class="artist-main-background bg-[url('../static/assets/images/girl-with-light-2.jpg')]"></div>
+      <div class="artist-profile-upper">
+        <div class="artist-profile-title">
+          <h2>Sia</h2>
+          <div class="rating">
+            <span><i class="fa-solid fa-star xl:text-[14px] text-yellow-500"></i></span>
+            <span><i class="fa-solid fa-star xl:text-[14px] text-yellow-500"></i></span>
+            <span><i class="fa-solid fa-star xl:text-[14px] text-yellow-500"></i></span>
+            <span><i class="fa-solid fa-star xl:text-[14px] text-slate-500"></i></span>
+            <span><i class="fa-solid fa-star xl:text-[14px] text-slate-500"></i></span>
+          </div>
+        </div>
+        <div class="artist-profile-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]"></div>
+        <div class="artist-profile-description">
+          <p>Lorem ipsum dolor sit, amet consectetur adipisicing elit. Omnis placeat voluptas unde. Voluptatum rerum
+            possimus nam nemo assumenda mollitia adipisci?</p>
+          <button class="artist-profile-view-more-btn">view more</button>
+        </div>
+      </div>
+      <div class="artist-profile-bottom-player">
+        <div class="artist-profile-detail">
+          <div class="artist-name">Sia</div>
+          <div class="song-title text-center">"I am Still Here"</div>
+          <div class="song-duration">4:01</div>
+        </div>
+        <div class="artist-buttons-container">
+          <button class="shuffleBtn controlBtn">
+            <i class="fa fa-shuffle small-control-btn" aria-hidden="true"></i>
+          </button>
+          <button class="previousBtn controlBtn">
+            <i class="fa fa-backward-step small-control-btn" aria-hidden="true"></i>
+          </button>
+          <button class="playBtn flex justify-center items-center p-[18px] controlBtn" x-on:click="controls = false"
+            x-bind:class="controls ? '': 'hidden' ">
+            <i class="fa-solid fa-play big-control-btn ml-[15px]" aria-hidden="true"></i>
+          </button>
+          <button class="pauseBtn flex justify-center items-center p-[18px] controlBtn" x-on:click="controls = true"
+            x-bind:class="controls ? 'hidden': '' ">
+            <i class="fa fa-pause big-control-btn" aria-hidden="true"></i>
+          </button>
+          <button class="nextBtn controlBtn">
+            <i class="fa fa-forward-step small-control-btn" aria-hidden="true"></i>
+          </button>
+          <button class="repeatBtn controlBtn">
+            <i class="fa fa-repeat small-control-btn" aria-hidden="true"></i>
+          </button>
+        </div>
+        <div class="play-btn-icon-speaker-screen">
+          <div class="play-icon">
+            <img src="../static/assets/icons/computer-speaker.png" alt="">
+          </div>
+          <div class="text-[10px]">
+            <p>Devices Available</p>
+          </div>
+        </div>
+      </div>
+      </div>
+    </main>
+    <!-- end artist profile -->
+    <script>
+      function createAudioPlayer(playerElement, informationDivLeftName, informationDivRightName, progressbarName, progressmeterName) {
+
+        var audioPlayer = new Audio();
+        var trackList = [
+              {
+                title: "Some misuse of audio equipment",
+                src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
+                type: "audio/mpeg",
+              },
+              {
+                title: "Example speech",
+                src: "{{url_for('static', filename='sounds/makada.mp3')}}",
+                type: "audio/mpeg",
+              },
+              {
+                title: "A rendition of the wikipedia random game",
+                src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
+                type: "audio/mpeg",
+              },
+            ];
+        var trackListLen = trackList.length;
+        var currentTrack = 0;
+        var isShuffle = false;
+        var isRepeat = false;
+        var informationDivLeft = playerElement.querySelector("." + informationDivLeftName);
+        var informationDivRight = playerElement.querySelector("." + informationDivRightName);
+        var progressbar = playerElement.querySelector("." + progressbarName);
+        var progressbarWidth = progressbar.offsetWidth;
+        var progressmeter = playerElement.querySelector("." + progressmeterName);
+
+
+        function play() {
+          audioPlayer.play();
+          checkPlayStatus();
+        }
+
+        function pause() {
+          audioPlayer.pause();
+          checkPlayStatus();
+        }
+
+        function stop() {
+          audioPlayer.pause();
+          audioPlayer.currentTime = 0;
+        }
+
+        function seeking(e) {
+          var percent = e.offsetX / progressbarWidth;
+          audioPlayer.currentTime = percent * audioPlayer.duration;
+        }
+
+        function displayTime(seconds) {
+          var minutes = parseInt(seconds / 60);
+          seconds = parseInt(seconds - minutes * 60);
+          return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+        }
+
+        function updateTime() {
+          informationDivLeft.innerHTML = displayTime(audioPlayer.currentTime);
+          informationDivRight.innerHTML = displayTime(audioPlayer.duration);
+          document.querySelector('.song-duration').innerHTML = displayTime(audioPlayer.currentTime);
+          var percent = audioPlayer.currentTime / audioPlayer.duration;
+          progressmeter.style.width = percent * progressbarWidth + "px";
+        }
+
+        function playCurrentTrack() {
+          audioPlayer.pause();
+          audioPlayer.src = trackList[currentTrack].src;
+          audioPlayer.load();
+          audioPlayer.play();
+          updateTime();
+          var songTitles = document.querySelectorAll(".song-title");
+          songTitles.forEach(function (songTitle) {
+            songTitle.innerHTML = trackList[currentTrack].title;
+            console.log(songTitle);
+          });
+          var nextSongName = trackList[(currentTrack + 1) % trackListLen].title;
+          document.querySelector('.next-song-name').innerHTML = '"' + nextSongName + '"';
+          var previousSongName = trackList[(currentTrack - 1 + trackListLen) % trackListLen].title;
+          document.querySelector('.previous-song-name').innerHTML = '"' + previousSongName + '"';
+
+          console.log(currentTrack);
+        }
+
+        function playPrevious() {
+          currentTrack = (currentTrack - 1 + trackListLen) % trackListLen;
+          playCurrentTrack();
+        }
+
+        function playNext() {
+          currentTrack = (currentTrack + 1) % trackListLen;
+          playCurrentTrack();
+        }
+
+        function getRandomTrack() {
+          return Math.floor(Math.random() * trackListLen);
+        }
+
+
+        function toggleRepeat() {
+          isRepeat = !isRepeat;
+          if (isRepeat) {
+            repeatBtns.forEach(function (repeatBtn) {
+              repeatBtn.style.color = 'red';
+            });
+            console.log("Repeat mode enabled");
+          } else {
+            repeatBtns.forEach(function (repeatBtn) {
+              repeatBtn.style.color = 'white';
+            });
+            console.log("Repeat mode disabled");
+          }
+        }
+
+        function toggleShuffle() {
+          isShuffle = !isShuffle;
+          if (isShuffle) {
+            // Shuffle the trackList array
+            for (let i = trackListLen - 1; i > 0; i--) {
+              const j = Math.floor(Math.random() * (i + 1));
+              [trackList[i], trackList[j]] = [trackList[j], trackList[i]];
+            }
+            console.log("Shuffle mode enabled");
+          } else {
+            // Reset to the original order
+            trackList = [
+              {
+                title: "Some misuse of audio equipment",
+                src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
+                type: "audio/mpeg",
+              },
+              {
+                title: "Example speech",
+                src: "{{url_for('static', filename='sounds/makada.mp3')}}",
+                type: "audio/mpeg",
+              },
+              {
+                title: "A rendition of the wikipedia random game",
+                src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
+                type: "audio/mpeg",
+              },
+            ];
+            console.log("Shuffle mode disabled");
+          }
+        }
+
+        audioPlayer.addEventListener("ended", function () {
+          if (isRepeat) {
+            // Repeat the current track
+            playCurrentTrack();
+          } else {
+            playNext();
+          }
+        });
+
+        function checkPlayStatus() {
+          if (audioPlayer.paused) {
+            document.querySelector(".pauseBtn").classList.add("hidden");
+            document.querySelector(".playBtn").classList.remove("hidden");
+          } else {
+            document.querySelector(".pauseBtn").classList.remove("hidden");
+            document.querySelector(".playBtn").classList.add("hidden");
+          }
+        }
+
+        audioPlayer.addEventListener("ended", function () {
+          playNext();
+        });
+
+        audioPlayer.addEventListener("timeupdate", function () {
+          updateTime();
+        });
+
+        audioPlayer.addEventListener("loadedmetadata", function () {
+          updateTime();
+        });
+
+        var playBtns = document.querySelectorAll(".playBtn");
+        var pauseBtns = document.querySelectorAll(".pauseBtn");
+        var nextBtns = document.querySelectorAll(".nextBtn");
+        var previousBtns = document.querySelectorAll(".previousBtn");
+        var shuffleBtns = document.querySelectorAll(".shuffleBtn");
+        var repeatBtns = document.querySelectorAll(".repeatBtn");
+
+
+        playBtns.forEach(function (playBtn) {
+          playBtn.addEventListener("click", play);
+        });
+        pauseBtns.forEach(function (pauseBtn) {
+          pauseBtn.addEventListener("click", pause);
+        });
+        nextBtns.forEach(function (nextBtn) {
+          nextBtn.addEventListener("click", playNext);
+        });
+        previousBtns.forEach(function (previousBtn) {
+          previousBtn.addEventListener("click", playPrevious);
+        });
+        shuffleBtns.forEach(function (shuffleBtn) {
+          shuffleBtn.addEventListener("click", toggleShuffle);
+        });
+        repeatBtns.forEach(function (repeatBtn) {
+          repeatBtn.addEventListener("click", toggleRepeat);
+        });
+        // document.querySelector('.next-song-name').;
+        // document.querySelector(".playBtn").addEventListener("click", play);
+        // document.querySelector(".pauseBtn").addEventListener("click", pause);
+        // document.querySelector(".nextBtn").addEventListener("click", playNext);
+        // document.querySelector(".previousBtn").addEventListener("click", playPrevious);
+        progressbar.addEventListener("click", seeking);
+
+        return {
+          init: function () {
+            playCurrentTrack();
+            checkPlayStatus();
+          },
+        };
+      }
+
+      document.addEventListener("DOMContentLoaded", function () {
+        var audioPlayers = document.querySelectorAll(".audio-player");
+        var bottomAudioPlayers = document.querySelectorAll(".bottom-audio-player");
+        var mobileAudioPlayers = document.querySelectorAll(".mobile-audio-player");
+        for (var i = 0; i < audioPlayers.length; i++) {
+          var playerElement = audioPlayers[i];
+          console.log(playerElement);
+          createAudioPlayer(playerElement, 'audio-player-info-left', 'audio-player-info-right', 'audio-player-progressbar', 'audio-player-progressmeter');
+        }
+        for (var i = 0; i < bottomAudioPlayers.length; i++) {
+          var playerElement = bottomAudioPlayers[i];
+          console.log(playerElement);
+          createAudioPlayer(playerElement, 'audio-player-info-left-short', 'audio-player-info-right-short', 'bottom-player-progressbar', 'bottom-player-progressmeter');
+        }
+        for (var i = 0; i < mobileAudioPlayers.length; i++) {
+          var playerElement = mobileAudioPlayers[i];
+          console.log(playerElement);
+          createAudioPlayer(playerElement, 'audio-player-info-left', 'audio-player-info-right', 'mobile-bottom-player-progressbar', 'mobile-audio-player-progressmeter');
+        }
+      });
+    </script>
+
+    <script type="text/javascript" src="https://code.jquery.com/jquery-1.11.0.min.js" defer></script>
+    <script type="text/javascript" src="https://code.jquery.com/jquery-migrate-1.2.1.min.js" defer></script>
+    <!-- <script src="./slick.min.js" defer></script>
+    <script src="./slick-setting.js" defer></script>
+    <script src="../static/fontawesome/js/all.min.js" defer></script>
+    <script src="./animation.js" defer></script>
+    <script src="./mobile-animation.js" defer></script>
+    <script src="./scroll-animation.js" defer></script> -->
+
+    <!-- for python scan recongiton execution -->
+    <script src="{{url_for('static',filename='slick.min.js')}}" defer></script>
+    <script src="{{url_for('static',filename='slick-setting.js')}}" defer></script>
+    <script src="{{url_for('static',filename='fontawesome/js/all.min.js')}}" defer></script>
+    <script src="{{url_for('static',filename='animation.js')}}" defer></script>
+    <!-- <script src="{{url_for('static',filename='mobile-animation.js')}}" defer></script> -->
+    <script src="{{url_for('static',filename='scroll-animation.js')}}" defer></script>
+    <!-- <script src="{{url_for('static',filename='audioPlayer.js')}}" charset="utf-8" defer></script> -->
+    <!-- <script src="./audioPlayer.js" charset="utf-8" defer></script> -->
+  </body>
+
+</html>

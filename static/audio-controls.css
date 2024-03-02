@@ -1,0 +1,180 @@
+.audio-player-info {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: 30vw;
+  height: 30px;
+  transition: all 0.1s;
+}
+
+.audio-player-info-left {
+  font-size: 12px;
+  margin-right: 10px;
+}
+
+.audio-player-info-right {
+  font-size: 12px;
+  margin-left: 10px;
+}
+
+.audio-player-info-left-short {
+  font-size: 10px;
+  margin-right: 5px;
+}
+
+.audio-player-info-right-short {
+  font-size: 10px;
+  margin-left: 5px;
+}
+
+.audio-player-info:hover {
+  height: 50px;
+}
+.audio-player-progressmeter,
+.bottom-player-progressmeter {
+  background-color: rgb(179, 9, 9);
+  height: 3px;
+  border-radius: 20px;
+  transition: all 0.1s;
+}
+.audio-player-progressbar,
+.bottom-audio-player-progressbar {
+  background-color: rgb(255, 255, 255);
+  height: 2px;
+  align-self: center;
+  margin: 5px;
+  border-radius: 20px;
+  transition: all 0.1s;
+  box-sizing: border-box;
+}
+.audio-player-progressbar {
+  width: 38vw;
+}
+.audio-player-progressmeter {
+  /* width: 20vw; */
+}
+.bottom-player-progressbar {
+  width: 10vw;
+  background-color: white;
+}
+@media screen and (max-width: 1366px) {
+  .bottom-player-progressbar {
+    width: 8vw;
+    background-color: white;
+  }
+}
+
+.bottom-player-progressmeter {
+  width: 2vw;
+}
+.volume-progressbar {
+  background-color: rgb(255, 255, 255);
+  width: 5vw;
+  height: 2px;
+  align-self: center;
+  margin: 5px;
+  border-radius: 20px;
+  transition: all 0.1s;
+  box-sizing: border-box;
+}
+.volume-progressmeter {
+  background-color: rgb(179, 9, 9);
+  width: 2vw;
+  height: 3px;
+  border-radius: 20px;
+  transition: all 0.1s;
+}
+
+/* kush alag comment */
+/* sunlo gi suno to sahi  */
+.audio-player {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+}
+.audio-player-progressmeter:hover,
+.audio-player-progressbar:hover {
+  transform: scaleY(2.1);
+}
+
+.pauseBtn,
+.playBtn {
+  height: 30px;
+  width: 30px;
+  margin: 5px;
+}
+
+@media screen and (max-width: 1200px) {
+  .audio-player-progressmeter,
+  .audio-player-progressbar {
+    height: 2px;
+  }
+}
+@media screen and (max-width: 650px) {
+  .mobile-volume-progressbar {
+    background-color: rgb(255, 255, 255);
+    width: 90px;
+    height: 2px;
+    align-self: center;
+    margin: 5px;
+    border-radius: 20px;
+    transition: all 0.1s;
+    box-sizing: border-box;
+  }
+  .mobile-volume-progressmeter {
+    background-color: rgb(179, 9, 9);
+    width: 2vw;
+    height: 3px;
+    border-radius: 20px;
+    transition: all 0.1s;
+  }
+  .mobile-bottom-player-progressbar {
+    width: 20vw;
+    height: 2px;
+    background-color: rgb(255, 255, 255);
+  }
+  .mobile-audio-player-progressmeter {
+    background-color: rgb(179, 9, 9);
+    width: 12vw;
+    height: 3px;
+    border-radius: 20px;
+    transition: all 0.1s;
+  }
+}
+@media only screen and (min-device-width: 650px) and (orientation: landscape) {
+  /* Your custom styles for landscape screens */
+  .mobile-volume-progressbar {
+    background-color: white;
+    width: 40%;
+    height: 2px;
+  }
+  .mobile-volume-progressmeter {
+    background-color: rgb(179, 9, 9);
+    width: 80%;
+    height: 3px;
+  }
+  .mobile-bottom-player-progressbar {
+    background-color: white;
+    width: 100%;
+    height: 2px;
+  }
+  .mobile-audio-player-progressmeter {
+    background-color: rgb(179, 9, 9);
+    width: 80%;
+    height: 3px;
+  }
+}
+.audio-player-info:hover {
+  height: 50px;
+}
+.bottom-audio-player-progressbar {
+  background-color: rgb(255, 255, 255);
+  width: 10vw;
+  height: 3px;
+  align-self: center;
+  margin: 5px;
+  border-radius: 20px;
+  transition: all 0.1s;
+  box-sizing: border-box;
+}
