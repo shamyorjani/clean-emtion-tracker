@@ -107,6 +107,8 @@ const UIController = (function () {
     recentlyPlayedContainer: "#recentlyPlayedContainer",
     togglePlaying: ".togglePlay",
     artistName: ".song-album-name",
+    currentSong: ".song-title",
+    songAuthor: ".song-author",
     // Add more selectors as needed
     // Add more selectors as needed
   };
@@ -214,6 +216,8 @@ const UIController = (function () {
         ),
         togglePlaying: document.querySelector(DOMElements.togglePlaying),
         artistName: document.querySelector(DOMElements.artistName),
+        currentSong: document.querySelector(DOMElements.currentSong),
+        songAuthor: document.querySelector(DOMElements.songAuthor),
 
         // Add more selectors as needed
       };
@@ -305,9 +309,24 @@ const UIController = (function () {
     },
     displayArtistName: function (currentlyPlaying) {
       const artistNameElement = document.querySelector(DOMElements.artistName);
+      const audioPlayerArtistName = document.querySelector(
+        DOMElements.songAuthor
+      );
+      audioPlayerArtistName.innerHTML = "";
       artistNameElement.innerHTML = "";
+
       const artistName = currentlyPlaying.item.artists[0].name;
       artistNameElement.innerHTML = artistName;
+      audioPlayerArtistName.innerHTML = artistName;
+    },
+    displayCurrentSongName: function (currentlyPlaying) {
+      const currentSongElement = document.querySelector(
+        DOMElements.currentSong
+      );
+
+      currentlyPlaying.innerHTML = "";
+      const songName = currentlyPlaying.item.name;
+      currentSongElement.innerHTML = songName;
     },
 
     // Add more UI-related methods for additional functionalities
@@ -352,8 +371,12 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     console.log("Currently Playing:", currentlyPlaying);
-    console.log(currentlyPlaying.item.artists[0].name);
-    console.log(currentlyPlaying.item.album.name);
+    UICtrl.displayArtistName(currentlyPlaying);
+    UICtrl.displayCurrentSongName(currentlyPlaying);
+    document.querySelector(".left-audio-player-img").innerHTML = `
+    <img src="${currentlyPlaying.item.album.images[0].url}"
+        class="current-song-artist-image"
+        alt="singer_image">`;
 
     // Add more code to handle other functionalities
   }
