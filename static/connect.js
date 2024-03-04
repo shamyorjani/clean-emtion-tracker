@@ -76,7 +76,7 @@ const UIController = (function () {
     connectBtn: "#connectBtn",
     playlistsContainer: "#userPlaylists",
     topTracksContainer: "#topTracks",
-    userProfileContainer: "#userProfile",
+    userProfileContainer: "#profile-name-container",
     recentlyPlayedContainer: "#recentlyPlayedContainer",
     togglePlaying: ".togglePlay",
     // Add more selectors as needed
@@ -224,9 +224,13 @@ const UIController = (function () {
       const profileItem = document.createElement("div");
       if (userProfile.images) {
         profileItem.innerHTML = `
-                <p>Display Name: ${userProfile.display_name}</p>
-                '<img src="${userProfile.images[0].url}" alt="Profile Image">'<br/>
-                <a href="${userProfile.external_urls.spotify}">User Profile Link</a>
+
+                <div id="profile-name-icon">
+                    <i class="fa-solid fa-user text-[12.9px] text-white"></i>
+                    <img class="fa-solid fa-user text-[12.9px] text-white src="${userProfile.images[0].url}" alt="Profile Image">
+                </div>
+                <a href="${userProfile.external_urls.spotify}" class="text-[#bdc0c0]">${userProfile.display_name}</a>
+
                 `;
       }
       userProfileContainer.appendChild(profileItem);
