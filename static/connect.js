@@ -284,7 +284,7 @@ const UIController = (function () {
         profileItem.innerHTML = `
                 <img src="${userProfile.images[0].url}" class="profile-image" alt="Profile Image">
                 
-                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= text-[#bdc0c0]">${userProfile.display_name}</a>
+                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= "text-[#bdc0c0]">${userProfile.display_name}</a>
                 `;
       }
       userProfileContainer.appendChild(profileItem);

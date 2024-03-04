@@ -1678,6 +1678,10 @@ video {
     height: 60px;
   }
 
+  .xl\:h-\[63px\]{
+    height: 63px;
+  }
+
   .xl\:w-\[100px\]{
     width: 100px;
   }
