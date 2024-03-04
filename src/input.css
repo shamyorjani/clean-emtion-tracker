@@ -257,6 +257,30 @@ html {
 .playlist-short-container {
   @apply flex gap-1 pl-3 mt-4 m-0 text-white w-[100%];
 }
+.playlist-icon-container {
+  @apply flex justify-center items-center pb-4;
+}
+.playlist-icon-inner-container {
+  @apply border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%];
+}
+.playlist-icon {
+  @apply xl:text-[12px];
+}
+.playlist-name {
+  @apply font-poppinsRegular xl:text-[12px] 2xl:text-[14px];
+}
+.music-playlist-icon {
+  @apply flex flex-row gap-x-2 mt-2;
+}
+.music-playlist-icon {
+  @apply text-[10px] text-[#c0c0c0];
+}
+.playlist-song-time {
+  @apply flex justify-end lg:ml-[10%] 2xl:ml-[20%];
+}
+.song-time{
+  @apply text-[10px];
+}
 .playlist-names {
   @apply text-[#c0c0c0] xl:text-[8px] 2xl:text-[10px] font-poppinsRegular;
 }

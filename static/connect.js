@@ -101,11 +101,12 @@ const APIController = (function () {
 const UIController = (function () {
   const DOMElements = {
     connectBtn: "#connectBtn",
-    playlistsContainer: "#userPlaylists",
+    playlistsContainer: ".playlist-container",
     topTracksContainer: "#topTracks",
     userProfileContainer: "#profile-name-container",
     recentlyPlayedContainer: "#recentlyPlayedContainer",
     togglePlaying: ".togglePlay",
+    artistName: ".song-album-name",
     // Add more selectors as needed
     // Add more selectors as needed
   };
@@ -212,6 +213,8 @@ const UIController = (function () {
           DOMElements.recentlyPlayedContainer
         ),
         togglePlaying: document.querySelector(DOMElements.togglePlaying),
+        artistName: document.querySelector(DOMElements.artistName),
+
         // Add more selectors as needed
       };
     },
@@ -225,7 +228,30 @@ const UIController = (function () {
 
       playlists.forEach((playlist) => {
         const playlistItem = document.createElement("div");
-        playlistItem.innerHTML = `<p>${playlist.name}</p>`;
+        playlistItem.innerHTML = `
+        <div class="playlist-short-container">
+                <div class="playlist-icon-container">
+                    <div class="playlist-icon-inner-container">
+                        <i class="fa-regular fa-user playlist-icon"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="playlist-name">${playlist.name}</h3>
+                    <p class="playlist-names">some other names</p>
+                    <p class="playlist-names">some other names</p>
+                    <div class="music-playlist-icon">
+                        <i class="fa-solid fa-music music-playlist-icon"></i>
+                        <p class="playlist-names">song name</p>
+
+                    </div>
+
+                </div>
+                <div class="playlist-song-time">
+                    <span class="song-time">37 m</span>
+                </div>
+            </div>
+        `;
         playlistsContainer.appendChild(playlistItem);
       });
     },
@@ -277,6 +303,12 @@ const UIController = (function () {
         attachPlayTrackEvent(trackItem, track.track, accessToken);
       });
     },
+    displayArtistName: function (currentlyPlaying) {
+      const artistNameElement = document.querySelector(DOMElements.artistName);
+      artistNameElement.innerHTML = "";
+      const artistName = currentlyPlaying.item.artists[0].name;
+      artistNameElement.innerHTML = artistName;
+    },
 
     // Add more UI-related methods for additional functionalities
   };
@@ -320,6 +352,8 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     console.log("Currently Playing:", currentlyPlaying);
+    console.log(currentlyPlaying.item.artists[0].name);
+    console.log(currentlyPlaying.item.album.name);
 
     // Add more code to handle other functionalities
   }
