@@ -222,7 +222,7 @@ html {
   @apply flex justify-between items-center;
 }
 .right-navigation-container {
-  @apply sm:flex hidden fixed right-16 transition-all duration-500;
+  @apply sm:flex hidden fixed right-16 top-[3%] transition-all duration-500;
 }
 .right-navigation-slide {
   @apply -right-40;
@@ -234,7 +234,13 @@ html {
   @apply flex flex-row space-x-2 items-center transition-all duration-[2s];
 }
 #profile-name-icon {
-  @apply flex justify-center items-center rounded-full bg-gray-500 xl:p-[12px] p-4  xl:w-[25px] h-[25px] w-[25px];
+  @apply flex justify-center items-center rounded-full bg-gray-500 xl:p-[12px] p-4  xl:w-[25px] h-[25px] w-[25px] mx-2;
+}
+#profile-name {
+  @apply hover:bg-[#b42f18] hover:text-white hover:font-medium rounded-md px-2 py-1 text-white transition-all duration-300;
+}
+.profile-image {
+  @apply w-[25px] h-[25px] rounded-full;
 }
 .song-album-name {
   @apply lg:text-[28px] text-white font-poppinsRegular md:text-2xl;

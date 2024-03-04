@@ -2628,6 +2628,7 @@ html {
 .right-navigation-container{
   position: fixed;
   right: 4rem;
+  top: 3%;
   display: none;
   transition-property: all;
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
@@ -2668,6 +2669,8 @@ html {
 }
 
 #profile-name-icon{
+  margin-left: 0.5rem;
+  margin-right: 0.5rem;
   display: flex;
   height: 25px;
   width: 25px;
@@ -2684,6 +2687,33 @@ html {
     width: 25px;
     padding: 12px;
   }
+}
+
+#profile-name{
+  border-radius: 0.375rem;
+  padding-left: 0.5rem;
+  padding-right: 0.5rem;
+  padding-top: 0.25rem;
+  padding-bottom: 0.25rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+  transition-property: all;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1);
+  transition-duration: 300ms;
+}
+
+#profile-name:hover{
+  --tw-bg-opacity: 1;
+  background-color: rgb(180 47 24 / var(--tw-bg-opacity));
+  font-weight: 500;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.profile-image{
+  height: 25px;
+  width: 25px;
+  border-radius: 9999px;
 }
 
 .song-album-name{

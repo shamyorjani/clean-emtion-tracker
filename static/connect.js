@@ -48,6 +48,30 @@ const APIController = (function () {
     const data = await result.json();
     return data;
   };
+  const _getCurrentlyPlaying = async (accessToken) => {
+    try {
+      const result = await fetch(
+        "https://api.spotify.com/v1/me/player/currently-playing",
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+
+      // Check if response status is OK
+      if (!result.ok) {
+        throw new Error("Error fetching currently playing song");
+      }
+
+      const data = await result.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching currently playing song:", error.message);
+      return null; // Return null or handle the error as needed
+    }
+  };
 
   // Add more private methods for additional functionalities
 
@@ -65,6 +89,9 @@ const APIController = (function () {
     getRecentlyPlayedTracks(accessToken) {
       return _getRecentlyPlayedTracks(accessToken);
     },
+    getCurrentlyPlaying(accessToken) {
+      return _getCurrentlyPlaying(accessToken);
+    },
 
     // Add more public methods for additional functionalities
   };
@@ -76,7 +103,7 @@ const UIController = (function () {
     connectBtn: "#connectBtn",
     playlistsContainer: "#userPlaylists",
     topTracksContainer: "#topTracks",
-    userProfileContainer: "#userProfile",
+    userProfileContainer: "#profile-name-container",
     recentlyPlayedContainer: "#recentlyPlayedContainer",
     togglePlaying: ".togglePlay",
     // Add more selectors as needed
@@ -222,11 +249,12 @@ const UIController = (function () {
       userProfileContainer.innerHTML = ""; // Clear existing content
 
       const profileItem = document.createElement("div");
+      profileItem.setAttribute("class", "flex items-center");
       if (userProfile.images) {
         profileItem.innerHTML = `
-                <p>Display Name: ${userProfile.display_name}</p>
-                '<img src="${userProfile.images[0].url}" alt="Profile Image">'<br/>
-                <a href="${userProfile.external_urls.spotify}">User Profile Link</a>
+                <img src="${userProfile.images[0].url}" class="profile-image" alt="Profile Image">
+                
+                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= text-[#bdc0c0]">${userProfile.display_name}</a>
                 `;
       }
       userProfileContainer.appendChild(profileItem);
@@ -264,7 +292,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     const clientId = "23ab69c678df492d958a9220fb60bfe9";
     const redirectUri = "http://localhost:5000/callback";
     const scope =
-      "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
+      "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-read-currently-playing user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
 
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
 
@@ -289,6 +317,9 @@ const APPController = (async function (UICtrl, APICtrl) {
       accessToken
     );
     UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+
+    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    console.log("Currently Playing:", currentlyPlaying);
 
     // Add more code to handle other functionalities
   }
