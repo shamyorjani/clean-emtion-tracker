@@ -48,6 +48,30 @@ const APIController = (function () {
     const data = await result.json();
     return data;
   };
+  const _getCurrentlyPlaying = async (accessToken) => {
+    try {
+      const result = await fetch(
+        "https://api.spotify.com/v1/me/player/currently-playing",
+        {
+          method: "GET",
+          headers: {
+            Authorization: "Bearer " + accessToken,
+          },
+        }
+      );
+
+      // Check if response status is OK
+      if (!result.ok) {
+        throw new Error("Error fetching currently playing song");
+      }
+
+      const data = await result.json();
+      return data;
+    } catch (error) {
+      console.error("Error fetching currently playing song:", error.message);
+      return null; // Return null or handle the error as needed
+    }
+  };
 
   // Add more private methods for additional functionalities
 
@@ -65,6 +89,9 @@ const APIController = (function () {
     getRecentlyPlayedTracks(accessToken) {
       return _getRecentlyPlayedTracks(accessToken);
     },
+    getCurrentlyPlaying(accessToken) {
+      return _getCurrentlyPlaying(accessToken);
+    },
 
     // Add more public methods for additional functionalities
   };
@@ -74,11 +101,12 @@ const APIController = (function () {
 const UIController = (function () {
   const DOMElements = {
     connectBtn: "#connectBtn",
-    playlistsContainer: "#userPlaylists",
+    playlistsContainer: ".playlist-container",
     topTracksContainer: "#topTracks",
     userProfileContainer: "#profile-name-container",
     recentlyPlayedContainer: "#recentlyPlayedContainer",
     togglePlaying: ".togglePlay",
+    artistName: ".song-album-name",
     // Add more selectors as needed
     // Add more selectors as needed
   };
@@ -185,6 +213,8 @@ const UIController = (function () {
           DOMElements.recentlyPlayedContainer
         ),
         togglePlaying: document.querySelector(DOMElements.togglePlaying),
+        artistName: document.querySelector(DOMElements.artistName),
+
         // Add more selectors as needed
       };
     },
@@ -198,7 +228,30 @@ const UIController = (function () {
 
       playlists.forEach((playlist) => {
         const playlistItem = document.createElement("div");
-        playlistItem.innerHTML = `<p>${playlist.name}</p>`;
+        playlistItem.innerHTML = `
+        <div class="playlist-short-container">
+                <div class="playlist-icon-container">
+                    <div class="playlist-icon-inner-container">
+                        <i class="fa-regular fa-user playlist-icon"></i>
+                    </div>
+                </div>
+
+                <div>
+                    <h3 class="playlist-name">${playlist.name}</h3>
+                    <p class="playlist-names">some other names</p>
+                    <p class="playlist-names">some other names</p>
+                    <div class="music-playlist-icon">
+                        <i class="fa-solid fa-music music-playlist-icon"></i>
+                        <p class="playlist-names">song name</p>
+
+                    </div>
+
+                </div>
+                <div class="playlist-song-time">
+                    <span class="song-time">37 m</span>
+                </div>
+            </div>
+        `;
         playlistsContainer.appendChild(playlistItem);
       });
     },
@@ -222,15 +275,12 @@ const UIController = (function () {
       userProfileContainer.innerHTML = ""; // Clear existing content
 
       const profileItem = document.createElement("div");
+      profileItem.setAttribute("class", "flex items-center");
       if (userProfile.images) {
         profileItem.innerHTML = `
-
-                <div id="profile-name-icon">
-                    <i class="fa-solid fa-user text-[12.9px] text-white"></i>
-                    <img class="fa-solid fa-user text-[12.9px] text-white src="${userProfile.images[0].url}" alt="Profile Image">
-                </div>
-                <a href="${userProfile.external_urls.spotify}" class="text-[#bdc0c0]">${userProfile.display_name}</a>
-
+                <img src="${userProfile.images[0].url}" class="profile-image" alt="Profile Image">
+                
+                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= text-[#bdc0c0]">${userProfile.display_name}</a>
                 `;
       }
       userProfileContainer.appendChild(profileItem);
@@ -253,6 +303,12 @@ const UIController = (function () {
         attachPlayTrackEvent(trackItem, track.track, accessToken);
       });
     },
+    displayArtistName: function (currentlyPlaying) {
+      const artistNameElement = document.querySelector(DOMElements.artistName);
+      artistNameElement.innerHTML = "";
+      const artistName = currentlyPlaying.item.artists[0].name;
+      artistNameElement.innerHTML = artistName;
+    },
 
     // Add more UI-related methods for additional functionalities
   };
@@ -268,7 +324,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     const clientId = "23ab69c678df492d958a9220fb60bfe9";
     const redirectUri = "http://localhost:5000/callback";
     const scope =
-      "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
+      "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-read-currently-playing user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
 
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
 
@@ -293,6 +349,11 @@ const APPController = (async function (UICtrl, APICtrl) {
       accessToken
     );
     UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+
+    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    console.log("Currently Playing:", currentlyPlaying);
+    console.log(currentlyPlaying.item.artists[0].name);
+    console.log(currentlyPlaying.item.album.name);
 
     // Add more code to handle other functionalities
   }
