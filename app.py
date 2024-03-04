@@ -99,6 +99,11 @@ def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
 
+@app.route('/callback')
+def callback():
+    return redirect("http://localhost:5000")
+
+
 @app.route('/show_results')
 def show_results():
     app.logger.info("Emotion detected: %s", emotion_result)

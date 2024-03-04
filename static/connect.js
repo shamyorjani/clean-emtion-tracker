@@ -261,8 +261,8 @@ const APPController = (async function (UICtrl, APICtrl) {
   DOMInputs.connectBtn.addEventListener("click", connectToSpotify);
 
   async function connectToSpotify() {
-    const clientId = "649894e3570a4a26a5e7421cc100b57e";
-    const redirectUri = "http://localhost:5000";
+    const clientId = "23ab69c678df492d958a9220fb60bfe9";
+    const redirectUri = "http://localhost:5000/callback";
     const scope =
       "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
 
