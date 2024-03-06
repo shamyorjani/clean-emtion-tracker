@@ -347,12 +347,42 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
 
+    // } else {
+    //   document.querySelector(".logo-link").setAttribute("href", "/");
+    // }
+
+    // Redirect the user to the Spotify authorization page
     window.location.href = authUrl;
+
+    // After the user is redirected back
+    window.addEventListener("load", async () => {
+      if (accessToken) {
+        const userType = await APICtrl.getUserProfile(accessToken);
+
+        if (userType.product === "premium") {
+          // redirect to home screen
+          window.location.href = authUrl;
+        } else {
+          // redirect to free subscription page
+          window.location.href = "/free-subscription";
+        }
+      }
+    });
+
+    // if (authUrl) {
+    // }
   }
 
   const accessToken = new URLSearchParams(
     window.location.hash.substring(1)
   ).get("access_token");
+
+  document
+    .querySelector(".logo-link")
+    .setAttribute("href", window.location.href);
+  // const accessToken = new URLSearchParams(
+  //   window.location.hash.substring(1)
+  // ).get("access_token");
 
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
@@ -363,6 +393,7 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     const userProfile = await APICtrl.getUserProfile(accessToken);
     UICtrl.displayUserProfile(userProfile);
+    console.log(userProfile.product);
 
     const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
       accessToken
