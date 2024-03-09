@@ -11,6 +11,19 @@ const APIController = (function () {
     const data = await result.json();
     return data.items;
   };
+
+  const _getNewReleases = async (accessToken) => {
+    const result = await fetch("https://api.spotify.com/v1/browse/new-releases?limit=10", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    const data = await result.json();
+    return data;
+  };
+
+
   const _getArtistBio = async (artistName) => {
     const result = await fetch(
       `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
@@ -126,6 +139,9 @@ const APIController = (function () {
     },
     getArtistBio(artistName) {
       return _getArtistBio(artistName);
+    },
+    getNewReleases(accessToken) {
+      return _getNewReleases(accessToken);
     },
 
     // Add more public methods for additional functionalities
@@ -458,7 +474,8 @@ const APPController = (async function (UICtrl, APICtrl) {
       currentlyPlaying.item.artists[0].name
     );
     console.log(artistDesc);
-
+    const newReleases = await APICtrl.getNewReleases(accessToken);
+    console.log("New Releases : ", newReleases);
     // Add more code to handle other functionalities
   }
 
