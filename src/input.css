@@ -288,6 +288,9 @@ html {
 .current-song-artist-image {
   @apply w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[63px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm;
 }
+.bottom-player-artist-image {
+  @apply w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[60px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm;
+}
 .controls {
   @apply flex justify-center;
 }

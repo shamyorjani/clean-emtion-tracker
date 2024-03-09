@@ -11,6 +11,35 @@ const APIController = (function () {
     const data = await result.json();
     return data.items;
   };
+  const _getArtistBio = async (artistName) => {
+    const result = await fetch(
+      `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
+    )
+      .then((response) => response.json())
+      .then((data) => {
+        // Process the artist data here
+        result = data.artist.bio.summary;
+      })
+      .catch((error) => {
+        // Handle any errors that occur during the fetch request
+        console.error(error);
+      });
+    return result;
+  };
+  const _getArtist = async (accessToken, artistId) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/artists/${artistId}`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
 
   const _getTopTracks = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/top/tracks", {
@@ -92,6 +121,12 @@ const APIController = (function () {
     getCurrentlyPlaying(accessToken) {
       return _getCurrentlyPlaying(accessToken);
     },
+    getArtist(accessToken, artistId) {
+      return _getArtist(accessToken, artistId);
+    },
+    getArtistBio(artistName) {
+      return _getArtistBio(artistName);
+    },
 
     // Add more public methods for additional functionalities
   };
@@ -109,6 +144,9 @@ const UIController = (function () {
     artistName: ".song-album-name",
     currentSong: ".song-title",
     songAuthor: ".song-author",
+    leftAudioPlayerImg: ".left-audio-player-img",
+    authorImage: ".author-image",
+    mainImage: ".main",
     // Add more selectors as needed
     // Add more selectors as needed
   };
@@ -218,6 +256,11 @@ const UIController = (function () {
         artistName: document.querySelector(DOMElements.artistName),
         currentSong: document.querySelector(DOMElements.currentSong),
         songAuthor: document.querySelector(DOMElements.songAuthor),
+        leftAudioPlayerImg: document.querySelector(
+          DOMElements.leftAudioPlayerImg
+        ),
+        authorImage: document.querySelector(DOMElements.authorImage),
+        mainImage: document.querySelector(DOMElements.mainImage),
 
         // Add more selectors as needed
       };
@@ -320,13 +363,37 @@ const UIController = (function () {
       audioPlayerArtistName.innerHTML = artistName;
     },
     displayCurrentSongName: function (currentlyPlaying) {
-      const currentSongElement = document.querySelector(
+      const currentSongElement = document.querySelectorAll(
         DOMElements.currentSong
       );
 
       currentlyPlaying.innerHTML = "";
       const songName = currentlyPlaying.item.name;
-      currentSongElement.innerHTML = songName;
+      currentSongElement.forEach(
+        (currentSong) => (currentSong.innerHTML = songName)
+      );
+    },
+    displayArtistImage: function (currentArtist) {
+      const artistImageElement = document.querySelectorAll(
+        DOMElements.leftAudioPlayerImg
+      );
+      const artistImage = document.querySelector(DOMElements.authorImage);
+      const mainImage = document.querySelector(DOMElements.mainImage);
+      artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
+
+      const artistUrl = currentArtist.images[0].url;
+
+      artistImage.style.backgroundImage = `url(${artistUrl})`;
+      mainImage.style.backgroundImage = `url(${artistUrl})`;
+      artistImageElement.forEach(
+        (artistImage) =>
+          (artistImage.innerHTML = `
+      <img
+            src="${artistUrl}"
+            class="bottom-player-artist-image"
+            alt="singer_image"
+          />`)
+      );
     },
 
     // Add more UI-related methods for additional functionalities
@@ -337,41 +404,17 @@ const UIController = (function () {
 const APPController = (async function (UICtrl, APICtrl) {
   const DOMInputs = UICtrl.inputField();
 
-  DOMInputs.connectBtn.addEventListener("click", connectToSpotify);
+  // After the user is redirected back
+  window.addEventListener("load", async () => {
+    if (accessToken) {
+      const userType = await APICtrl.getUserProfile(accessToken);
 
-  async function connectToSpotify() {
-    const clientId = "23ab69c678df492d958a9220fb60bfe9";
-    const redirectUri = "http://localhost:5000/callback";
-    const scope =
-      "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-read-currently-playing user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
-
-    const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
-
-    // } else {
-    //   document.querySelector(".logo-link").setAttribute("href", "/");
-    // }
-
-    // Redirect the user to the Spotify authorization page
-    window.location.href = authUrl;
-
-    // After the user is redirected back
-    window.addEventListener("load", async () => {
-      if (accessToken) {
-        const userType = await APICtrl.getUserProfile(accessToken);
-
-        if (userType.product === "premium") {
-          // redirect to home screen
-          window.location.href = authUrl;
-        } else {
-          // redirect to free subscription page
-          window.location.href = "/free-subscription";
-        }
+      if (userType.product !== "premium") {
+        // redirect to free subscription page
+        window.location.href = "/free-subscription";
       }
-    });
-
-    // if (authUrl) {
-    // }
-  }
+    }
+  });
 
   const accessToken = new URLSearchParams(
     window.location.hash.substring(1)
@@ -393,7 +436,6 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     const userProfile = await APICtrl.getUserProfile(accessToken);
     UICtrl.displayUserProfile(userProfile);
-    console.log(userProfile.product);
 
     const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
       accessToken
@@ -401,13 +443,20 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
 
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
-    console.log("Currently Playing:", currentlyPlaying);
+
+    const currentArtist = await APICtrl.getArtist(
+      accessToken,
+      currentlyPlaying.item.artists[0].id
+    );
+
     UICtrl.displayArtistName(currentlyPlaying);
     UICtrl.displayCurrentSongName(currentlyPlaying);
-    document.querySelector(".left-audio-player-img").innerHTML = `
-    <img src="${currentlyPlaying.item.album.images[0].url}"
-        class="current-song-artist-image"
-        alt="singer_image">`;
+    UICtrl.displayArtistImage(currentArtist);
+
+    const artistDesc = APICtrl.getArtistBio(
+      currentlyPlaying.item.artists[0].name
+    );
+    console.log(artistDesc);
 
     // Add more code to handle other functionalities
   }
