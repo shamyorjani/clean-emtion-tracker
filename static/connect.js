@@ -357,6 +357,7 @@ const APPController = (async function (UICtrl, APICtrl) {
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
     UICtrl.displayUserPlaylists(playlists);
+    console.log('playlists', playlists);
 
     const topTracks = await APICtrl.getTopTracks(accessToken);
     UICtrl.displayTopTracks(topTracks);
