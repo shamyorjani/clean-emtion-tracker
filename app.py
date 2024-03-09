@@ -94,6 +94,11 @@ def index():
     return render_template('results.html', emotion=emotion_result)
 
 
+@app.route('/connect')
+def connect():
+    return render_template('connect.html')
+
+
 @app.route('/video_feed')
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
@@ -103,6 +108,9 @@ def video_feed():
 def callback():
     return redirect("http://localhost:5000")
 
+@app.route('/free-subscription')
+def free_subscription():
+    return render_template('free-subscription.html')
 
 @app.route('/show_results')
 def show_results():

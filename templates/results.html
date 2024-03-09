@@ -9,7 +9,13 @@
   <body class="bg-[#181b1f] overflow-hidden"
     x-data="{controls:false, mobileHome:true, mobileAlbums:false, mobileArtist:false, desktopNavSearchopen:false}">
     <div id="fullscreen-animator"></div>
-    <div class="main" style="background-image: url(../static/assets/images/girl-with-light-2.jpg);">
+    <div class="loader-container">
+      <div class="lds-ripple">
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+    <div class="main">
     </div>
     <!-- desktop -->
     <main class="app main-desktop section overflow-x-hidden" id="top-section">
@@ -127,6 +133,14 @@
     {% include 'audio-player.html' %}
     {% include 'footer.html' %}
 
+    <script>
+      window.addEventListener('load', function() {
+        const loader = document.querySelector('.loader-container');
+        setTimeout(() => {
+          loader.style.display = 'none';
+        }, 800);
+      });
+    </script>
 
   </body>
 
