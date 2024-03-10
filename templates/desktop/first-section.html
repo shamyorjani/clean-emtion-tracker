@@ -29,7 +29,46 @@
         aliquam inventore consequatur porro eveniet eius nam, suscipit autem
         deleniti quo.
       </p>
+      <!-- <div class="loader-section-container">
+        <div class="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </div> -->
       <a href="#" class="outline_btn_w_according mt-3">VIEW MORE</a>
     </div>
   </div>
 </div>
+<script>
+  var artistBio = [];
+
+  // const loader = document.querySelector(".loader-section-container");
+  // loader.style.display = "none"; // Show the loader
+
+  var artistData = async (artistName) => {
+    artistName = artistName.split(" ").join("+");
+    // loader.style.display = "block"; // Show the loader
+    let response = await fetch(
+      `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
+    );
+    let data = await response.json();
+    artistBio.push(data.artist.bio.summary);
+
+    console.log("some data ", data);
+    let bio = artistBio[0];
+
+    let artistBioElement = document.querySelector(".song-album-description");
+    artistBioElement.innerHTML = "";
+
+    console.log("artist bio", bio);
+
+    artistBioElement.innerHTML = bio.substring(0, 220);
+    // } catch (error) {
+    //   console.error(error);
+    // }
+    // } finally {
+    //   // loader.style.display = "none";
+    // }
+  };
+  // artistData("a r rahman");
+</script>
