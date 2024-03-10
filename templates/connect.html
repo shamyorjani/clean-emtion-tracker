@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <style>
+      body {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        height: 100vh;
+        margin: 0;
+        background-image: url("./images/cheers.jpg");
+        background-repeat: no-repeat;
+        background-size: cover;
+      }
+
+      .container {
+        display: flex;
+        flex-direction: column;
+        justify-content: center;
+        align-items: center;
+        gap: 50px;
+        width: 70%;
+        height: 80%;
+        position: relative;
+        /* From https://css.glass */
+        background: rgba(255, 255, 255, 0.18);
+        border-radius: 16px;
+        box-shadow: 0 4px 30px rgba(0, 0, 0, 0.1);
+        backdrop-filter: blur(9.5px);
+        -webkit-backdrop-filter: blur(9.5px);
+        border: 1px solid rgba(255, 255, 255, 0.2);
+        border-radius: 15px;
+        box-shadow: 0 0 10px rgba(0, 0, 0, 0.2); /* Add a subtle shadow effect */
+      }
+
+      .button {
+        padding: 20px 40px;
+        font-size: 18px;
+        font-weight: bold;
+        text-transform: uppercase;
+        border: none;
+        border-radius: 8px;
+        background-color: #11a141;
+        color: white;
+        cursor: pointer;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        position: relative;
+        z-index: 200;
+      }
+
+      .button:hover {
+        background-color: #45a049;
+      }
+
+      h1 {
+        font-size: 45px;
+        font-weight: bold;
+        color: #fff;
+        text-align: center;
+        margin-bottom: 20px;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="container">
+      <h1>Connect to your favorite music</h1>
+      <button class="button">Connect</button>
+    </div>
+    <script>
+      document
+        .querySelector(".button")
+        .addEventListener("click", connectToSpotify);
+
+      async function connectToSpotify() {
+        const clientId = "23ab69c678df492d958a9220fb60bfe9";
+        const redirectUri = "http://localhost:5000/callback";
+        const scope =
+          "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-read-currently-playing user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
+
+        const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
+
+        window.location.href = authUrl;
+      }
+    </script>
+  </body>
+</html>
