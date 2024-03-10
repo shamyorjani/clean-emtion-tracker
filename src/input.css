@@ -144,6 +144,9 @@ html {
 .every-result {
   @apply flex flex-col justify-start w-[23%] mx-[1%];
 }
+.search-result-heading{
+  @apply capitalize xl:text-[14px];
+}
 .result-container {
   @apply flex flex-col my-4;
 }

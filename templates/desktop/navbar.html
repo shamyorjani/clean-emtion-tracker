@@ -41,7 +41,7 @@
                             </button>
                         </div>
 
-                        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>Clear</button>
+                        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak class="navbar-clear-btn">Clear</button>
                         <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak
                             x-on:click="desktopNavSearchopen = false">
                             <span><i class="fa-solid fa-circle-xmark text-white"></i>
@@ -50,22 +50,39 @@
                     </div>
                     <div :class="desktopNavSearchopen ? '': 'hidden'" x-cloak class="search-outer-result-box">
                         <div class="every-result">
-                            <div class="capitalize xl:text-[14px]">
-                                top result
+                            <div class="search-result-heading">
+                                Trending
                             </div>
                             <div class="result-container">
                                 <div class="result">
                                     <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
                                     </div>
-                                    <div class="result-text text-[1px]">
-                                        <h4 class="">arijit singh</h4>
-                                        <h5 class="text-slate-300">arijit</h5>
+                                    <div class="result-text">
+                                        <h4>arijit singh - sad songs - hindi</h4>
+                                        <h5 class="text-slate-300">mood wave</h5>
+                                    </div>
+                                </div>
+                                <div class="result">
+                                    <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                                    </div>
+                                    <div class="result-text">
+                                        <h4>arijit singh - sad songs - hindi</h4>
+                                        <h5 class="text-slate-300">mood wave</h5>
+                                    </div>
+                                </div>
+                                <div class="result">
+                                    <div class="result-image bg-[url('../static/assets/images/girl-with-light-2.jpg')]">
+                                    </div>
+                                    <div class="result-text">
+                                        <h4>arijit singh - sad songs - hindi</h4>
+                                        <h5 class="text-slate-300">mood wave</h5>
                                     </div>
                                 </div>
                             </div>
+                            
                         </div>
                         <div class="every-result">
-                            <div class="capitalize xl:text-[14px]">
+                            <div class="search-result-heading">
                                 playlist
                             </div>
                             <div class="result-container">
@@ -96,7 +113,7 @@
                             </div>
                         </div>
                         <div class="every-result">
-                            <div class="capitalize xl:text-[14px]">
+                            <div class="search-result-heading">
                                 playlist
                             </div>
                             <div class="result-container">
@@ -127,7 +144,7 @@
                             </div>
                         </div>
                         <div class="every-result ">
-                            <div class="capitalize xl:text-[14px]">
+                            <div class="search-result-heading">
                                 playlist
                             </div>
                             <div class="result-container">
@@ -332,3 +349,78 @@
 </nav>
 </nav>
 <!-- Navigation end -->
+
+
+<script>
+
+var inputElement = document.querySelector(
+      '.search-inner-box-main input[type="text"]'
+    );
+
+    // Get the playlist element
+    var playlistElement = document.querySelectorAll(".every-result");
+    var playlistHeading =  document.querySelectorAll(".search-result-heading");
+    var searchList = ["Albums", "Playlists", "Songs"]
+
+    playlistHeading.forEach((singleElement, index) => {
+        if (index != 0) {
+            singleElement.innerHTML = "";
+        }
+    });
+    playlistElement.forEach((singleElement, index) => {
+        if (index != 0) {
+            singleElement.style.marginTop = "21px";
+        }
+    });
+
+    // playlistElement.forEach(
+    //     (singleElement) => (singleElement.style.display = "none")
+    //   );
+
+    inputElement.addEventListener("keyup", async function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+
+      var inputValue = inputElement.value;
+      // Cancel the default action, if needed
+    //   event.preventDefault();
+
+    if (inputValue == "") {
+        
+        playlistElement.forEach((singleElement, index) => {
+            if (index != 0) {
+                singleElement.style.marginTop = "21px";
+            }
+        });
+        // If the input field is empty, add a 'hidden' class to the playlist element
+        playlistHeading.forEach((singleElement, index) => {
+            if (index != 0) {
+                singleElement.innerHTML = "";
+            }
+        });
+        
+      
+    } else {
+        playlistElement.forEach((singleElement, index) => {
+            if (index != 0) {
+                singleElement.style.marginTop = "0px";
+            }
+        });
+        playlistHeading.forEach((singleElement, index) => {
+        if (index != 0) {
+            singleElement.innerHTML = searchList[index -1];
+        }
+    });
+        
+    }
+
+    //   const searchResult = await APICtrl.getConnectSearch(
+    //     accessToken,
+    //     inputValue
+    //   );
+    //   console.log("Search Result : ", searchResult);
+      console.log(inputValue);
+    });
+    document.querySelector('.navbar-clear-btn').addEventListener('click', function() {
+        inputElement.value = '';
+    });
+</script>

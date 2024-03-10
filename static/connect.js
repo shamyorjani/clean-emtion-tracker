@@ -538,39 +538,6 @@ const APPController = (async function (UICtrl, APICtrl) {
       newReleases.albums.items[6].artists[0].name
     );
 
-    var inputElement = document.querySelector(
-      '.search-inner-box-main input[type="text"]'
-    );
-
-    // Get the playlist element
-    var playlistElement = document.querySelectorAll(".every-result");
-
-    var inputValue = inputElement.value;
-    if (inputValue == "") {
-      // If the input field is empty, add a 'hidden' class to the playlist element
-      playlistElement.forEach(
-        (singleElement) => (singleElement.style.display = "none")
-      );
-    }
-    inputElement.addEventListener("keyup", async function (event) {
-      // Number 13 is the "Enter" key on the keyboard
-
-      // Cancel the default action, if needed
-      event.preventDefault();
-      // Get the value of the input field
-
-      // If the input field is not empty, remove the 'hidden' class from the playlist element
-      playlistElement.forEach(
-        (singleElement) => (singleElement.style.display = "flex")
-      );
-
-      const searchResult = await APICtrl.getConnectSearch(
-        accessToken,
-        inputValue
-      );
-      console.log("Search Result : ", searchResult);
-      console.log(inputValue);
-    });
   }
 
   return {
