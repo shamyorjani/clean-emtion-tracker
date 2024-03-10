@@ -299,8 +299,7 @@ const UIController = (function () {
     },
 
     // Display Search recomendation
-    
-    
+
     // End of Display Search recomendation
     // UI-related methods for displaying information
     displayUserPlaylists: function (playlists) {
@@ -436,7 +435,7 @@ const UIController = (function () {
           />`)
       );
     },
-    
+
     displayNewReleases: function (newReleases) {
       document
         .querySelectorAll(DOMElements.newReleasesImage)
@@ -463,31 +462,49 @@ const UIController = (function () {
           artist.innerHTML += artistNames.join(", ");
         });
     },
-    displaySearchRecommendation: function (searchMethod){
-      document.querySelectorAll(DOMElements.searchSongName).forEach((element, index) => {
-        element.innerHTML = searchMethod.tracks.items[index].album.name;
-      });
-      document.querySelectorAll(DOMElements.searchArtistName).forEach((element, index) => {
-        const artistNames = searchMethod.tracks.items[index].album.artists.map(artist => artist.name).join(", ");
-        element.innerHTML = artistNames;
-      });
-      document.querySelectorAll('.result-image').forEach((element, index) => {
-        if (searchMethod.tracks.items[index] && searchMethod.tracks.items[index].album && searchMethod.tracks.items[index].album.images && searchMethod.tracks.items[index].album.images[0] && searchMethod.tracks.items[index].album.images[0].url) {
-            element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
+    displaySearchRecommendation: function (searchMethod) {
+      document
+        .querySelectorAll(DOMElements.searchSongName)
+        .forEach((element, index) => {
+          let songName = searchMethod.tracks.items[index].album.name;
+          if (songName.length > 30) {
+        songName = songName.substring(0, 27) + "...";
+          }
+          element.innerHTML = songName;
+        });
+      document
+        .querySelectorAll(DOMElements.searchArtistName)
+        .forEach((element, index) => {
+          let artistNames = searchMethod.tracks.items[index].album.artists
+        .map((artist) => artist.name)
+        .join(", ");
+          if (artistNames.length > 18) {
+        artistNames = artistNames.substring(0, 18) + "...";
+          }
+          element.innerHTML = artistNames;
+        });
+      document.querySelectorAll(".result-image").forEach((element, index) => {
+        if (
+          searchMethod.tracks.items[index] &&
+          searchMethod.tracks.items[index].album &&
+          searchMethod.tracks.items[index].album.images &&
+          searchMethod.tracks.items[index].album.images[0] &&
+          searchMethod.tracks.items[index].album.images[0].url
+        ) {
+          element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
         }
-    });
+      });
 
+      //   const searchMethod = await APICtrl.getConnectSearch(accessToken, "love");
+      // UICtrl.displaySearchRecommendation(searchMethod);
 
-    //   const searchMethod = await APICtrl.getConnectSearch(accessToken, "love");
-    // UICtrl.displaySearchRecommendation(searchMethod);
-
-    // console.log("Search Method : ", searchMethod);
-    // searchMethod.tracks.items.forEach((item) => {
-    //   console.log("Search Image : ", item.album.images[0].url);
-    // });
-    // searchMethod.tracks.items.forEach((item) => {
-    //   console.log("Search Name : ", item.album.name);
-    // });
+      // console.log("Search Method : ", searchMethod);
+      // searchMethod.tracks.items.forEach((item) => {
+      //   console.log("Search Image : ", item.album.images[0].url);
+      // });
+      // searchMethod.tracks.items.forEach((item) => {
+      //   console.log("Search Name : ", item.album.name);
+      // });
 
       // searchMethod.tracks.items.forEach((item) => {
       //   console.log("Search Artist Names:");
@@ -495,9 +512,21 @@ const UIController = (function () {
       //   console.log(artistNames);
       // });
     },
-    // searchBarMethod : function(searchMethod) {
-      
-    // },
+    searchItemText: function () {
+      document.querySelectorAll(DOMElements.searchSongName).forEach((element) => {
+      let songName = element.innerHTML;
+      if (songName.length > 20) {
+        element.innerHTML = songName.substring(0, 20) + "...";
+      }
+      });
+
+      document.querySelectorAll(DOMElements.searchArtistName).forEach((element) => {
+      let artistName = element.innerHTML;
+      if (artistName.length > 20) {
+        element.innerHTML = artistName.substring(0, 20) + "...";
+      }
+      });
+    },
 
 
     // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
@@ -535,7 +564,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
     UICtrl.displayUserPlaylists(playlists);
     // console.log("playlists", playlists);
-
+    UICtrl.searchItemText();
 
     // Search method
     // const searchMethod = await APICtrl.getConnectSearch(accessToken, "Sad");
@@ -589,21 +618,18 @@ document.querySelector('.navbar-clear-btn').addEventListener('click', function()
 
 
     // console.log("Search Method : ", searchMethod);
-    searchMethod.tracks.items.forEach((item) => {
+    // searchMethod.tracks.items.forEach((item) => {
       // console.log("Search Image : ", item.album.images[0].url);
-    });
-    searchMethod.tracks.items.forEach((item) => {
+    // });
+    // searchMethod.tracks.items.forEach((item) => {
       // console.log("Search Name : ", item.album.name);
-    });
+    // });
 
-      searchMethod.tracks.items.forEach((item) => {
+      // searchMethod.tracks.items.forEach((item) => {
         // console.log("Search Artist Names:");
-        const artistNames = item.album.artists.map((artist) => artist.name).join(", ");
+        // const artistNames = item.album.artists.map((artist) => artist.name).join(", ");
         // console.log(artistNames);
-      });
-
-
-
+      // });
 
     // const topTracks = await APICtrl.getTopTracks(accessToken);
     // UICtrl.displayTopTracks(topTracks);
