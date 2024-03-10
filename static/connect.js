@@ -2,7 +2,7 @@
 const APIController = (function () {
   const _getConnectSearch = async (accessToken, query) => {
     const result = await fetch(
-      `https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`,
+      `https://api.spotify.com/v1/search?q=${query}&type=track&limit=15`,
       {
         method: "GET",
         headers: {
@@ -185,7 +185,9 @@ const UIController = (function () {
     newReleasesImage: ".album-upper-image",
     newReleasesName: ".album-upper-name",
     newReleasesArtist: ".album-upper-artist",
-    // Add more selectors as needed
+    searchSongName: ".result-text h4", // Add the new selector for the h4 element
+    searchArtistName: ".result-text h5", // Add the new selector for the h5 element
+    searchSongImage: "result-image",
     // Add more selectors as needed
   };
   const attachPlayTrackEvent = function (trackItem, track, accessToken) {
@@ -308,6 +310,10 @@ const UIController = (function () {
       };
     },
 
+    // Display Search recomendation
+    
+    
+    // End of Display Search recomendation
     // UI-related methods for displaying information
     displayUserPlaylists: function (playlists) {
       const playlistsContainer = document.querySelector(
@@ -437,6 +443,7 @@ const UIController = (function () {
           />`)
       );
     },
+    
     displayNewReleases: function (newReleases) {
       document
         .querySelectorAll(DOMElements.newReleasesImage)
@@ -462,6 +469,38 @@ const UIController = (function () {
           );
           artist.innerHTML += artistNames.join(", ");
         });
+    },
+    displaySearchRecommendation: function (searchMethod){
+      document.querySelectorAll(DOMElements.searchSongName).forEach((element, index) => {
+        element.innerHTML = searchMethod.tracks.items[index].album.name;
+      });
+      document.querySelectorAll(DOMElements.searchArtistName).forEach((element, index) => {
+        const artistNames = searchMethod.tracks.items[index].album.artists.map(artist => artist.name).join(", ");
+        element.innerHTML = artistNames;
+      });
+      document.querySelectorAll('.result-image').forEach((element, index) => {
+        if (searchMethod.tracks.items[index] && searchMethod.tracks.items[index].album && searchMethod.tracks.items[index].album.images && searchMethod.tracks.items[index].album.images[0] && searchMethod.tracks.items[index].album.images[0].url) {
+            element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
+        }
+    });
+
+
+    //   const searchMethod = await APICtrl.getConnectSearch(accessToken, "love");
+    // UICtrl.displaySearchRecommendation(searchMethod);
+
+    // console.log("Search Method : ", searchMethod);
+    // searchMethod.tracks.items.forEach((item) => {
+    //   console.log("Search Image : ", item.album.images[0].url);
+    // });
+    // searchMethod.tracks.items.forEach((item) => {
+    //   console.log("Search Name : ", item.album.name);
+    // });
+
+      // searchMethod.tracks.items.forEach((item) => {
+      //   console.log("Search Artist Names:");
+      //   const artistNames = item.album.artists.map((artist) => artist.name).join(", ");
+      //   console.log(artistNames);
+      // });
     },
 
     // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
@@ -500,6 +539,28 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayUserPlaylists(playlists);
     console.log("playlists", playlists);
 
+
+    // Search method
+    const searchMethod = await APICtrl.getConnectSearch(accessToken, "Happy");
+    UICtrl.displaySearchRecommendation(searchMethod);
+
+    console.log("Search Method : ", searchMethod);
+    searchMethod.tracks.items.forEach((item) => {
+      console.log("Search Image : ", item.album.images[0].url);
+    });
+    searchMethod.tracks.items.forEach((item) => {
+      console.log("Search Name : ", item.album.name);
+    });
+
+      searchMethod.tracks.items.forEach((item) => {
+        console.log("Search Artist Names:");
+        const artistNames = item.album.artists.map((artist) => artist.name).join(", ");
+        console.log(artistNames);
+      });
+
+
+
+
     // const topTracks = await APICtrl.getTopTracks(accessToken);
     // UICtrl.displayTopTracks(topTracks);
 
@@ -522,21 +583,24 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayCurrentSongName(currentlyPlaying);
     UICtrl.displayArtistImage(currentArtist);
 
-    const artistDesc = APICtrl.getArtistBio(
+    const artistDesc = await APICtrl.getArtistBio(
       currentlyPlaying.item.artists[0].name
     );
     console.log(artistDesc);
+
+    // New Releases
     const newReleases = await APICtrl.getNewReleases(accessToken);
     console.log("New Releases : ", newReleases);
-    UICtrl.displayNewReleases(newReleases);
+    // UICtrl.displayNewReleases(newReleases);
+
     // UICtrl.inputField().newReleasesName.innerHTML = "karachi wala";
     // console.log("kam ka kam " , UICtrl.inputField().newReleasesName);
 
-    console.log("Name dak ly ", newReleases.albums.items[6].name);
-    console.log(
-      "Artist name dak ",
-      newReleases.albums.items[6].artists[0].name
-    );
+    // console.log("Name dak ly ", newReleases.albums.items[6].name);
+    // console.log(
+    //   "Artist name dak ",
+    //   newReleases.albums.items[6].artists[0].name
+    // );
   }
 
   return {

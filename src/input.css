@@ -154,7 +154,7 @@ html {
   @apply flex flex-row my-2;
 }
 .result-image {
-  @apply bg-cover bg-no-repeat w-[45px] h-[45px] rounded-md me-2;
+  @apply bg-cover bg-no-repeat w-[45px] h-[45px] rounded-md me-2 bg-[url('../static/assets/images/girl-with-light-2.jpg')];
 }
 .result-text {
   @apply capitalize text-[12px] w-[60%];
