@@ -40,21 +40,6 @@ const APIController = (function () {
     return data;
   };
 
-  const _getArtistBio = async (artistName) => {
-    const result = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // Process the artist data here
-        result = data.artist.bio.summary;
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the fetch request
-        console.error(error);
-      });
-    return result;
-  };
   const _getArtist = async (accessToken, artistId) => {
     const result = await fetch(
       `https://api.spotify.com/v1/artists/${artistId}`,
@@ -156,9 +141,6 @@ const APIController = (function () {
     getArtist(accessToken, artistId) {
       return _getArtist(accessToken, artistId);
     },
-    getArtistBio(artistName) {
-      return _getArtistBio(artistName);
-    },
     getNewReleases(accessToken) {
       return _getNewReleases(accessToken);
     },
@@ -185,6 +167,7 @@ const UIController = (function () {
     newReleasesImage: ".album-upper-image",
     newReleasesName: ".album-upper-name",
     newReleasesArtist: ".album-upper-artist",
+    artistBioElement: ".song-album-description",
     // Add more selectors as needed
     // Add more selectors as needed
   };
@@ -304,6 +287,7 @@ const UIController = (function () {
         newReleasesArtist: document.querySelector(
           DOMElements.newReleasesArtist
         ),
+        artistBioElement: document.querySelector(DOMElements.artistBioElement),
         // Add more selectors as needed
       };
     },
@@ -491,9 +475,6 @@ const APPController = (async function (UICtrl, APICtrl) {
   document
     .querySelector(".logo-link")
     .setAttribute("href", window.location.href);
-  // const accessToken = new URLSearchParams(
-  //   window.location.hash.substring(1)
-  // ).get("access_token");
 
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
@@ -521,16 +502,10 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayArtistName(currentlyPlaying);
     UICtrl.displayCurrentSongName(currentlyPlaying);
     UICtrl.displayArtistImage(currentArtist);
-    
-    const artistDesc = APICtrl.getArtistBio(
-      currentlyPlaying.item.artists[0].name
-    );
-    console.log(artistDesc);
+
     const newReleases = await APICtrl.getNewReleases(accessToken);
     console.log("New Releases : ", newReleases);
     UICtrl.displayNewReleases(newReleases);
-    // UICtrl.inputField().newReleasesName.innerHTML = "karachi wala";
-    // console.log("kam ka kam " , UICtrl.inputField().newReleasesName);
 
     console.log("Name dak ly ", newReleases.albums.items[6].name);
     console.log(
@@ -538,23 +513,8 @@ const APPController = (async function (UICtrl, APICtrl) {
       newReleases.albums.items[6].artists[0].name
     );
 
-    var inputElement = document.querySelector(
-      '.search-inner-box-main input[type="text"]'
-    );
-
-    inputElement.addEventListener("change", async function (event) {
-      // Number 13 is the "Enter" key on the keyboard
-      
-        // Cancel the default action, if needed
-        event.preventDefault();
-        // Get the value of the input field
-        var inputValue = inputElement.value;
-        const searchResult = await APICtrl.getConnectSearch(accessToken, inputValue);
-        console.log("Search Result : ", searchResult);
-
-        console.log(inputValue);
-    });
-
+    // getting artist bio data summary
+    artistData(currentArtist.name);
   }
 
   return {
