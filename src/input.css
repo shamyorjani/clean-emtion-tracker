@@ -248,6 +248,12 @@ html {
 .song-album-description {
   @apply text-white lg:text-sm md:text-xs xl:text-[10px] leading-3 font-poppinsRegular;
 }
+.album-upper-name{
+  @apply font-poppinsRegular text-white text-[11px] mt-1;
+}
+.album-upper-artist{
+  @apply text-[#c0c0c0] text-[10px];
+}
 .playlist-outer-container {
   /* @apply w-full fixed sm:top-[100px] 2xl:top-[150px] xl:top-[85px] md:w-[18vw] xl:w-[17.5vw] 2xl:w-[18vw] h-[95vh] xl:right-3 2xl:right-0; */
 }

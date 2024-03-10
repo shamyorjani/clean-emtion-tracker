@@ -1,5 +1,19 @@
 // API Controller Module
 const APIController = (function () {
+  const _getConnectSearch = async (accessToken, query) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
   const _getConnectedUserPlaylists = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/playlists", {
       method: "GET",
@@ -13,16 +27,18 @@ const APIController = (function () {
   };
 
   const _getNewReleases = async (accessToken) => {
-    const result = await fetch("https://api.spotify.com/v1/browse/new-releases?limit=10", {
-      method: "GET",
-      headers: {
-        Authorization: "Bearer " + accessToken,
-      },
-    });
+    const result = await fetch(
+      "https://api.spotify.com/v1/browse/new-releases?limit=10",
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
     const data = await result.json();
     return data;
   };
-
 
   const _getArtistBio = async (artistName) => {
     const result = await fetch(
@@ -118,6 +134,9 @@ const APIController = (function () {
   // Add more private methods for additional functionalities
 
   return {
+    getConnectSearch(accessToken, query) {
+      return _getConnectSearch(accessToken, query);
+    },
     getConnectedUserPlaylists(accessToken) {
       return _getConnectedUserPlaylists(accessToken);
     },
@@ -163,6 +182,9 @@ const UIController = (function () {
     leftAudioPlayerImg: ".left-audio-player-img",
     authorImage: ".author-image",
     mainImage: ".main",
+    newReleasesImage: ".album-upper-image",
+    newReleasesName: ".album-upper-name",
+    newReleasesArtist: ".album-upper-artist",
     // Add more selectors as needed
     // Add more selectors as needed
   };
@@ -277,7 +299,11 @@ const UIController = (function () {
         ),
         authorImage: document.querySelector(DOMElements.authorImage),
         mainImage: document.querySelector(DOMElements.mainImage),
-
+        newReleasesImage: document.querySelector(DOMElements.newReleasesImage),
+        newReleasesName: document.querySelector(DOMElements.newReleasesName),
+        newReleasesArtist: document.querySelector(
+          DOMElements.newReleasesArtist
+        ),
         // Add more selectors as needed
       };
     },
@@ -411,8 +437,34 @@ const UIController = (function () {
           />`)
       );
     },
+    displayNewReleases: function (newReleases) {
+      document
+        .querySelectorAll(DOMElements.newReleasesImage)
+        .forEach(
+          (singleImage, index) =>
+            (singleImage.innerHTML = `<img src="${newReleases.albums.items[index].images[0].url}" class="best-release-img" alt="singer_image">`)
+        );
+      document
+        .querySelectorAll(DOMElements.newReleasesName)
+        .forEach(
+          (name, index) =>
+            (name.innerHTML = newReleases.albums.items[index].name)
+        );
 
-    // Add more UI-related methods for additional functionalities
+      document
+        .querySelectorAll(DOMElements.newReleasesArtist)
+        .forEach((artist) => (artist.innerHTML = ""));
+      document
+        .querySelectorAll(DOMElements.newReleasesArtist)
+        .forEach((artist, index) => {
+          let artistNames = newReleases.albums.items[index].artists.map(
+            (artist) => artist.name
+          );
+          artist.innerHTML += artistNames.join(", ");
+        });
+    },
+
+    // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
   };
 })();
 
@@ -446,18 +498,18 @@ const APPController = (async function (UICtrl, APICtrl) {
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
     UICtrl.displayUserPlaylists(playlists);
-    console.log('playlists', playlists);
+    console.log("playlists", playlists);
 
-    const topTracks = await APICtrl.getTopTracks(accessToken);
-    UICtrl.displayTopTracks(topTracks);
+    // const topTracks = await APICtrl.getTopTracks(accessToken);
+    // UICtrl.displayTopTracks(topTracks);
 
     const userProfile = await APICtrl.getUserProfile(accessToken);
     UICtrl.displayUserProfile(userProfile);
 
-    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
-      accessToken
-    );
-    UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    // const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+    //   accessToken
+    // );
+    // UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
 
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
 
@@ -469,14 +521,40 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayArtistName(currentlyPlaying);
     UICtrl.displayCurrentSongName(currentlyPlaying);
     UICtrl.displayArtistImage(currentArtist);
-
+    
     const artistDesc = APICtrl.getArtistBio(
       currentlyPlaying.item.artists[0].name
     );
     console.log(artistDesc);
     const newReleases = await APICtrl.getNewReleases(accessToken);
     console.log("New Releases : ", newReleases);
-    // Add more code to handle other functionalities
+    UICtrl.displayNewReleases(newReleases);
+    // UICtrl.inputField().newReleasesName.innerHTML = "karachi wala";
+    // console.log("kam ka kam " , UICtrl.inputField().newReleasesName);
+
+    console.log("Name dak ly ", newReleases.albums.items[6].name);
+    console.log(
+      "Artist name dak ",
+      newReleases.albums.items[6].artists[0].name
+    );
+
+    var inputElement = document.querySelector(
+      '.search-inner-box-main input[type="text"]'
+    );
+
+    inputElement.addEventListener("change", async function (event) {
+      // Number 13 is the "Enter" key on the keyboard
+      
+        // Cancel the default action, if needed
+        event.preventDefault();
+        // Get the value of the input field
+        var inputValue = inputElement.value;
+        const searchResult = await APICtrl.getConnectSearch(accessToken, inputValue);
+        console.log("Search Result : ", searchResult);
+
+        console.log(inputValue);
+    });
+
   }
 
   return {
