@@ -454,7 +454,7 @@ const UIController = (function () {
 
 // APP Controller Module
 const APPController = (async function (UICtrl, APICtrl) {
-  const DOMInputs = UICtrl.inputField();
+  // const DOMInputs = UICtrl.inputField();
 
   // After the user is redirected back
   window.addEventListener("load", async () => {
