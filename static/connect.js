@@ -537,7 +537,6 @@ const APPController = (async function (UICtrl, APICtrl) {
       "Artist name dak ",
       newReleases.albums.items[6].artists[0].name
     );
-
   }
 
   return {
