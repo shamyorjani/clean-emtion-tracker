@@ -40,21 +40,6 @@ const APIController = (function () {
     return data;
   };
 
-  const _getArtistBio = async (artistName) => {
-    const result = await fetch(
-      `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
-    )
-      .then((response) => response.json())
-      .then((data) => {
-        // Process the artist data here
-        result = data.artist.bio.summary;
-      })
-      .catch((error) => {
-        // Handle any errors that occur during the fetch request
-        console.error(error);
-      });
-    return result;
-  };
   const _getArtist = async (accessToken, artistId) => {
     const result = await fetch(
       `https://api.spotify.com/v1/artists/${artistId}`,
@@ -155,9 +140,6 @@ const APIController = (function () {
     },
     getArtist(accessToken, artistId) {
       return _getArtist(accessToken, artistId);
-    },
-    getArtistBio(artistName) {
-      return _getArtistBio(artistName);
     },
     getNewReleases(accessToken) {
       return _getNewReleases(accessToken);
@@ -407,6 +389,11 @@ const UIController = (function () {
       artistNameElement.innerHTML = "";
 
       const artistName = currentlyPlaying.item.artists[0].name;
+      if (artistName.length > 10 && artistName.length < 15) {
+        artistNameElement.style.fontSize = "1.2rem";
+      } else if (artistName.length > 15) {
+        artistNameElement.style.fontSize = "1rem";
+      }
       artistNameElement.innerHTML = artistName;
       audioPlayerArtistName.innerHTML = artistName;
     },
@@ -583,12 +570,6 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayCurrentSongName(currentlyPlaying);
     UICtrl.displayArtistImage(currentArtist);
 
-    const artistDesc = await APICtrl.getArtistBio(
-      currentlyPlaying.item.artists[0].name
-    );
-    console.log(artistDesc);
-
-    // New Releases
     const newReleases = await APICtrl.getNewReleases(accessToken);
     console.log("New Releases : ", newReleases);
     // UICtrl.displayNewReleases(newReleases);
@@ -596,11 +577,15 @@ const APPController = (async function (UICtrl, APICtrl) {
     // UICtrl.inputField().newReleasesName.innerHTML = "karachi wala";
     // console.log("kam ka kam " , UICtrl.inputField().newReleasesName);
 
-    // console.log("Name dak ly ", newReleases.albums.items[6].name);
-    // console.log(
-    //   "Artist name dak ",
-    //   newReleases.albums.items[6].artists[0].name
-    // );
+    console.log("Name dak ly ", newReleases.albums.items[6].name);
+    console.log("Artist name dak ", currentArtist.name);
+    artistData(currentArtist.name);
+
+    // Call startPolling with your access token and polling interval
+    // const startPolling = (accessToken, interval) => {
+    //   setInterval(async () => {}, interval);
+    // };
+    // startPolling(accessToken, 5000);
   }
 
   return {
