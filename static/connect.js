@@ -170,6 +170,9 @@ const UIController = (function () {
     searchSongName: ".result-text h4", // Add the new selector for the h4 element
     searchArtistName: ".result-text h5", // Add the new selector for the h5 element
     searchSongImage: "result-image",
+    // inputElement: ".search-inner-box-main input[type='text']",
+    // playlistElement: ".every-result",
+    // playlistHeading : ".search-result-heading",
     // Add more selectors as needed
   };
   const attachPlayTrackEvent = function (trackItem, track, accessToken) {
@@ -288,6 +291,9 @@ const UIController = (function () {
         newReleasesArtist: document.querySelector(
           DOMElements.newReleasesArtist
         ),
+        // inputElement: document.querySelector(DOMElements.inputElement),
+        // playlistElement: document.querySelector(DOMElements.playlistElement),
+        // playlistHeading: document.querySelector(DOMElements.playlistHeading),
         // Add more selectors as needed
       };
     },
@@ -489,6 +495,10 @@ const UIController = (function () {
       //   console.log(artistNames);
       // });
     },
+    // searchBarMethod : function(searchMethod) {
+      
+    // },
+
 
     // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
   };
@@ -524,25 +534,72 @@ const APPController = (async function (UICtrl, APICtrl) {
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
     UICtrl.displayUserPlaylists(playlists);
-    console.log("playlists", playlists);
+    // console.log("playlists", playlists);
 
 
     // Search method
-    const searchMethod = await APICtrl.getConnectSearch(accessToken, "Happy");
+    // const searchMethod = await APICtrl.getConnectSearch(accessToken, "Sad");
+    // UICtrl.displaySearchRecommendation(searchMethod);
+    // const searchBarMethod = UICtrl.searchBarMethod();
+
+    var inputElement = document.querySelector('.search-inner-box-main input[type="text"]');
+var playlistElement = document.querySelectorAll(".every-result");
+var playlistHeading = document.querySelectorAll(".search-result-heading");
+var searchList = ["Albums", "Playlists", "Songs"];
+
+async function updateSearchResults(inputValue) {
+    var searchMethod;
+
+    if (inputValue === "") {
+        // If the input value is empty, show default search results (e.g., "Sad")
+        searchMethod = await APICtrl.getConnectSearch(accessToken, "Sad");
+    } else {
+        // Otherwise, perform search based on the input value
+        searchMethod = await APICtrl.getConnectSearch(accessToken, inputValue);
+    }
+
     UICtrl.displaySearchRecommendation(searchMethod);
 
-    console.log("Search Method : ", searchMethod);
+    // Reset styles and headings
+    playlistElement.forEach((singleElement, index) => {
+        singleElement.style.marginTop = (index !== 0) ? "21px" : "0px";
+    });
+
+    playlistHeading.forEach((singleElement, index) => {
+        singleElement.innerHTML = (index !== 0) ? "" : searchList[index];
+    });
+}
+
+// Initial search with default query ("Sad")
+updateSearchResults("");
+
+inputElement.addEventListener("keyup", async function (event) {
+    var inputValue = inputElement.value.trim();
+    await updateSearchResults(inputValue);
+});
+
+document.querySelector('.navbar-clear-btn').addEventListener('click', function() {
+    inputElement.value = '';
+    updateSearchResults("");
+});
+
+
+
+
+
+
+    // console.log("Search Method : ", searchMethod);
     searchMethod.tracks.items.forEach((item) => {
-      console.log("Search Image : ", item.album.images[0].url);
+      // console.log("Search Image : ", item.album.images[0].url);
     });
     searchMethod.tracks.items.forEach((item) => {
-      console.log("Search Name : ", item.album.name);
+      // console.log("Search Name : ", item.album.name);
     });
 
       searchMethod.tracks.items.forEach((item) => {
-        console.log("Search Artist Names:");
+        // console.log("Search Artist Names:");
         const artistNames = item.album.artists.map((artist) => artist.name).join(", ");
-        console.log(artistNames);
+        // console.log(artistNames);
       });
 
 
@@ -571,14 +628,14 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayArtistImage(currentArtist);
 
     const newReleases = await APICtrl.getNewReleases(accessToken);
-    console.log("New Releases : ", newReleases);
+    // console.log("New Releases : ", newReleases);
     // UICtrl.displayNewReleases(newReleases);
 
     // UICtrl.inputField().newReleasesName.innerHTML = "karachi wala";
     // console.log("kam ka kam " , UICtrl.inputField().newReleasesName);
-
-    console.log("Name dak ly ", newReleases.albums.items[6].name);
-    console.log("Artist name dak ", currentArtist.name);
+    console.log();
+    // console.log("Name dak ly ", newReleases.albums.items[6].name);
+    // console.log("Artist name dak ", currentArtist.name);
     artistData(currentArtist.name);
 
     // Call startPolling with your access token and polling interval
@@ -586,8 +643,54 @@ const APPController = (async function (UICtrl, APICtrl) {
     //   setInterval(async () => {}, interval);
     // };
     // startPolling(accessToken, 5000);
+    var inputElement = document.querySelector(
+      '.search-inner-box-main input[type="text"]'
+    );
+    var playlistElement = document.querySelectorAll(".every-result");
+    var playlistHeading =  document.querySelectorAll(".search-result-heading");
+    var searchList = ["Albums", "Playlists", "Songs"]
+    playlistHeading.forEach((singleElement, index) => {
+        if (index != 0) {
+            singleElement.innerHTML = "";
+        }
+    });
+    playlistElement.forEach((singleElement, index) => {
+        if (index != 0) {
+            singleElement.style.marginTop = "21px";
+        }
+    });
+    inputElement.addEventListener("keyup", async function (event) {
+      
+    var inputValue = inputElement.value;
+    if (inputValue == "") {    
+        playlistElement.forEach((singleElement, index) => {
+            if (index != 0) {
+                singleElement.style.marginTop = "21px";
+            }
+        });
+        playlistHeading.forEach((singleElement, index) => {
+            if (index != 0) {
+                singleElement.innerHTML = "";
+            }
+        });
+    } else {
+        playlistElement.forEach((singleElement, index) => {
+            if (index != 0) {
+                singleElement.style.marginTop = "0px";
+            }
+        });
+        playlistHeading.forEach((singleElement, index) => {
+        if (index != 0) {
+            singleElement.innerHTML = searchList[index -1];
+        }
+    });
+    }
+      console.log(inputValue);
+    });
+    document.querySelector('.navbar-clear-btn').addEventListener('click', function() {
+        inputElement.value = '';
+    });
   }
-
   return {
     init: function () {
       console.log("App is starting");

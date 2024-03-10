@@ -357,70 +357,70 @@ var inputElement = document.querySelector(
       '.search-inner-box-main input[type="text"]'
     );
 
-    // Get the playlist element
-    var playlistElement = document.querySelectorAll(".every-result");
-    var playlistHeading =  document.querySelectorAll(".search-result-heading");
-    var searchList = ["Albums", "Playlists", "Songs"]
+//     // Get the playlist element
+    // var playlistElement = document.querySelectorAll(".every-result");
+    // var playlistHeading =  document.querySelectorAll(".search-result-heading");
+//     var searchList = ["Albums", "Playlists", "Songs"]
 
-    playlistHeading.forEach((singleElement, index) => {
-        if (index != 0) {
-            singleElement.innerHTML = "";
-        }
-    });
-    playlistElement.forEach((singleElement, index) => {
-        if (index != 0) {
-            singleElement.style.marginTop = "21px";
-        }
-    });
+//     playlistHeading.forEach((singleElement, index) => {
+//         if (index != 0) {
+//             singleElement.innerHTML = "";
+//         }
+//     });
+//     playlistElement.forEach((singleElement, index) => {
+//         if (index != 0) {
+//             singleElement.style.marginTop = "21px";
+//         }
+//     });
 
-    // playlistElement.forEach(
-    //     (singleElement) => (singleElement.style.display = "none")
-    //   );
+//     // playlistElement.forEach(
+//     //     (singleElement) => (singleElement.style.display = "none")
+//     //   );
 
-    inputElement.addEventListener("keyup", async function (event) {
-      // Number 13 is the "Enter" key on the keyboard
+//     inputElement.addEventListener("keyup", async function (event) {
+//       // Number 13 is the "Enter" key on the keyboard
 
-      var inputValue = inputElement.value;
-      // Cancel the default action, if needed
-    //   event.preventDefault();
+//       var inputValue = inputElement.value;
+//       // Cancel the default action, if needed
+//     //   event.preventDefault();
 
-    if (inputValue == "") {
+//     if (inputValue == "") {
         
-        playlistElement.forEach((singleElement, index) => {
-            if (index != 0) {
-                singleElement.style.marginTop = "21px";
-            }
-        });
-        // If the input field is empty, add a 'hidden' class to the playlist element
-        playlistHeading.forEach((singleElement, index) => {
-            if (index != 0) {
-                singleElement.innerHTML = "";
-            }
-        });
+//         playlistElement.forEach((singleElement, index) => {
+//             if (index != 0) {
+//                 singleElement.style.marginTop = "21px";
+//             }
+//         });
+//         // If the input field is empty, add a 'hidden' class to the playlist element
+//         playlistHeading.forEach((singleElement, index) => {
+//             if (index != 0) {
+//                 singleElement.innerHTML = "";
+//             }
+//         });
         
       
-    } else {
-        playlistElement.forEach((singleElement, index) => {
-            if (index != 0) {
-                singleElement.style.marginTop = "0px";
-            }
-        });
-        playlistHeading.forEach((singleElement, index) => {
-        if (index != 0) {
-            singleElement.innerHTML = searchList[index -1];
-        }
-    });
+//     } else {
+//         playlistElement.forEach((singleElement, index) => {
+//             if (index != 0) {
+//                 singleElement.style.marginTop = "0px";
+//             }
+//         });
+//         playlistHeading.forEach((singleElement, index) => {
+//         if (index != 0) {
+//             singleElement.innerHTML = searchList[index -1];
+//         }
+//     });
         
-    }
+//     }
 
-    //   const searchResult = await APICtrl.getConnectSearch(
-    //     accessToken,
-    //     inputValue
-    //   );
-    //   console.log("Search Result : ", searchResult);
-      console.log(inputValue);
-    });
-    document.querySelector('.navbar-clear-btn').addEventListener('click', function() {
-        inputElement.value = '';
-    });
+//     //   const searchResult = await APICtrl.getConnectSearch(
+//     //     accessToken,
+//     //     inputValue
+//     //   );
+//     //   console.log("Search Result : ", searchResult);
+//       console.log(inputValue);
+//     });
+//     document.querySelector('.navbar-clear-btn').addEventListener('click', function() {
+//         inputElement.value = '';
+//     });
 </script>
