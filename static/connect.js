@@ -1,19 +1,70 @@
 // API Controller Module
 const APIController = (function () {
-  const _getConnectSearch = async (accessToken, query) => {
-    const result = await fetch(
-      `https://api.spotify.com/v1/search?q=${query}&type=track&limit=15`,
-      {
-        method: "GET",
-        headers: {
-          Authorization: "Bearer " + accessToken,
-        },
-      }
-    );
+  const queries = [
+    "Top songs",
+    "Global Top songs",
+    "Most Viewed Songs",
+    "Trending",
+    "Best song", // You can replace [Year] with a specific year, e.g., "Best of 2023"
+    "Popular songs",
+    "rated songs",
+    "Top songs",
+    "greatest songs",
+    "song of the year", 
+    "viral songs",
+    "all time hits",
+    "Top Hits",
+    "Global Top",
+    "Most Viewed Songs",
+    "Trending",
+    "Best of [Year]", // You can replace [Year] with a specific year, e.g., "Best of 2023"
+    "Most Popular Tracks",
+    "Chart Toppers",
+    "Viral Hits",
+    "All-Time Favorites",
+    "Greatest Hits",
+    "Essential Tracks",
+    "Popular Songs",
+    "Bestselling Singles",
+    "Ultimate Playlist",
+    "Top Rated Tracks",
+    "Top Charting Songs",
+    "Highly Rated Hits",
+    "Hit Singles",
+    "Top Tracks of All Time",
+    "Classic Hits",
+    "Fan Favorites",
+    "Record-Breaking Hits",
+    "Award-Winning Songs",
+    "Golden Oldies",
+    "Iconic Tracks",
+    // Add more queries as needed
+  ];
+
+  const _getConnectSearch = async (accessToken, query = "", type) => {
+    let url = `https://api.spotify.com/v1/search?`;
+
+    // If a query is provided, use it, otherwise, select a random query from the array
+    if (query) {
+      url += `q=${query}&`;
+    } else {
+      const randomQuery = queries[Math.floor(Math.random() * queries.length)];
+      url += `q=${encodeURIComponent(randomQuery)}&`;
+    }
+
+    url += `type=${type}&limit=15`;
+
+    const result = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
 
     const data = await result.json();
     return data;
   };
+
   const _getConnectedUserPlaylists = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/playlists", {
       method: "GET",
@@ -119,8 +170,8 @@ const APIController = (function () {
   // Add more private methods for additional functionalities
 
   return {
-    getConnectSearch(accessToken, query) {
-      return _getConnectSearch(accessToken, query);
+    getConnectSearch(accessToken, query, type) {
+      return _getConnectSearch(accessToken, query, type);
     },
     getConnectedUserPlaylists(accessToken) {
       return _getConnectedUserPlaylists(accessToken);
@@ -592,22 +643,26 @@ const APPController = (async function (UICtrl, APICtrl) {
           singleElement.style.marginTop = index !== 0 ? "21px" : "0px";
         });
         // If the input value is empty, show default search results (e.g., "Sad")
-        searchMethod = await APICtrl.getConnectSearch(accessToken, "Trending");
+        searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
       } else {
         playlistHeading.forEach((singleElement, index) => {
-          singleElement.innerHTML = index !== 0 ? searchList[index -1] : "Trending";
+          singleElement.innerHTML =
+            index !== 0 ? searchList[index - 1] : "Trending";
         });
         playlistElement.forEach((singleElement, index) => {
           singleElement.style.marginTop = index !== 0 ? "0px" : "0px";
         });
         // Otherwise, perform search based on the input value
-        searchMethod = await APICtrl.getConnectSearch(accessToken, inputValue);
+        searchMethod = await APICtrl.getConnectSearch(
+          accessToken,
+          inputValue,
+          "track"
+        );
       }
 
       UICtrl.displaySearchRecommendation(searchMethod);
 
       // Reset styles and headings
-      
     }
 
     // Initial search with default query ("Sad")
@@ -677,6 +732,40 @@ const APPController = (async function (UICtrl, APICtrl) {
     //   setInterval(async () => {}, interval);
     // };
     // startPolling(accessToken, 5000);
+
+    searchMethodCheck = await APICtrl.getConnectSearch(
+      accessToken,
+      "heart broken",
+      "album"
+    );
+    console.log("Search Method : ", searchMethodCheck);
+    const getAlbums = async (accessToken, query) => {
+      const searchMethod = await APICtrl.getConnectSearch(
+        accessToken,
+        query,
+        "album"
+      );
+      return searchMethod.albums.items;
+    };
+
+    const displayAlbums = (albums) => {
+      albums.forEach((album) => {
+        console.log("Album Image: ", album.images[0].url);
+        console.log("Album Name: ", album.name);
+        console.log(
+          "Artist Names: ",
+          album.artists.map((artist) => artist.name).join(", ")
+        );
+      });
+    };
+
+    const searchAndDisplayAlbums = async (accessToken, query) => {
+      const albums = await getAlbums(accessToken, query);
+      displayAlbums(albums);
+    };
+
+    // Usage example
+    searchAndDisplayAlbums(accessToken, "love");
   }
   return {
     init: function () {
