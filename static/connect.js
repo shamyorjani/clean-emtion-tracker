@@ -733,39 +733,69 @@ const APPController = (async function (UICtrl, APICtrl) {
     // };
     // startPolling(accessToken, 5000);
 
-    searchMethodCheck = await APICtrl.getConnectSearch(
-      accessToken,
-      "heart broken",
-      "album"
-    );
-    console.log("Search Method : ", searchMethodCheck);
-    const getAlbums = async (accessToken, query) => {
+    // searchMethodCheck = await APICtrl.getConnectSearch(
+    //   accessToken,
+    //   "heart broken",
+    //   "album"
+    // );
+    // console.log("Search Method : ", searchMethodCheck);
+    // const getAlbums = async (accessToken, query) => {
+    //   const searchMethod = await APICtrl.getConnectSearch(
+    //     accessToken,
+    //     query,
+    //     "album"
+    //   );
+    //   return searchMethod.albums.items;
+    // };
+
+    // const displayAlbums = (albums) => {
+    //   albums.forEach((album) => {
+    //     console.log("Album Image: ", album.images[0].url);
+    //     console.log("Album Name: ", album.name);
+    //     console.log(
+    //       "Artist Names: ",
+    //       album.artists.map((artist) => artist.name).join(", ")
+    //     );
+    //   });
+    // };
+
+    // const searchAndDisplayAlbums = async (accessToken, query) => {
+    //   const albums = await getAlbums(accessToken, query);
+    //   displayAlbums(albums);
+    // };
+
+    // // Usage example
+    // searchAndDisplayAlbums(accessToken, "love");
+
+
+
+    const getPlaylists = async (accessToken, query) => {
       const searchMethod = await APICtrl.getConnectSearch(
-        accessToken,
-        query,
-        "album"
+      accessToken,
+      query,
+      "playlist"
       );
-      return searchMethod.albums.items;
+      return searchMethod.playlists.items;
     };
 
-    const displayAlbums = (albums) => {
-      albums.forEach((album) => {
-        console.log("Album Image: ", album.images[0].url);
-        console.log("Album Name: ", album.name);
-        console.log(
-          "Artist Names: ",
-          album.artists.map((artist) => artist.name).join(", ")
-        );
+    const displayPlaylists = (playlists) => {
+      playlists.forEach((playlist) => {
+      console.log("Playlist Image: ", playlist.images[0].url);
+      console.log("Playlist Name: ", playlist.name);
+      console.log(
+        "Artist Names: ",
+        playlist.owner.display_name
+      );
       });
     };
 
-    const searchAndDisplayAlbums = async (accessToken, query) => {
-      const albums = await getAlbums(accessToken, query);
-      displayAlbums(albums);
+    const searchAndDisplayPlaylists = async (accessToken, query) => {
+      const playlists = await getPlaylists(accessToken, query);
+      displayPlaylists(playlists);
     };
 
     // Usage example
-    searchAndDisplayAlbums(accessToken, "love");
+    searchAndDisplayPlaylists(accessToken, "heart broken");
   }
   return {
     init: function () {
