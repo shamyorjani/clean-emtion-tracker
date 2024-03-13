@@ -534,8 +534,8 @@ const UIController = (function () {
           let artistNames = searchMethod.tracks.items[index].artists
             .map((artist) => artist.name)
             .join(", ");
-          if (artistNames.length > 18) {
-            artistNames = artistNames.substring(0, 18) + "...";
+          if (artistNames.length > 14) {
+            artistNames = artistNames.substring(0, 14) + "...";
           }
           element.innerHTML = artistNames;
         });
@@ -646,7 +646,12 @@ const APPController = (async function (UICtrl, APICtrl) {
           .querySelectorAll(".result-text h4")
           .forEach((element, index) => {
             if (index < 3 || index >= 9) {
-              let songName = searchMethod.tracks.items[index].name;
+              let songName;
+              if (index >= 9) {
+                songName = searchMethod.tracks.items[index - 9].name;
+              } else {
+                songName = searchMethod.tracks.items[index].name;
+              }
               if (songName.length > 30) {
                 songName = songName.substring(0, 27) + "...";
               }
@@ -657,56 +662,26 @@ const APPController = (async function (UICtrl, APICtrl) {
           .querySelectorAll(".result-text h5")
           .forEach((element, index) => {
             if (index < 3 || index >= 9) {
-              let artistNames = searchMethod.tracks.items[index].artists
-                .map((artist) => artist.name)
-                .join(", ");
-              if (artistNames.length > 18) {
-                artistNames = artistNames.substring(0, 18) + "...";
+              let artistNames;
+              if (index >= 9) {
+                artistNames = searchMethod.tracks.items[index - 6].artists
+                  .map((artist) => artist.name)
+                  .join(", ");
+              } else {
+                artistNames = searchMethod.tracks.items[index].artists
+                  .map((artist) => artist.name)
+                  .join(", ");
               }
+              if (artistNames.length > 14) {
+                artistNames = artistNames.substring(0, 14) + "...";
+              }
+
               element.innerHTML = artistNames;
             }
           });
         document.querySelectorAll(".result-image").forEach((element, index) => {
           if (
-            index < 3 ||
-            (index >= 9 &&
-              searchMethod.tracks.items[index] &&
-              searchMethod.tracks.items[index].album &&
-              searchMethod.tracks.items[index].album.images &&
-              searchMethod.tracks.items[index].album.images[0] &&
-              searchMethod.tracks.items[index].album.images[0].url)
-          ) {
-            element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
-          }
-        });
-        document
-          .querySelectorAll(".result-text h4")
-          .forEach((element, index) => {
-            if (index >= 3 && index < 6) {
-              let songName = searchMethod.tracks.items[index].album.name;
-              if (songName.length > 30) {
-                songName = songName.substring(0, 27) + "...";
-              }
-              element.innerHTML = songName;
-            }
-          });
-        document
-          .querySelectorAll(".result-text h5")
-          .forEach((element, index) => {
-            if (index >= 3 && index < 6) {
-              let artistNames = searchMethod.tracks.items[index].album.artists
-                .map((artist) => artist.name)
-                .join(", ");
-              if (artistNames.length > 18) {
-                artistNames = artistNames.substring(0, 18) + "...";
-              }
-              element.innerHTML = artistNames;
-            }
-          });
-        document.querySelectorAll(".result-image").forEach((element, index) => {
-          if (
-            index >= 3 &&
-            index < 6 &&
+            index < 3 &&
             searchMethod.tracks.items[index] &&
             searchMethod.tracks.items[index].album &&
             searchMethod.tracks.items[index].album.images &&
@@ -714,8 +689,61 @@ const APPController = (async function (UICtrl, APICtrl) {
             searchMethod.tracks.items[index].album.images[0].url
           ) {
             element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
+          } else if (
+            index >= 6 &&
+            searchMethod.tracks.items[index - 6] &&
+            searchMethod.tracks.items[index - 6].album &&
+            searchMethod.tracks.items[index - 6].album.images &&
+            searchMethod.tracks.items[index - 6].album.images[0] &&
+            searchMethod.tracks.items[index - 6].album.images[0].url
+          ) {
+            element.style.backgroundImage = `url(${
+              searchMethod.tracks.items[index - 6].album.images[0].url
+            })`;
           }
         });
+        searchMethod = await APICtrl.getConnectSearch(
+          accessToken,
+          inputValue,
+          "album"
+        );
+
+            document
+            .querySelectorAll(".result-text h4")
+            .forEach((element, index) => {
+              if (index >= 3 && index < 6) {
+              let albumName = searchMethod.albums.items[index - 3].name;
+              if (albumName.length > 30) {
+                albumName = albumName.substring(0, 27) + "...";
+              }
+              element.innerHTML = albumName;
+              }
+            });
+            document
+            .querySelectorAll(".result-text h5")
+            .forEach((element, index) => {
+              if (index >= 3 && index < 6) {
+              let artistNames = searchMethod.albums.items[index - 3].artists
+                .map((artist) => artist.name)
+                .join(", ");
+              if (artistNames.length > 18) {
+                artistNames = artistNames.substring(0, 18) + "...";
+              }
+              element.innerHTML = artistNames;
+              }
+            });
+          document.querySelectorAll(".result-image").forEach((element, index) => {
+            if (
+              index >= 3 && index < 6 &&
+              searchMethod.albums.items[index - 3] &&
+              searchMethod.albums.items[index - 3].images &&
+              searchMethod.albums.items[index - 3].images[0] &&
+              searchMethod.albums.items[index - 3].images[0].url
+            ) {
+              element.style.backgroundImage = `url(${searchMethod.albums.items[index - 3].images[0].url})`;
+            }
+          });
+
 
         searchMethod = await APICtrl.getConnectSearch(
           accessToken,
@@ -727,7 +755,7 @@ const APPController = (async function (UICtrl, APICtrl) {
           .querySelectorAll(".result-text h4")
           .forEach((element, index) => {
             if (index >= 6 && index < 9) {
-              let songName = searchMethod.playlists.items[index].name;
+              let songName = searchMethod.playlists.items[index - 6].name;
               if (songName.length > 30) {
                 songName = songName.substring(0, 27) + "...";
               }
@@ -739,9 +767,9 @@ const APPController = (async function (UICtrl, APICtrl) {
           .forEach((element, index) => {
             if (index >= 6 && index < 9) {
               let ownerName =
-                searchMethod.playlists.items[index].owner.display_name;
-              if (ownerName.length > 18) {
-                ownerName = ownerName.substring(0, 18) + "...";
+                searchMethod.playlists.items[index - 6].owner.display_name;
+              if (ownerName.length > 14) {
+                ownerName = ownerName.substring(0, 14) + "...";
               }
               element.innerHTML = ownerName;
             }
@@ -750,15 +778,16 @@ const APPController = (async function (UICtrl, APICtrl) {
           if (
             index >= 6 &&
             index < 9 &&
-            searchMethod.playlists.items[index] &&
-            searchMethod.playlists.items[index].images &&
-            searchMethod.playlists.items[index].images[0] &&
-            searchMethod.playlists.items[index].images[0].url
+            searchMethod.playlists.items[index - 6] &&
+            searchMethod.playlists.items[index - 6].images &&
+            searchMethod.playlists.items[index - 6].images[0] &&
+            searchMethod.playlists.items[index - 6].images[0].url
           ) {
-            element.style.backgroundImage = `url(${searchMethod.playlists.items[index].images[0].url})`;
+            element.style.backgroundImage = `url(${
+              searchMethod.playlists.items[index - 6].images[0].url
+            })`;
           }
         });
-      
       }
       // console.log("input", inputElement);
       UICtrl.displaySearchRecommendation(searchMethod);
