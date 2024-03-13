@@ -213,3 +213,106 @@
 
 
 
+
+
+  //   if (accessToken) {
+  //     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
+  
+  //     // variables
+  //     var inputElement = document.querySelector(
+  //       '.search-inner-box-main input[type="text"]'
+  //     );
+  //     var playlistElement = document.querySelectorAll(".every-result");
+  //     var playlistHeading = document.querySelectorAll(".search-result-heading");
+  //     var searchList = ["Albums", "Playlists", "Songs"];
+  
+  //     //  Functions
+  //     // Function to update search results
+  //     async function updateSearchResults(inputValue) {
+  //       var searchMethod;
+  
+  //       if (inputValue === "") {
+  //         playlistHeading.forEach((singleElement, index) => {
+  //           singleElement.innerHTML = index !== 0 ? "" : "Trending";
+  //         });
+  //         playlistElement.forEach((singleElement, index) => {
+  //           singleElement.style.marginTop = index !== 0 ? "21px" : "0px";
+  //         });
+  //         // If the input value is empty, show default search results (e.g., "Sad")
+  //         searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
+  //         UICtrl.displaySearchRecommendation(searchMethod);
+  //       } else {
+  //         playlistHeading.forEach((singleElement, index) => {
+  //           singleElement.innerHTML =
+  //             index !== 0 ? searchList[index - 1] : "Trending";
+  //         });
+  //         playlistElement.forEach((singleElement, index) => {
+  //           singleElement.style.marginTop = index !== 0 ? "0px" : "0px";
+  //         });
+  //         // Otherwise, perform search based on the input value
+  //         searchMethod = await APICtrl.getConnectSearch(
+  //           accessToken,
+  //           inputValue,
+  //           "track"
+  //         );
+  //         UICtrl.displaySearchSongs(searchMethod);
+  
+  //         searchMethod = await APICtrl.getConnectSearch(
+  //           accessToken,
+  //           inputValue,
+  //           "album"
+  //         );
+  //         UICtrl.displaySearchAlbums(searchMethod);
+  
+  //         searchMethod = await APICtrl.getConnectSearch(
+  //           accessToken,
+  //           inputValue,
+  //           "playlist"
+  //         );
+  //         UICtrl.displaySearchPlaylists(searchMethod);
+  //       }
+  //       // console.log("input", inputElement);
+  //       UICtrl.displaySearchRecommendation(searchMethod);
+  
+  //       // Reset styles and headings
+  //     }
+  //     inputElement.addEventListener("keyup", async function (event) {
+  //       var inputValue = inputElement.value.trim();
+  //       await updateSearchResults(inputValue);
+  //     });
+  //     document
+  //       .querySelector(".navbar-clear-btn")
+  //       .addEventListener("click", function () {
+  //         inputElement.value = "";
+  //         updateSearchResults("");
+  //       });
+  
+  //     // APPController.init();
+  //     const userProfile = await APICtrl.getUserProfile(accessToken);
+  //     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+  //     const currentArtist = await APICtrl.getArtist(
+  //       accessToken,
+  //       currentlyPlaying.item.artists[0].id
+  //     );
+  //     const newReleases = await APICtrl.getNewReleases(accessToken);
+  
+  //     // UICtrl display methods
+  //     UICtrl.displayUserProfile(userProfile);
+  //     UICtrl.displayArtistName(currentlyPlaying);
+  //     UICtrl.displayCurrentSongName(currentlyPlaying);
+  //     UICtrl.displayArtistImage(currentArtist);
+  //     UICtrl.displayUserPlaylists(playlists);
+  //     UICtrl.searchItemText();
+  //     UICtrl.displayNewReleases(newReleases);
+  
+  
+  //     artistData(currentArtist.name);
+  //   }
+  //   return {
+  //     init: function () {
+  //       console.log("App is starting");
+  //     },
+  //   };
+  // })(UIController, APIController);
+  
+

@@ -84,7 +84,7 @@ const APIController = (function () {
 
   const _getNewReleases = async (accessToken) => {
     const result = await fetch(
-      "https://api.spotify.com/v1/browse/new-releases?limit=10",
+      "https://api.spotify.com/v1/browse/new-releases?limit=50",
       {
         method: "GET",
         headers: {
@@ -493,18 +493,22 @@ const UIController = (function () {
     },
 
     displayNewReleases: function (newReleases) {
+      const randomNumber = Math.floor(Math.random() * 40) + 1;
       document
         .querySelectorAll(DOMElements.newReleasesImage)
         .forEach(
           (singleImage, index) =>
-            (singleImage.innerHTML = `<img src="${newReleases.albums.items[index].images[0].url}" class="best-release-img" alt="singer_image">`)
+            (singleImage.innerHTML = `<img src="${newReleases.albums.items[index + randomNumber].images[0].url}" class="best-release-img" alt="singer_image">`)
         );
       document
         .querySelectorAll(DOMElements.newReleasesName)
-        .forEach(
-          (name, index) =>
-            (name.innerHTML = newReleases.albums.items[index].name)
-        );
+        .forEach((name, index) => {
+          let albumName = newReleases.albums.items[index + randomNumber].name;
+          if (albumName.length > 30) {
+        albumName = albumName.substring(0, 30) + "...";
+          }
+          name.innerHTML = albumName;
+        });
 
       document
         .querySelectorAll(DOMElements.newReleasesArtist)
@@ -512,11 +516,16 @@ const UIController = (function () {
       document
         .querySelectorAll(DOMElements.newReleasesArtist)
         .forEach((artist, index) => {
-          let artistNames = newReleases.albums.items[index].artists.map(
-            (artist) => artist.name
+          let artistNames = newReleases.albums.items[index + randomNumber].artists.map(
+        (artist) => artist.name
           );
+          if (artistNames.length > 14) {
+        artistNames = artistNames.substring(0, 14) + "...";
+          }
           artist.innerHTML += artistNames.join(", ");
         });
+
+      
     },
     displaySearchRecommendation: function (searchMethod) {
       document
@@ -551,98 +560,8 @@ const UIController = (function () {
         }
       });
     },
-    searchItemText: function () {
+    displaySearchSongs: function (searchMethod) {
       document
-        .querySelectorAll(DOMElements.searchSongName)
-        .forEach((element) => {
-          let songName = element.innerHTML;
-          if (songName.length > 20) {
-            element.innerHTML = songName.substring(0, 20) + "...";
-          }
-        });
-
-      document
-        .querySelectorAll(DOMElements.searchArtistName)
-        .forEach((element) => {
-          let artistName = element.innerHTML;
-          if (artistName.length > 20) {
-            element.innerHTML = artistName.substring(0, 20) + "...";
-          }
-        });
-    },
-
-    // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
-  };
-})();
-
-// APP Controller Module
-const APPController = (async function (UICtrl, APICtrl) {
-  const DOMInputs = UICtrl.inputField();
-
-  // After the user is redirected back
-  window.addEventListener("load", async () => {
-    if (accessToken) {
-      const userType = await APICtrl.getUserProfile(accessToken);
-
-      if (userType.product !== "premium") {
-        // redirect to free subscription page
-        window.location.href = "/free-subscription";
-      }
-    }
-  });
-
-  const accessToken = new URLSearchParams(
-    window.location.hash.substring(1)
-  ).get("access_token");
-
-  document
-    .querySelector(".logo-link")
-    .setAttribute("href", window.location.href);
-  // const accessToken = new URLSearchParams(
-  //   window.location.hash.substring(1)
-  // ).get("access_token");
-
-  if (accessToken) {
-    const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
-    UICtrl.displayUserPlaylists(playlists);
-    // console.log("playlists", playlists);
-    UICtrl.searchItemText();
-
-    var inputElement = document.querySelector(
-      '.search-inner-box-main input[type="text"]'
-    );
-    var playlistElement = document.querySelectorAll(".every-result");
-    var playlistHeading = document.querySelectorAll(".search-result-heading");
-    var searchList = ["Albums", "Playlists", "Songs"];
-
-    async function updateSearchResults(inputValue) {
-      var searchMethod;
-
-      if (inputValue === "") {
-        playlistHeading.forEach((singleElement, index) => {
-          singleElement.innerHTML = index !== 0 ? "" : "Trending";
-        });
-        playlistElement.forEach((singleElement, index) => {
-          singleElement.style.marginTop = index !== 0 ? "21px" : "0px";
-        });
-        // If the input value is empty, show default search results (e.g., "Sad")
-        searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
-        UICtrl.displaySearchRecommendation(searchMethod);
-      } else {
-        playlistHeading.forEach((singleElement, index) => {
-          singleElement.innerHTML =
-            index !== 0 ? searchList[index - 1] : "Trending";
-        });
-        playlistElement.forEach((singleElement, index) => {
-          singleElement.style.marginTop = index !== 0 ? "0px" : "0px";
-        });
-        // Otherwise, perform search based on the input value
-        searchMethod = await APICtrl.getConnectSearch(
-          accessToken,
-          inputValue,
-          "track"
-        );
-        document
           .querySelectorAll(".result-text h4")
           .forEach((element, index) => {
             if (index < 3 || index >= 9) {
@@ -702,13 +621,9 @@ const APPController = (async function (UICtrl, APICtrl) {
             })`;
           }
         });
-        searchMethod = await APICtrl.getConnectSearch(
-          accessToken,
-          inputValue,
-          "album"
-        );
-
-            document
+    },
+    displaySearchAlbums: function (searchMethod) {
+      document
             .querySelectorAll(".result-text h4")
             .forEach((element, index) => {
               if (index >= 3 && index < 6) {
@@ -743,66 +658,213 @@ const APPController = (async function (UICtrl, APICtrl) {
               element.style.backgroundImage = `url(${searchMethod.albums.items[index - 3].images[0].url})`;
             }
           });
+    },
+    displaySearchPlaylists: function (searchMethod) {
+      document
+      .querySelectorAll(".result-text h4")
+      .forEach((element, index) => {
+        if (index >= 6 && index < 9) {
+          let songName = searchMethod.playlists.items[index - 6].name;
+          if (songName.length > 30) {
+            songName = songName.substring(0, 27) + "...";
+          }
+          element.innerHTML = songName;
+        }
+      });
+    document
+      .querySelectorAll(".result-text h5")
+      .forEach((element, index) => {
+        if (index >= 6 && index < 9) {
+          let ownerName =
+            searchMethod.playlists.items[index - 6].owner.display_name;
+          if (ownerName.length > 14) {
+            ownerName = ownerName.substring(0, 14) + "...";
+          }
+          element.innerHTML = ownerName;
+        }
+      });
+    document.querySelectorAll(".result-image").forEach((element, index) => {
+      if (
+        index >= 6 &&
+        index < 9 &&
+        searchMethod.playlists.items[index - 6] &&
+        searchMethod.playlists.items[index - 6].images &&
+        searchMethod.playlists.items[index - 6].images[0] &&
+        searchMethod.playlists.items[index - 6].images[0].url
+      ) {
+        element.style.backgroundImage = `url(${
+          searchMethod.playlists.items[index - 6].images[0].url
+        })`;
+      }
+    });
+    },
+    searchItemText: function () {
+      document
+        .querySelectorAll(DOMElements.searchSongName)
+        .forEach((element) => {
+          let songName = element.innerHTML;
+          if (songName.length > 20) {
+            element.innerHTML = songName.substring(0, 20) + "...";
+          }
+        });
 
+      document
+        .querySelectorAll(DOMElements.searchArtistName)
+        .forEach((element) => {
+          let artistName = element.innerHTML;
+          if (artistName.length > 20) {
+            element.innerHTML = artistName.substring(0, 20) + "...";
+          }
+        });
+    },
+
+    // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
+  };
+})();
+
+// APP Controller Module
+const APPController = (async function (UICtrl, APICtrl) {
+  const DOMInputs = UICtrl.inputField();
+
+  // After the user is redirected back
+  window.addEventListener("load", async () => {
+    if (accessToken) {
+      const userType = await APICtrl.getUserProfile(accessToken);
+
+      if (userType.product !== "premium") {
+        // redirect to free subscription page
+        window.location.href = "/free-subscription";
+      }
+    }
+  });
+
+  const accessToken = new URLSearchParams(
+    window.location.hash.substring(1)
+  ).get("access_token");
+
+  document
+    .querySelector(".logo-link")
+    .setAttribute("href", window.location.href);
+  // const accessToken = new URLSearchParams(
+  //   window.location.hash.substring(1)
+  // ).get("access_token");
+
+  if (accessToken) {
+    const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
+
+    // variables
+    var inputElement = document.querySelector(
+      '.search-inner-box-main input[type="text"]'
+    );
+    var playlistElement = document.querySelectorAll(".every-result");
+    var playlistHeading = document.querySelectorAll(".search-result-heading");
+    var searchList = ["Albums", "Playlists", "Songs"];
+
+    //  Functions
+    // Function to update search results
+    async function updateSearchResults(inputValue) {
+      var searchMethod;
+
+      if (inputValue === "") {
+        playlistHeading.forEach((singleElement, index) => {
+          singleElement.innerHTML = index !== 0 ? "" : "Trending";
+        });
+        playlistElement.forEach((singleElement, index) => {
+          singleElement.style.marginTop = index !== 0 ? "21px" : "0px";
+        });
+        // If the input value is empty, show default search results (e.g., "Sad")
+        searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
+        UICtrl.displaySearchRecommendation(searchMethod);
+      } else {
+        playlistHeading.forEach((singleElement, index) => {
+          singleElement.innerHTML =
+            index !== 0 ? searchList[index - 1] : "Trending";
+        });
+        playlistElement.forEach((singleElement, index) => {
+          singleElement.style.marginTop = index !== 0 ? "0px" : "0px";
+        });
+        // Otherwise, perform search based on the input value
+        searchMethod = await APICtrl.getConnectSearch(
+          accessToken,
+          inputValue,
+          "track"
+        );
+        UICtrl.displaySearchSongs(searchMethod);
+
+        searchMethod = await APICtrl.getConnectSearch(
+          accessToken,
+          inputValue,
+          "album"
+        );
+        UICtrl.displaySearchAlbums(searchMethod);
 
         searchMethod = await APICtrl.getConnectSearch(
           accessToken,
           inputValue,
           "playlist"
         );
-
-        document
-          .querySelectorAll(".result-text h4")
-          .forEach((element, index) => {
-            if (index >= 6 && index < 9) {
-              let songName = searchMethod.playlists.items[index - 6].name;
-              if (songName.length > 30) {
-                songName = songName.substring(0, 27) + "...";
-              }
-              element.innerHTML = songName;
-            }
-          });
-        document
-          .querySelectorAll(".result-text h5")
-          .forEach((element, index) => {
-            if (index >= 6 && index < 9) {
-              let ownerName =
-                searchMethod.playlists.items[index - 6].owner.display_name;
-              if (ownerName.length > 14) {
-                ownerName = ownerName.substring(0, 14) + "...";
-              }
-              element.innerHTML = ownerName;
-            }
-          });
-        document.querySelectorAll(".result-image").forEach((element, index) => {
-          if (
-            index >= 6 &&
-            index < 9 &&
-            searchMethod.playlists.items[index - 6] &&
-            searchMethod.playlists.items[index - 6].images &&
-            searchMethod.playlists.items[index - 6].images[0] &&
-            searchMethod.playlists.items[index - 6].images[0].url
-          ) {
-            element.style.backgroundImage = `url(${
-              searchMethod.playlists.items[index - 6].images[0].url
-            })`;
-          }
-        });
+        UICtrl.displaySearchPlaylists(searchMethod);
       }
       // console.log("input", inputElement);
       UICtrl.displaySearchRecommendation(searchMethod);
 
       // Reset styles and headings
     }
-
-    // Initial search with default query ("Sad")
     updateSearchResults("");
-
     inputElement.addEventListener("keyup", async function (event) {
       var inputValue = inputElement.value.trim();
       await updateSearchResults(inputValue);
     });
 
+
+    // async function searchAlbumsNewReleases(inputValue) {
+    //   let searchMethod = await APICtrl.getConnectSearch(accessToken, inputValue, "album");
+    //   // document
+    //   // .querySelectorAll(".album-upper-name")
+    //   // .forEach((element, index) => {
+    //   //   let albumName = searchMethod.albums.items[index].name;
+    //   //   if (albumName.length > 30) {
+    //   //     albumName = albumName.substring(0, 27) + "...";
+    //   //   }
+    //   //   element.innerHTML = albumName;
+    //   // });
+    //   // document
+    //   // .querySelectorAll(".album-upper-artist")
+    //   // .forEach((element, index) => {
+    //   //   let artistNames = searchMethod.albums.items[index].artists
+    //   //     .map((artist) => artist.name)
+    //   //     .join(", ");
+    //   //   if (artistNames.length > 18) {
+    //   //     artistNames = artistNames.substring(0, 18) + "...";
+    //   //   }
+    //   //   element.innerHTML = "pakisfdkl";
+    //   // });
+      
+    // document.querySelectorAll(".album-upper-image").forEach((element, index) => {
+    //   if (
+    //     index >= 3 && index < 6 &&
+    //     searchMethod.albums.items[index - 3] &&
+    //     searchMethod.albums.items[index - 3].images &&
+    //     searchMethod.albums.items[index - 3].images[0] &&
+    //     searchMethod.albums.items[index - 3].images[0].url
+    //   ) {
+    //     element.innerHTML = `<img src="${newReleases.albums.items[index + randomNumber].images[0].url}" class="best-release-img" alt="singer_image">`;
+    //   }
+    // });
+      
+    // }
+    // inputValue = "love";
+    // await searchAlbumsNewReleases(inputValue);
+    // Enter button for search
+    inputElement.addEventListener("keydown", async function (event) {
+      if (event.key === "Enter") {
+        const inputValue = inputElement.value.trim();
+        // console.log();
+        // await searchAlbumsNewReleases(inputValue);
+      }
+    });
+
+     
     document
       .querySelector(".navbar-clear-btn")
       .addEventListener("click", function () {
@@ -810,23 +872,24 @@ const APPController = (async function (UICtrl, APICtrl) {
         updateSearchResults("");
       });
 
+    // APPController.init();
     const userProfile = await APICtrl.getUserProfile(accessToken);
-    UICtrl.displayUserProfile(userProfile);
-
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
-
     const currentArtist = await APICtrl.getArtist(
       accessToken,
       currentlyPlaying.item.artists[0].id
     );
+    // const newReleases = await APICtrl.getNewReleases(accessToken);
 
+    // UICtrl display methods
+    UICtrl.displayUserProfile(userProfile);
     UICtrl.displayArtistName(currentlyPlaying);
     UICtrl.displayCurrentSongName(currentlyPlaying);
     UICtrl.displayArtistImage(currentArtist);
+    UICtrl.displayUserPlaylists(playlists);
+    UICtrl.searchItemText();
+    // UICtrl.displayNewReleases(newReleases);
 
-    const newReleases = await APICtrl.getNewReleases(accessToken);
-
-    console.log();
 
     artistData(currentArtist.name);
   }
@@ -836,5 +899,6 @@ const APPController = (async function (UICtrl, APICtrl) {
     },
   };
 })(UIController, APIController);
+
 
 // APPController.init();
