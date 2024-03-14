@@ -911,11 +911,15 @@ const APPController = (async function (UICtrl, APICtrl) {
       if (event.key === "Enter") {
         const inputValue = inputElement.value.trim();
         await searchAlbumsNewReleases(inputValue);
-        // var inputElements = document.querySelector(".navbar-input-and-show-container input");
-        // inputElements.value = `<input type="text" x-on:focus="desktopNavSearchopen = false"
-        // :class="desktopNavSearchopen ? 'hidden' : 'search_input'" placeholder="Search"
-        // class="transition-all duration-500" x-cloak
-        // x-on:keydown.enter="desktopNavSearchopen = false" />`;
+
+
+        var inputElements1 = document.querySelector(".navbar-input-and-show-container-close");
+        var inputElements = document.querySelector(".search-main-box");
+        
+        inputElements.style.display = "none";
+        inputElements1.style.display = "block";
+        inputElements.classList.add("animate__fadeOut");
+        inputElements1.classList.add("animate__fadeIn");
         // console.log("Check", inputElements);
       }
     });
