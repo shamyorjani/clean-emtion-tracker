@@ -11,7 +11,7 @@ $(document).ready(function () {
     autoplay: true,
     infinite: true,
     speed: 200,
-    slidesToShow: 3,
+    slidesToShow: 4, // Increase the number of slides to show to 4
     slidesToScroll: 1,
     centerMode: false,
     variableWidth: false,

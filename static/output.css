@@ -724,6 +724,10 @@ video {
   margin-bottom: 0.5rem;
 }
 
+.ml-52{
+  margin-left: 13rem;
+}
+
 .ml-6{
   margin-left: 1.5rem;
 }
@@ -912,10 +916,6 @@ video {
   width: 50vw;
 }
 
-.w-\[56vw\]{
-  width: 56vw;
-}
-
 .w-\[580px\]{
   width: 580px;
 }
@@ -934,6 +934,10 @@ video {
 
 .w-\[80\%\]{
   width: 80%;
+}
+
+.w-\[85vw\]{
+  width: 85vw;
 }
 
 .w-\[92\.5\%\]{
@@ -956,8 +960,8 @@ video {
   flex-basis: 33.333333%;
 }
 
-.basis-3\/6{
-  flex-basis: 50%;
+.basis-4\/6{
+  flex-basis: 66.666667%;
 }
 
 .origin-center{
@@ -2788,6 +2792,7 @@ html {
 
 .album-upper-name{
   margin-top: 0.25rem;
+  padding-right: 0.5rem;
   font-family: poppins-regular, sans-serif;
   font-size: 11px;
   --tw-text-opacity: 1;
@@ -3610,13 +3615,25 @@ html {
 
 .mobile-albums-new-release{
   width: 100%;
+  justify-content: flex-end;
+}
+
+@media (min-width: 1280px){
+  .mobile-albums-new-release{
+    width: 68%;
+  }
 }
 
 .mobile-albums-list-carousel{
   margin-left: 0.5rem;
-  width: 95%;
   padding-left: 0.75rem;
   padding-right: 0.5rem;
+}
+
+@media (min-width: 1280px){
+  .mobile-albums-list-carousel{
+    width: 65%;
+  }
 }
 
 .new-release-heading{
