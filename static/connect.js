@@ -1001,7 +1001,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       accessToken,
       currentlyPlaying.item.artists[0].id
     );
-    // const newReleases = await APICtrl.getNewReleases(accessToken);
+    const newReleases = await APICtrl.getNewReleases(accessToken);
 
     // UICtrl display methods
     UICtrl.displayUserProfile(userProfile);
@@ -1010,7 +1010,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.displayArtistImage(currentArtist);
     UICtrl.displayUserPlaylists(playlists);
     UICtrl.searchItemText();
-    // UICtrl.displayNewReleases(newReleases);
+    UICtrl.displayNewReleases(newReleases);
 
     artistData(currentArtist.name);
     getNext(currentlyPlaying);
