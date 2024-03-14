@@ -231,94 +231,91 @@ const UIController = (function () {
     // playlistHeading : ".search-result-heading",
     // Add more selectors as needed
   };
-  // const attachPlayTrackEvent = function (trackItem, track, accessToken) {
-  //   trackItem.addEventListener("click", function () {
-  //     // Call a function to play the selected track
-  //     playTrack(accessToken, track.uri);
-  //   });
-  // };
+  const attachPlayTrackEvent = function (trackItem, track, accessToken) {
+    trackItem.addEventListener("click", function () {
+      // Call a function to play the selected track
+      playTrack(accessToken, track.uri);
+    });
+  };
+  const playTrack = function (accessToken, trackUri) {
+    const player = new Spotify.Player({
+      name: "Your App Name",
+      getOAuthToken: (cb) => {
+        cb(accessToken);
+      },
+    });
+    // window.onSpotifyWebPlaybackSDKReady = (accessToken, trackUri) => {
+    //   const player = new Spotify.Player({
+    //     name: "Web Playback SDK Quick Start Player",
+    //     getOAuthToken: (cb) => {
+    //       cb(accessToken);
+    //     },
+    //     volume: 0.5,
+    //   });
 
-  // const attachPlayTrackEvent = function (track, accessToken) {
-  //   playTrack(accessToken, track.uri);
-  //   console.log("done the play track");
-  // };
-  // const playTrack = function (accessToken, trackUri) {
-  //   const player = new Spotify.Player({
-  //     name: "Your App Name",
-  //     getOAuthToken: (cb) => {
-  //       cb(accessToken);
-  //     },
-  //   });
+    // Error handling
+    player.addListener("initialization_error", ({ message }) => {
+      console.log("initilizaion error");
+      console.error(message);
+    });
+    player.addListener("authentication_error", ({ message }) => {
+      console.log("authentican error" + accessToken + " " + trackUri);
+      console.error(message);
+    });
+    player.addListener("account_error", ({ message }) => {
+      console.error(message);
+    });
+    player.addListener("playback_error", ({ message }) => {
+      console.error(message);
+    });
 
-  //   // Error handling
-  //   player.addListener("initialization_error", ({ message }) => {
-  //     console.log("initilizaion error");
-  //     console.error(message);
-  //   });
-  //   player.addListener("authentication_error", ({ message }) => {
-  //     console.log("authentican error" + accessToken + " " + trackUri);
-  //     console.error(message);
-  //   });
-  //   player.addListener("account_error", ({ message }) => {
-  //     console.error(message);
-  //   });
-  //   player.addListener("playback_error", ({ message }) => {
-  //     console.error(message);
-  //   });
+    // Playback status updates
+    player.addListener("player_state_changed", (state) => {
+      console.log(state);
+    });
 
-  //   // Playback status updates
-  //   player.addListener("player_state_changed", (state) => {
-  //     console.log(state);
-  //   });
+    // Ready
+    player.addListener("ready", ({ device_id }) => {
+      console.log("Ready with Device ID", device_id);
+      // Play the selected track
+      playOnDevice(accessToken, device_id, trackUri);
+    });
 
-  //   // Ready
-  //   player.addListener("ready", ({ device_id }) => {
-  //     console.log("Ready with Device ID", device_id);
-  //     // Play the selected track
-  //     playOnDevice(accessToken, device_id, trackUri);
-  //   });
+    // Connect to the player
+    player.connect().then((success) => {
+      if (success) {
+        console.log("The Web Playback SDK successfully connected to Spotify!");
+      }
+    });
+    document.querySelector(".togglePlay").addEventListener("click", () => {
+      player.togglePlay().then(() => {
+        console.log("Toggled playback!");
+      });
+    });
 
-  //   // Connect to the player
-  //   player.connect().then((success) => {
-  //     if (success) {
-  //       console.log("The Web Playback SDK successfully connected to Spotify!");
-  //     }
-  //   });
-  //   // document.querySelector(".togglePlay").addEventListener("click", () => {
-  //   //   player.togglePlay().then(() => {
-  //   //     console.log("Toggled playback!");
-  //   //   });
-  //   // });
+    // Spotify Web Playback SDK ready callback
+  };
+  window.onSpotifyWebPlaybackSDKReady = () => {
+    console.log("Spotify Web Playback SDK is ready.");
+  };
 
-  //   document.querySelector(".nextBtn").addEventListener("click", () => {
-  //     player.next().then(() => {
-  //       console.log("Toggled playback!");
-  //     });
-  //   });
+  const playOnDevice = async function (accessToken, deviceId, trackUri) {
+    const playEndpoint = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
 
-  //   // Spotify Web Playback SDK ready callback
-  // };
-  // window.onSpotifyWebPlaybackSDKReady = () => {
-  //   console.log("Spotify Web Playback SDK is ready.");
-  // };
+    const result = await fetch(playEndpoint, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        uris: [trackUri],
+      }),
+    });
 
-  // const playOnDevice = async function (accessToken, deviceId, trackUri) {
-  //   const playEndpoint = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
-
-  //   await fetch(playEndpoint, {
-  //     method: "PUT",
-  //     headers: {
-  //       "Content-Type": "application/json",
-  //       Authorization: `Bearer ${accessToken}`,
-  //     },
-  //     body: JSON.stringify({
-  //       uris: [trackUri],
-  //     }),
-  //   });
-
-  //   // const data = await result.json();
-  //   // console.log(data);
-  // };
+    const data = await result.json();
+    console.log(data);
+  };
 
   return {
     inputField: function () {
@@ -437,7 +434,11 @@ const UIController = (function () {
         const trackItem = document.createElement("div");
         trackItem.innerHTML = `<p>${track.track.name} by ${track.track.artists[0].name}</p>`;
         recentlyPlayedContainer.appendChild(trackItem);
-        // attachPlayTrackEvent(trackItem, track.track, accessToken);
+
+        // Make the track clickable
+        // console.log(recentlyPlayedTracks);
+        // console.log(accessToken);
+        attachPlayTrackEvent(trackItem, track.track, accessToken);
       });
     },
     displayArtistName: function (currentlyPlaying) {
@@ -497,16 +498,14 @@ const UIController = (function () {
         .querySelectorAll(DOMElements.newReleasesImage)
         .forEach(
           (singleImage, index) =>
-            (singleImage.innerHTML = `<img src="${
-              newReleases.albums.items[index + randomNumber].images[0].url
-            }" class="best-release-img" alt="singer_image">`)
+            (singleImage.innerHTML = `<img src="${newReleases.albums.items[index + randomNumber].images[0].url}" class="best-release-img" alt="singer_image">`)
         );
       document
         .querySelectorAll(DOMElements.newReleasesName)
         .forEach((name, index) => {
           let albumName = newReleases.albums.items[index + randomNumber].name;
           if (albumName.length > 30) {
-            albumName = albumName.substring(0, 30) + "...";
+        albumName = albumName.substring(0, 30) + "...";
           }
           name.innerHTML = albumName;
         });
@@ -517,14 +516,16 @@ const UIController = (function () {
       document
         .querySelectorAll(DOMElements.newReleasesArtist)
         .forEach((artist, index) => {
-          let artistNames = newReleases.albums.items[
-            index + randomNumber
-          ].artists.map((artist) => artist.name);
+          let artistNames = newReleases.albums.items[index + randomNumber].artists.map(
+        (artist) => artist.name
+          );
           if (artistNames.length > 14) {
-            artistNames = artistNames.substring(0, 14) + "...";
+        artistNames = artistNames.substring(0, 14) + "...";
           }
           artist.innerHTML += artistNames.join(", ");
         });
+
+      
     },
     displaySearchRecommendation: function (searchMethod) {
       document
@@ -560,101 +561,108 @@ const UIController = (function () {
       });
     },
     displaySearchSongs: function (searchMethod) {
-      document.querySelectorAll(".result-text h4").forEach((element, index) => {
-        if (index < 3 || index >= 9) {
-          let songName;
-          if (index >= 9) {
-            songName = searchMethod.tracks.items[index - 9].name;
-          } else {
-            songName = searchMethod.tracks.items[index].name;
-          }
-          if (songName.length > 30) {
-            songName = songName.substring(0, 27) + "...";
-          }
-          element.innerHTML = songName;
-        }
-      });
-      document.querySelectorAll(".result-text h5").forEach((element, index) => {
-        if (index < 3 || index >= 9) {
-          let artistNames;
-          if (index >= 9) {
-            artistNames = searchMethod.tracks.items[index - 6].artists
-              .map((artist) => artist.name)
-              .join(", ");
-          } else {
-            artistNames = searchMethod.tracks.items[index].artists
-              .map((artist) => artist.name)
-              .join(", ");
-          }
-          if (artistNames.length > 14) {
-            artistNames = artistNames.substring(0, 14) + "...";
-          }
+      document
+          .querySelectorAll(".result-text h4")
+          .forEach((element, index) => {
+            if (index < 3 || index >= 9) {
+              let songName;
+              if (index >= 9) {
+                songName = searchMethod.tracks.items[index - 9].name;
+              } else {
+                songName = searchMethod.tracks.items[index].name;
+              }
+              if (songName.length > 30) {
+                songName = songName.substring(0, 27) + "...";
+              }
+              element.innerHTML = songName;
+            }
+          });
+        document
+          .querySelectorAll(".result-text h5")
+          .forEach((element, index) => {
+            if (index < 3 || index >= 9) {
+              let artistNames;
+              if (index >= 9) {
+                artistNames = searchMethod.tracks.items[index - 6].artists
+                  .map((artist) => artist.name)
+                  .join(", ");
+              } else {
+                artistNames = searchMethod.tracks.items[index].artists
+                  .map((artist) => artist.name)
+                  .join(", ");
+              }
+              if (artistNames.length > 14) {
+                artistNames = artistNames.substring(0, 14) + "...";
+              }
 
-          element.innerHTML = artistNames;
-        }
-      });
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          index < 3 &&
-          searchMethod.tracks.items[index] &&
-          searchMethod.tracks.items[index].album &&
-          searchMethod.tracks.items[index].album.images &&
-          searchMethod.tracks.items[index].album.images[0] &&
-          searchMethod.tracks.items[index].album.images[0].url
-        ) {
-          element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
-        } else if (
-          index >= 6 &&
-          searchMethod.tracks.items[index - 6] &&
-          searchMethod.tracks.items[index - 6].album &&
-          searchMethod.tracks.items[index - 6].album.images &&
-          searchMethod.tracks.items[index - 6].album.images[0] &&
-          searchMethod.tracks.items[index - 6].album.images[0].url
-        ) {
-          element.style.backgroundImage = `url(${
+              element.innerHTML = artistNames;
+            }
+          });
+        document.querySelectorAll(".result-image").forEach((element, index) => {
+          if (
+            index < 3 &&
+            searchMethod.tracks.items[index] &&
+            searchMethod.tracks.items[index].album &&
+            searchMethod.tracks.items[index].album.images &&
+            searchMethod.tracks.items[index].album.images[0] &&
+            searchMethod.tracks.items[index].album.images[0].url
+          ) {
+            element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
+          } else if (
+            index >= 6 &&
+            searchMethod.tracks.items[index - 6] &&
+            searchMethod.tracks.items[index - 6].album &&
+            searchMethod.tracks.items[index - 6].album.images &&
+            searchMethod.tracks.items[index - 6].album.images[0] &&
             searchMethod.tracks.items[index - 6].album.images[0].url
-          })`;
-        }
-      });
+          ) {
+            element.style.backgroundImage = `url(${
+              searchMethod.tracks.items[index - 6].album.images[0].url
+            })`;
+          }
+        });
     },
     displaySearchAlbums: function (searchMethod) {
-      document.querySelectorAll(".result-text h4").forEach((element, index) => {
-        if (index >= 3 && index < 6) {
-          let albumName = searchMethod.albums.items[index - 3].name;
-          if (albumName.length > 30) {
-            albumName = albumName.substring(0, 27) + "...";
-          }
-          element.innerHTML = albumName;
-        }
-      });
-      document.querySelectorAll(".result-text h5").forEach((element, index) => {
-        if (index >= 3 && index < 6) {
-          let artistNames = searchMethod.albums.items[index - 3].artists
-            .map((artist) => artist.name)
-            .join(", ");
-          if (artistNames.length > 18) {
-            artistNames = artistNames.substring(0, 18) + "...";
-          }
-          element.innerHTML = artistNames;
-        }
-      });
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          index >= 3 &&
-          index < 6 &&
-          searchMethod.albums.items[index - 3] &&
-          searchMethod.albums.items[index - 3].images &&
-          searchMethod.albums.items[index - 3].images[0] &&
-          searchMethod.albums.items[index - 3].images[0].url
-        ) {
-          element.style.backgroundImage = `url(${
-            searchMethod.albums.items[index - 3].images[0].url
-          })`;
-        }
-      });
+      document
+            .querySelectorAll(".result-text h4")
+            .forEach((element, index) => {
+              if (index >= 3 && index < 6) {
+              let albumName = searchMethod.albums.items[index - 3].name;
+              if (albumName.length > 30) {
+                albumName = albumName.substring(0, 27) + "...";
+              }
+              element.innerHTML = albumName;
+              }
+            });
+            document
+            .querySelectorAll(".result-text h5")
+            .forEach((element, index) => {
+              if (index >= 3 && index < 6) {
+              let artistNames = searchMethod.albums.items[index - 3].artists
+                .map((artist) => artist.name)
+                .join(", ");
+              if (artistNames.length > 18) {
+                artistNames = artistNames.substring(0, 18) + "...";
+              }
+              element.innerHTML = artistNames;
+              }
+            });
+          document.querySelectorAll(".result-image").forEach((element, index) => {
+            if (
+              index >= 3 && index < 6 &&
+              searchMethod.albums.items[index - 3] &&
+              searchMethod.albums.items[index - 3].images &&
+              searchMethod.albums.items[index - 3].images[0] &&
+              searchMethod.albums.items[index - 3].images[0].url
+            ) {
+              element.style.backgroundImage = `url(${searchMethod.albums.items[index - 3].images[0].url})`;
+            }
+          });
     },
     displaySearchPlaylists: function (searchMethod) {
-      document.querySelectorAll(".result-text h4").forEach((element, index) => {
+      document
+      .querySelectorAll(".result-text h4")
+      .forEach((element, index) => {
         if (index >= 6 && index < 9) {
           let songName = searchMethod.playlists.items[index - 6].name;
           if (songName.length > 30) {
@@ -663,7 +671,9 @@ const UIController = (function () {
           element.innerHTML = songName;
         }
       });
-      document.querySelectorAll(".result-text h5").forEach((element, index) => {
+    document
+      .querySelectorAll(".result-text h5")
+      .forEach((element, index) => {
         if (index >= 6 && index < 9) {
           let ownerName =
             searchMethod.playlists.items[index - 6].owner.display_name;
@@ -673,20 +683,20 @@ const UIController = (function () {
           element.innerHTML = ownerName;
         }
       });
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          index >= 6 &&
-          index < 9 &&
-          searchMethod.playlists.items[index - 6] &&
-          searchMethod.playlists.items[index - 6].images &&
-          searchMethod.playlists.items[index - 6].images[0] &&
+    document.querySelectorAll(".result-image").forEach((element, index) => {
+      if (
+        index >= 6 &&
+        index < 9 &&
+        searchMethod.playlists.items[index - 6] &&
+        searchMethod.playlists.items[index - 6].images &&
+        searchMethod.playlists.items[index - 6].images[0] &&
+        searchMethod.playlists.items[index - 6].images[0].url
+      ) {
+        element.style.backgroundImage = `url(${
           searchMethod.playlists.items[index - 6].images[0].url
-        ) {
-          element.style.backgroundImage = `url(${
-            searchMethod.playlists.items[index - 6].images[0].url
-          })`;
-        }
-      });
+        })`;
+      }
+    });
     },
     searchItemText: function () {
       document
@@ -716,128 +726,6 @@ const UIController = (function () {
 const APPController = (async function (UICtrl, APICtrl) {
   const DOMInputs = UICtrl.inputField();
 
-  const attachPlayTrackEvent = function (track, accessToken) {
-    playTrack(accessToken, track.uri);
-    console.log("done the play track");
-  };
-  const playTrack = function (accessToken, trackUri) {
-    const player = new Spotify.Player({
-      name: "Your App Name",
-      getOAuthToken: (cb) => {
-        cb(accessToken);
-      },
-    });
-
-    // Error handling
-    player.addListener("initialization_error", ({ message }) => {
-      console.log("initilizaion error");
-      console.error(message);
-    });
-    player.addListener("authentication_error", ({ message }) => {
-      console.log("authentican error" + accessToken + " " + trackUri);
-      console.error(message);
-    });
-    player.addListener("account_error", ({ message }) => {
-      console.error(message);
-    });
-    player.addListener("playback_error", ({ message }) => {
-      console.error(message);
-    });
-
-    // Playback status updates
-    player.addListener("player_state_changed", (state) => {
-      console.log(state);
-    });
-
-    // Ready
-    player.addListener("ready", ({ device_id }) => {
-      console.log("Ready with Device ID", device_id);
-      // Play the selected track
-      playOnDevice(accessToken, device_id, trackUri);
-    });
-
-    // Connect to the player
-    player.connect().then((success) => {
-      if (success) {
-        console.log("The Web Playback SDK successfully connected to Spotify!");
-      }
-    });
-    // document.querySelector(".togglePlay").addEventListener("click", () => {
-    //   player.togglePlay().then(() => {
-    //     console.log("Toggled playback!");
-    //   });
-    // });
-
-    player.getCurrentState().then((state) => {
-      if (!state) {
-        console.error("User is not playing music through the Web Playback SDK");
-        return;
-      }
-
-      var current_track = state.track_window.current_track;
-      var next_track = state.track_window.next_tracks[0];
-
-      console.log("Currently Playing", current_track);
-      console.log("Playing Next", next_track);
-    });
-
-    player.addListener(
-      "player_state_changed",
-      ({ position, duration, track_window: { current_track } }) => {
-        console.log("Currently Playing", current_track);
-        console.log("Position in Song", position);
-        console.log("Duration of Song", duration);
-      }
-    );
-
-    document.querySelector(".playBtn").addEventListener("click", () => {
-      player.resume().then(() => {
-        console.log("Toggled playback!");
-      });
-    });
-
-    document.querySelector(".pauseBtn").addEventListener("click", () => {
-      player.pause().then(() => {
-        console.log("Toggled playback!");
-      });
-    });
-
-    document.querySelector(".nextBtn").addEventListener("click", () => {
-      player.nextTrack().then((error) => {
-        console.log("next error playback!", error);
-      });
-    });
-
-    document.querySelector(".previousBtn").addEventListener("click", () => {
-      player.previousTrack().then((error) => {
-        console.log("previous error playback!", error);
-      });
-    });
-
-    // Spotify Web Playback SDK ready callback
-  };
-  window.onSpotifyWebPlaybackSDKReady = () => {
-    console.log("Spotify Web Playback SDK is ready.");
-  };
-
-  const playOnDevice = async function (accessToken, deviceId, trackUri) {
-    const playEndpoint = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
-
-    await fetch(playEndpoint, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        uris: [trackUri],
-      }),
-    });
-
-    // const data = await result.json();
-    // console.log(data);
-  };
-
   // After the user is redirected back
   window.addEventListener("load", async () => {
     if (accessToken) {
@@ -862,14 +750,6 @@ const APPController = (async function (UICtrl, APICtrl) {
   // ).get("access_token");
 
   if (accessToken) {
-    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
-      accessToken
-    );
-
-    recentlyPlayedTracks.items.forEach((track) => {
-      console.log("recently played tracks", track.track);
-      attachPlayTrackEvent(track.track, accessToken);
-    });
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
 
     // variables
@@ -936,6 +816,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       await updateSearchResults(inputValue);
     });
 
+
     // async function searchAlbumsNewReleases(inputValue) {
     //   let searchMethod = await APICtrl.getConnectSearch(accessToken, inputValue, "album");
     //   // document
@@ -958,7 +839,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     //   //   }
     //   //   element.innerHTML = "pakisfdkl";
     //   // });
-
+      
     // document.querySelectorAll(".album-upper-image").forEach((element, index) => {
     //   if (
     //     index >= 3 && index < 6 &&
@@ -970,7 +851,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     //     element.innerHTML = `<img src="${newReleases.albums.items[index + randomNumber].images[0].url}" class="best-release-img" alt="singer_image">`;
     //   }
     // });
-
+      
     // }
     // inputValue = "love";
     // await searchAlbumsNewReleases(inputValue);
@@ -983,6 +864,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       }
     });
 
+     
     document
       .querySelector(".navbar-clear-btn")
       .addEventListener("click", function () {
@@ -992,10 +874,6 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     // APPController.init();
     const userProfile = await APICtrl.getUserProfile(accessToken);
-    UICtrl.displayUserProfile(userProfile);
-
-    // UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
-
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     const currentArtist = await APICtrl.getArtist(
       accessToken,
@@ -1012,51 +890,8 @@ const APPController = (async function (UICtrl, APICtrl) {
     UICtrl.searchItemText();
     UICtrl.displayNewReleases(newReleases);
 
+
     artistData(currentArtist.name);
-    getNext(currentlyPlaying);
-
-    document.querySelector(".nextBtn").addEventListener("click", async () => {
-      await fetch("https://api.spotify.com/v1/me/player/next", {
-        method: "POST",
-        headers: {
-          Authorization: "Bearer " + accessToken,
-        },
-      });
-    });
-
-    document
-      .querySelector(".previousBtn")
-      .addEventListener("click", async () => {
-        await fetch("https://api.spotify.com/v1/me/player/previous", {
-          method: "POST",
-          headers: {
-            Authorization: "Bearer " + accessToken,
-          },
-        });
-      });
-
-    document.querySelector(".pauseBtn").addEventListener("click", async () => {
-      await fetch("https://api.spotify.com/v1/me/player/pause", {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + accessToken,
-        },
-      });
-    });
-
-    document.querySelector(".playBtn").addEventListener("click", async () => {
-      await fetch("https://api.spotify.com/v1/me/player/play", {
-        method: "PUT",
-        headers: {
-          Authorization: "Bearer " + accessToken,
-        },
-      });
-    });
-    // Call startPolling with your access token and polling interval
-    // const startPolling = (accessToken, interval) => {
-    //   setInterval(async () => {}, interval);
-    // };
-    // startPolling(accessToken, 5000);
   }
   return {
     init: function () {
@@ -1064,5 +899,6 @@ const APPController = (async function (UICtrl, APICtrl) {
     },
   };
 })(UIController, APIController);
+
 
 // APPController.init();
