@@ -38,17 +38,16 @@ function createAudioPlayer() {
     audioPlayer.currentTime = percent * audioPlayer.duration;
   }
 
-  function displayTime(seconds) {
-    var minutes = parseInt(seconds / 60);
-    seconds = parseInt(seconds - minutes * 60);
-    return minutes + ":" + seconds;
-  }
-
   function updateTime() {
     informationDivLeft.innerHTML = displayTime(audioPlayer.currentTime);
     informationDivRight.innerHTML = displayTime(audioPlayer.duration);
     var percent = audioPlayer.currentTime / audioPlayer.duration;
     progressmeter.style.width = percent * progressbarWidth + "px";
+  }
+  function displayTime(seconds) {
+    var minutes = parseInt(seconds / 60);
+    seconds = parseInt(seconds - minutes * 60);
+    return minutes + ":" + seconds;
   }
 
   function playCurrentTrack() {

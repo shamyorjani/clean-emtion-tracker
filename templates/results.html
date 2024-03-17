@@ -7,7 +7,7 @@
   <!-- #181b1f -->
 
   <body class="bg-[#181b1f] overflow-hidden"
-    x-data="{controls:true, mobileHome:true, mobileAlbums:false, mobileArtist:false, desktopNavSearchopen:false}">
+    x-data="{controls:false, mobileHome:true, mobileAlbums:false, mobileArtist:false, desktopNavSearchopen:false,albumModal:false}">
     <div id="fullscreen-animator"></div>
     <div class="loader-container">
       <div class="lds-ripple">
@@ -16,10 +16,19 @@
       </div>
     </div>
     <div class="main">
+      <div class="player-loader">
+        <div class="lds-ripple">
+          <div></div>
+          <div></div>
+        </div>
+      </div>
     </div>
     <!-- desktop -->
     <main class="app main-desktop section overflow-x-hidden" id="top-section">
       {% include 'desktop/navbar.html' %}
+      <button style="color: white;font-size: 30px;" class="playsong">pllay song</button>
+      
+      <button class="next-button text-white">next song</button>
 
 
     

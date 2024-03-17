@@ -1,325 +1,556 @@
 <div class="albums-playlist" id="albums-bottom-section">
-    <div class="albums-playlist-body sticky top-0">
-        <div>
-
-            <ul x-data="{ activeTab: 'overview' }" class="flex">
-                <li class="mr-4" x-on:click="activeTab = 'overview'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">OVERVIEW</a>
-                    <div>
-                        <hr x-show="activeTab === 'overview'" x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-                <li class="mr-4" x-on:click="activeTab = 'podcasts'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">PODCASTS</a>
-                    <div>
-                        <hr x-show="activeTab === 'podcasts'" x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-                <li class="mr-4" x-on:click="activeTab = 'charts'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">CHARTS</a>
-                    <div>
-                        <hr x-show="activeTab === 'charts'" x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-                <li class="mr-4" x-on:click="activeTab = 'new releases'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">NEW RELEASES</a>
-                    <div>
-                        <hr x-show="activeTab === 'new releases'" x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-                <li class="mr-4" x-on:click="activeTab = 'genres & moods'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">GENRES & MOODS</a>
-                    <div>
-                        <hr x-show="activeTab === 'genres & moods'"
-                            x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-                <li class="mr-4" x-on:click="activeTab = 'discover'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">DISCOVER</a>
-                    <div>
-                        <hr x-show="activeTab === 'discover'" x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-                <li class="mr-4" x-on:click="activeTab = 'concerts'">
-                    <a class="text-[#c0c0c0] font-semibold cursor-pointer">CONCERTS</a>
-                    <div>
-                        <hr x-show="activeTab === 'concerts'" x-transition:enter="transition ease-out duration-300"
-                            x-transition:enter-start="origin-center opacity-0 scale-90"
-                            x-transition:enter-end="opacity-100 scale-100"
-                            x-transition:leave="transition ease-in duration-300"
-                            x-transition:leave-start="opacity-100 scale-100" x-transition:leave-end="opacity-0 scale-90"
-                            class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2">
-                    </div>
-                </li>
-
-                <!-- Repeat for other tabs, changing the value of activeTab accordingly -->
-            </ul>
-        </div>
-        <div class="pr-4">
-            <hr class="w-[580px] pr-96 h-[2px] mx-auto bg-gray-100 border-0 rounded md:mt-7 dark:bg-gray-700">
-        </div>
-    </div>
+  <div class="albums-playlist-body sticky top-0">
     <div>
-        <div class="flex flex-row justify-end w-[85vw]  gap-2 mt-12">
-            <div class="basis-4/6 bg-transparent  ml-52 flex justify-top w-[100%] h-[115px]">
-                <div class="flex flex-col justify-center items-start text-white text-[18px] font-semibold">
-                    <h1>The Best</h1>
-                    <h1>New Release</h1>
-                </div>
-            </div>
-            
-            <div class="mobile-albums-new-release">
-                <div class="mobile-albums-list-carousel">
-                    <div class="basis-2/6 bg-transparent">
-                        <div class="album-upper-image border-none rounded-full">
-                            <img src="../static/assets/images/img1.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6 bg-transparent">
-                        <div class="album-upper-image border-none rounded-full">
-                            <img src="../static/assets/images/img1.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img2.jpeg" class="best-release-img " alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img3.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img4.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img3.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img4.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img3.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img4.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                    <div class="basis-2/6">
-                        <div class="album-upper-image">
-                            <img src="../static/assets/images/img3.jpeg" class="best-release-img" alt="singer_image">
-                        </div>
-                        <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
-                        <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
-                    </div>
-                </div>
-            </div>
-        </div>
+      <ul x-data="{ activeTab: 'overview' }" class="flex">
+        <li class="mr-4" x-on:click="activeTab = 'overview'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer">OVERVIEW</a>
+          <div>
+            <hr
+              x-show="activeTab === 'overview'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+        <li class="mr-4" x-on:click="activeTab = 'podcasts'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer">PODCASTS</a>
+          <div>
+            <hr
+              x-show="activeTab === 'podcasts'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+        <li class="mr-4" x-on:click="activeTab = 'charts'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer">CHARTS</a>
+          <div>
+            <hr
+              x-show="activeTab === 'charts'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+        <li class="mr-4" x-on:click="activeTab = 'new releases'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer"
+            >NEW RELEASES</a
+          >
+          <div>
+            <hr
+              x-show="activeTab === 'new releases'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+        <li class="mr-4" x-on:click="activeTab = 'genres & moods'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer"
+            >GENRES & MOODS</a
+          >
+          <div>
+            <hr
+              x-show="activeTab === 'genres & moods'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+        <li class="mr-4" x-on:click="activeTab = 'discover'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer">DISCOVER</a>
+          <div>
+            <hr
+              x-show="activeTab === 'discover'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+        <li class="mr-4" x-on:click="activeTab = 'concerts'">
+          <a class="text-[#c0c0c0] font-semibold cursor-pointer">CONCERTS</a>
+          <div>
+            <hr
+              x-show="activeTab === 'concerts'"
+              x-transition:enter="transition ease-out duration-300"
+              x-transition:enter-start="origin-center opacity-0 scale-90"
+              x-transition:enter-end="opacity-100 scale-100"
+              x-transition:leave="transition ease-in duration-300"
+              x-transition:leave-start="opacity-100 scale-100"
+              x-transition:leave-end="opacity-0 scale-90"
+              class="w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2"
+            />
+          </div>
+        </li>
+
+        <!-- Repeat for other tabs, changing the value of activeTab accordingly -->
+      </ul>
     </div>
-
-    <div class="my-10">
-        <div class="flex flex-row flex-wrap w-[50vw] gap-2">
-
-            <div class=" text-white text-[18px] font-semibold mb-2 w-[50vw]">
-                <h1>New Album & Singles</h1>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <div class="album-img-container">
-                    <img src="../static/assets/images/img2.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img3.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="album-upper-image border-none rounded-full">
-                    <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img2.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img3.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img1.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img3.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-            <div class="mt-4">
-                <div class="">
-                    <img src="../static/assets/images/img4.jpeg" class="album-img" alt="singer_image">
-                </div>
-                <div class="max-w-[130px]">
-                    <h2 class="font-poppinsRegular text-white text-[12px] mt-2">Lorem ipsum dolor sit amet.</h2>
-                    <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
-                </div>
-            </div>
-        </div>
+    <div class="pr-4">
+      <hr
+        class="w-[580px] pr-96 h-[2px] mx-auto bg-gray-100 border-0 rounded md:mt-7 dark:bg-gray-700"
+      />
     </div>
+  </div>
+  <div>
+    <div class="flex flex-row justify-end w-[85vw] gap-2 mt-12">
+      <div
+        class="basis-4/6 bg-transparent ml-52 flex justify-top w-[100%] h-[115px]"
+      >
+        <div
+          class="flex flex-col justify-center items-start text-white text-[18px] font-semibold"
+        >
+          <h1>The Best</h1>
+          <h1>New Release</h1>
+        </div>
+      </div>
+
+      <div class="mobile-albums-new-release">
+        <div class="mobile-albums-list-carousel">
+          <div class="basis-2/6 bg-transparent">
+            <div class="album-upper-image border-none rounded-full">
+              <img
+                src="../static/assets/images/img1.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6 bg-transparent">
+            <div class="album-upper-image border-none rounded-full">
+              <img
+                src="../static/assets/images/img1.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img2.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img3.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img4.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img3.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img4.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img3.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img4.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+          <div class="basis-2/6">
+            <div class="album-upper-image">
+              <img
+                src="../static/assets/images/img3.jpeg"
+                class="best-release-img"
+                alt="singer_image"
+              />
+            </div>
+            <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+            <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="my-10">
+    <div class="flex flex-row flex-wrap w-[50vw] gap-2">
+      <div class="text-white text-[18px] font-semibold mb-2 w-[50vw]">
+        <h1>New Album & Singles</h1>
+      </div>
+      <div class="mt-4" x-on:click="albumModal = true">
+        <div class="">
+          <img
+            src="../static/assets/images/img1.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="album-img-container">
+          <img
+            src="../static/assets/images/img2.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img3.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img4.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="album-upper-image border-none rounded-full">
+          <img
+            src="../static/assets/images/img1.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img4.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img1.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img2.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img3.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img4.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img1.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img4.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img1.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img3.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+      <div class="mt-4">
+        <div class="">
+          <img
+            src="../static/assets/images/img4.jpeg"
+            class="album-img"
+            alt="singer_image"
+          />
+        </div>
+        <div class="max-w-[130px]">
+          <h2 class="font-poppinsRegular text-white text-[12px] mt-2">
+            Lorem ipsum dolor sit amet.
+          </h2>
+          <h3 class="text-[#c0c0c0] text-[11px]">Lorem ipsum dolor.</h3>
+        </div>
+      </div>
+    </div>
+  </div>
 </div>
+{% include 'desktop/albums-songs-modal.html' %}
+
+<script>
+  function displayNewReleases(newReleases) {
+    const randomNumber = Math.floor(Math.random() * 40) + 1;
+
+    document
+      .querySelectorAll(".album-upper-image")
+      .forEach((singleImage, index) => {
+        if (index + randomNumber > newReleases.albums.items.length - 1) {
+          singleImage.innerHTML = `<img src="${
+            newReleases.albums.items[
+              index + randomNumber - newReleases.albums.items.length
+            ].images[0].url
+          }" class="best-release-img" alt="singer_image">`;
+        } else {
+          singleImage.innerHTML = `<img src="${
+            newReleases.albums.items[index + randomNumber].images[0].url
+          }" class="best-release-img" alt="singer_image">`;
+        }
+      });
+    document.querySelectorAll(".album-upper-name").forEach((name, index) => {
+      if (index + randomNumber > newReleases.albums.items.length - 1) {
+        let albumName =
+          newReleases.albums.items[
+            index + randomNumber - newReleases.albums.items.length
+          ].name;
+        if (albumName.length > 22) {
+          albumName = albumName.substring(0, 22) + "...";
+        }
+        name.innerHTML = albumName;
+      } else {
+        let albumName = newReleases.albums.items[index + randomNumber].name;
+        if (albumName.length > 22) {
+          albumName = albumName.substring(0, 22) + "...";
+        }
+        name.innerHTML = albumName;
+      }
+    });
+
+    document
+      .querySelectorAll(".album-upper-artist")
+      .forEach((artist) => (artist.innerHTML = ""));
+    document
+      .querySelectorAll(".album-upper-artist")
+      .forEach((artist, index) => {
+        if (index + randomNumber > newReleases.albums.items.length - 1) {
+          let artistNames = newReleases.albums.items[
+            index + randomNumber - newReleases.albums.items.length
+          ].artists.map((artist) => artist.name);
+          if (artistNames.length > 14) {
+            artistNames = artistNames.substring(0, 14) + "...";
+          }
+          artist.innerHTML += artistNames.join(", ");
+        } else {
+          let artistNames = newReleases.albums.items[
+            index + randomNumber
+          ].artists.map((artist) => artist.name);
+          if (artistNames.length > 14) {
+            artistNames = artistNames.substring(0, 14) + "...";
+          }
+          artist.innerHTML += artistNames.join(", ");
+        }
+      });
+  }
+</script>

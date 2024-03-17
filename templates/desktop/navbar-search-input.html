@@ -1,0 +1,350 @@
+<div class="navbar-input-and-show-container" x-cloak>
+  <input
+    type="text"
+    x-on:focus="desktopNavSearchopen = true"
+    :class="desktopNavSearchopen ? 'hidden' : 'search_input'"
+    placeholder="Search"
+    class="transition-all duration-500"
+    x-cloak
+  />
+  <!-- <div x-cloak> -->
+  <div
+    class="search-main-box"
+    :class="desktopNavSearchopen ? 'bg-[#2c2f35] xl:w-[55vw] w-[75vw] xl:h-[50vh] h-[60vh] visible xl:mt-[20px] xl:right-[100%] 2xl:right-[70%] min-[1600px]:right-[100%]': 'invisible w-[6vw] h-[2vh] right-[60%] xl:right-[71.5%] min-[1600px]:right-[70%] xl:mt-7 bg-white' "
+    x-cloak
+  >
+    <div
+      :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'"
+      x-cloak
+      class="search-inner-box"
+    >
+      <span :class="desktopNavSearchopen ? '': 'hidden'" x-cloak
+        ><i class="fa-solid fa-magnifying-glass"></i
+      ></span>
+      <div
+        :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'"
+        x-cloak
+        class="search-inner-box-main"
+      >
+        <input
+          :class="desktopNavSearchopen ? 'h-[100%] xl:w-[88.7%] w-[92.5%] px-4 py-1 border-none focus:outline-none hover:border-[#0f1013] hover:border-[0.1px] rounded-xl bg-[#2c2f35]': 'hidden' "
+          x-cloak
+          type="text"
+        />
+
+        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
+          <span><i class="fa-solid fa-microphone"></i></span>
+        </button>
+        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
+          <span><i class="fa-solid fa-camera"></i></span>
+        </button>
+      </div>
+
+      <button
+        :class="desktopNavSearchopen ? '': 'hidden'"
+        x-cloak
+        class="navbar-clear-btn"
+      >
+        Clear
+      </button>
+      <button
+        :class="desktopNavSearchopen ? '': 'hidden'"
+        x-cloak
+        x-on:click="desktopNavSearchopen = false"
+      >
+        <span><i class="fa-solid fa-circle-xmark text-white"></i> </span>
+      </button>
+    </div>
+    <div
+      :class="desktopNavSearchopen ? '': 'hidden'"
+      x-cloak
+      class="search-outer-result-box"
+    >
+      <div class="every-result">
+        <div class="search-result-heading">Trending</div>
+        <div class="result-container">
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="every-result">
+        <div class="search-result-heading">playlist</div>
+        <div class="result-container">
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="every-result">
+        <div class="search-result-heading">playlist</div>
+        <div class="result-container">
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="every-result">
+        <div class="search-result-heading">playlist</div>
+        <div class="result-container">
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+  <!-- </div> -->
+</div>
+
+<script>
+  function displaySearchRecommendation(searchMethod) {
+    document.querySelectorAll(".result-text h4").forEach((element, index) => {
+      let songName = searchMethod.tracks.items[index].name;
+      if (songName.length > 30) {
+        songName = songName.substring(0, 27) + "...";
+      }
+      element.innerHTML = songName;
+    });
+    document.querySelectorAll(".result-text h5").forEach((element, index) => {
+      let artistNames = searchMethod.tracks.items[index].artists
+        .map((artist) => artist.name)
+        .join(", ");
+      if (artistNames.length > 14) {
+        artistNames = artistNames.substring(0, 14) + "...";
+      }
+      element.innerHTML = artistNames;
+    });
+    document.querySelectorAll(".result-image").forEach((element, index) => {
+      if (
+        searchMethod.tracks.items[index] &&
+        searchMethod.tracks.items[index].album &&
+        searchMethod.tracks.items[index].album.images &&
+        searchMethod.tracks.items[index].album.images[0] &&
+        searchMethod.tracks.items[index].album.images[0].url
+      ) {
+        element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
+      }
+    });
+  }
+
+  function displaySearchSongs(searchMethod) {
+    document.querySelectorAll(".result-text h4").forEach((element, index) => {
+      if (index < 3 || index >= 9) {
+        let songName;
+        if (index >= 9) {
+          songName = searchMethod.tracks.items[index - 9].name;
+        } else {
+          songName = searchMethod.tracks.items[index].name;
+        }
+        if (songName.length > 30) {
+          songName = songName.substring(0, 27) + "...";
+        }
+        element.innerHTML = songName;
+      }
+    });
+    document.querySelectorAll(".result-text h5").forEach((element, index) => {
+      if (index < 3 || index >= 9) {
+        let artistNames;
+        if (index >= 9) {
+          artistNames = searchMethod.tracks.items[index - 6].artists
+            .map((artist) => artist.name)
+            .join(", ");
+        } else {
+          artistNames = searchMethod.tracks.items[index].artists
+            .map((artist) => artist.name)
+            .join(", ");
+        }
+        if (artistNames.length > 14) {
+          artistNames = artistNames.substring(0, 14) + "...";
+        }
+
+        element.innerHTML = artistNames;
+      }
+    });
+    document.querySelectorAll(".result-image").forEach((element, index) => {
+      if (
+        index < 3 &&
+        searchMethod.tracks.items[index] &&
+        searchMethod.tracks.items[index].album &&
+        searchMethod.tracks.items[index].album.images &&
+        searchMethod.tracks.items[index].album.images[0] &&
+        searchMethod.tracks.items[index].album.images[0].url
+      ) {
+        element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
+      } else if (
+        index >= 6 &&
+        searchMethod.tracks.items[index - 6] &&
+        searchMethod.tracks.items[index - 6].album &&
+        searchMethod.tracks.items[index - 6].album.images &&
+        searchMethod.tracks.items[index - 6].album.images[0] &&
+        searchMethod.tracks.items[index - 6].album.images[0].url
+      ) {
+        element.style.backgroundImage = `url(${
+          searchMethod.tracks.items[index - 6].album.images[0].url
+        })`;
+      }
+    });
+  }
+
+  function displaySearchAlbums(searchMethod) {
+    document.querySelectorAll(".result-text h4").forEach((element, index) => {
+      if (index >= 3 && index < 6) {
+        let albumName = searchMethod.albums.items[index - 3].name;
+        if (albumName.length > 30) {
+          albumName = albumName.substring(0, 27) + "...";
+        }
+        element.innerHTML = albumName;
+      }
+    });
+    document.querySelectorAll(".result-text h5").forEach((element, index) => {
+      if (index >= 3 && index < 6) {
+        let artistNames = searchMethod.albums.items[index - 3].artists
+          .map((artist) => artist.name)
+          .join(", ");
+        if (artistNames.length > 18) {
+          artistNames = artistNames.substring(0, 18) + "...";
+        }
+        element.innerHTML = artistNames;
+      }
+    });
+    document.querySelectorAll(".result-image").forEach((element, index) => {
+      if (
+        index >= 3 &&
+        index < 6 &&
+        searchMethod.albums.items[index - 3] &&
+        searchMethod.albums.items[index - 3].images &&
+        searchMethod.albums.items[index - 3].images[0] &&
+        searchMethod.albums.items[index - 3].images[0].url
+      ) {
+        element.style.backgroundImage = `url(${
+          searchMethod.albums.items[index - 3].images[0].url
+        })`;
+      }
+    });
+  }
+
+  function displaySearchPlaylists(searchMethod) {
+    document.querySelectorAll(".result-text h4").forEach((element, index) => {
+      if (index >= 6 && index < 9) {
+        let songName = searchMethod.playlists.items[index - 6].name;
+        if (songName.length > 30) {
+          songName = songName.substring(0, 27) + "...";
+        }
+        element.innerHTML = songName;
+      }
+    });
+    document.querySelectorAll(".result-text h5").forEach((element, index) => {
+      if (index >= 6 && index < 9) {
+        let ownerName =
+          searchMethod.playlists.items[index - 6].owner.display_name;
+        if (ownerName.length > 14) {
+          ownerName = ownerName.substring(0, 14) + "...";
+        }
+        element.innerHTML = ownerName;
+      }
+    });
+    document.querySelectorAll(".result-image").forEach((element, index) => {
+      if (
+        index >= 6 &&
+        index < 9 &&
+        searchMethod.playlists.items[index - 6] &&
+        searchMethod.playlists.items[index - 6].images &&
+        searchMethod.playlists.items[index - 6].images[0] &&
+        searchMethod.playlists.items[index - 6].images[0].url
+      ) {
+        element.style.backgroundImage = `url(${
+          searchMethod.playlists.items[index - 6].images[0].url
+        })`;
+      }
+    });
+  }
+
+  function searchItemText() {
+    document.querySelectorAll(".result-text h4").forEach((element) => {
+      let songName = element.innerHTML;
+      if (songName.length > 20) {
+        element.innerHTML = songName.substring(0, 20) + "...";
+      }
+    });
+
+    document.querySelectorAll(".result-text h5").forEach((element) => {
+      let artistName = element.innerHTML;
+      if (artistName.length > 20) {
+        element.innerHTML = artistName.substring(0, 20) + "...";
+      }
+    });
+  }
+</script>

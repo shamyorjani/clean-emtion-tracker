@@ -1,0 +1,91 @@
+<div class="album-modal-container" x-bind:class="albumModal ? 'flex':'hidden' ">
+  <div class="album-modal-inner">
+    <div class="album-info-main">
+      <img
+        src="../static/assets/images/img1.jpeg"
+        alt="Album Image"
+        class="album-modal-image"
+      />
+      <div class="album-info">
+        <h2>Album Name</h2>
+        <p>30 Songs</p>
+      </div>
+      <button x-on:click="albumModal=false" class="close-album-modal">
+        <i class="fa-solid fa-times"></i>
+      </button>
+    </div>
+    <div class="album-like-shuffle-play">
+      <div class="like-shuffle">
+        <button class="like-album">
+          <i class="fa-regular fa-heart"></i>
+        </button>
+        <button class="shuffle-album">
+          <i class="fa-solid fa-random"></i>
+        </button>
+      </div>
+      <div class="play-btn">
+        <button class="play-album">
+          <i class="fa-solid fa-play"></i>
+          <span>Play</span>
+        </button>
+      </div>
+    </div>
+
+    <div class="songs-list">
+      <div class="modal-song">
+        <div class="artist-song-name">
+          <div class="song-name">song name</div>
+          <div class="artist-name">artist name</div>
+        </div>
+        <div class="song-duration">
+          <span>3:45</span>
+        </div>
+      </div>
+      <div class="modal-song">
+        <div class="artist-song-name">
+          <div class="song-name">song name</div>
+          <div class="artist-name">artist name</div>
+        </div>
+        <div class="song-duration">
+          <span>3:45</span>
+        </div>
+      </div>
+      <div class="modal-song">
+        <div class="artist-song-name">
+          <div class="song-name">song name</div>
+          <div class="artist-name">artist name</div>
+        </div>
+        <div class="song-duration">
+          <span>3:45</span>
+        </div>
+      </div>
+      <div class="modal-song">
+        <div class="artist-song-name">
+          <div class="song-name">song name</div>
+          <div class="artist-name">artist name</div>
+        </div>
+        <div class="song-duration">
+          <span>3:45</span>
+        </div>
+      </div>
+      <div class="modal-song">
+        <div class="artist-song-name">
+          <div class="song-name">song name</div>
+          <div class="artist-name">artist name</div>
+        </div>
+        <div class="song-duration">
+          <span>3:45</span>
+        </div>
+      </div>
+      <div class="modal-song">
+        <div class="artist-song-name">
+          <div class="song-name">song name</div>
+          <div class="artist-name">artist name</div>
+        </div>
+        <div class="song-duration">
+          <span>3:45</span>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>

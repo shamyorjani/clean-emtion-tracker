@@ -144,7 +144,7 @@ html {
 .every-result {
   @apply flex flex-col justify-start w-[23%] mx-[1%];
 }
-.search-result-heading{
+.search-result-heading {
   @apply capitalize xl:text-[14px];
 }
 .result-container {
@@ -251,10 +251,10 @@ html {
 .song-album-description {
   @apply text-white lg:text-sm md:text-xs xl:text-[10px] leading-3 font-poppinsRegular;
 }
-.album-upper-name{
+.album-upper-name {
   @apply font-poppinsRegular text-white text-[11px] mt-1 pr-2;
 }
-.album-upper-artist{
+.album-upper-artist {
   @apply text-[#c0c0c0] text-[10px];
 }
 .playlist-outer-container {
@@ -336,6 +336,86 @@ html {
 .albums-playlist-body {
   @apply flex flex-col justify-center items-center pt-12 text-[12px] bg-[#2f3238] w-[100%] z-50;
 }
+/* album modal styles */
+@keyframes fadeOut {
+  0% {
+    opacity: 0;
+    width: 50%;
+    height: 50%;
+  }
+  100% {
+    opacity: 1;
+    width: 80%;
+    height: 80%;
+  }
+}
+.album-modal-container {
+  @apply fixed w-full left-0 bottom-0 top-0  backdrop-blur-md items-center justify-center z-50 text-white;
+}
+.album-modal-inner {
+  @apply w-[80%] h-[80%] bg-[#23262b] flex flex-col items-start justify-start rounded-lg p-10 gap-5;
+  animation: fadeOut 0.5s ease-in-out;
+}
+.main-volume-progress {
+  @apply h-1 w-[95%] flex items-center justify-end mt-2;
+}
+.carousel-slide-class {
+  @apply basis-2/6 bg-transparent;
+}
+/* .player-loader {
+  @apply w-[100%] h-[100svh] absolute top-0 bottom-0 left-0 flex items-center justify-center;
+} */
+.custom-input-range {
+  @apply appearance-none w-[10%] h-1 bg-red-600 rounded-lg outline-none;
+}
+.custom-input-range::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+
+.custom-input-range::-moz-range-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+
+.custom-input-range::-ms-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+.album-info-main {
+  @apply flex flex items-start w-full relative;
+}
+.close-album-modal {
+  @apply absolute top-0 right-0 text-[1.5em];
+}
+.album-modal-image {
+  @apply w-[100%] sm:h-9 md:h-10 lg:h-11 xl:w-[130px] xl:h-[130px] 2xl:h-[140px] border-none rounded-lg shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
+}
+.album-info {
+  @apply ml-4;
+}
+.album-info h2 {
+  @apply text-[1.8rem];
+}
+.album-like-shuffle-play {
+  @apply w-full flex flex-row justify-between items-center gap-5 text-[1.3rem];
+}
+.like-shuffle {
+  @apply flex flex-row justify-between items-center gap-5 ml-4;
+}
+.play-album {
+  @apply flex flex-row justify-between items-center gap-2 text-[1rem] ml-4 bg-red-600 rounded-lg px-3 py-1;
+}
+.songs-list {
+  @apply w-full h-[80%] overflow-y-scroll space-y-5;
+}
+.modal-song {
+  @apply flex justify-between items-end w-full text-[1.3rem] bg-[#282b31] p-2 rounded-lg shadow-md hover:bg-[#2c2f35] hover:cursor-pointer capitalize;
+}
+.song-name {
+  @apply text-[1.3rem];
+}
+.artist-name {
+  @apply text-[1rem] text-[#c0c0c0];
+}
+/* album modal styles end */
 .bars {
   @apply my-4 contrast-50;
 }
@@ -465,6 +545,12 @@ html {
 }
 .mobile-albums-list-carousel {
   @apply ml-2 pl-3 pr-2  xl:w-[65%];
+}
+.mobile-albums-list-carousel .slick-slide {
+  @apply mx-5;
+}
+.album-upper-image img {
+  @apply w-full;
 }
 .new-release-heading {
   @apply text-white capitalize my-3;

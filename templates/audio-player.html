@@ -1,240 +1,269 @@
 <script>
-    function createAudioPlayer(playerElement, informationDivLeftName, informationDivRightName, progressbarName, progressmeterName) {
+  function createAudioPlayer(
+    playerElement,
+    informationDivLeftName,
+    informationDivRightName,
+    progressbarName,
+    progressmeterName
+  ) {
+    var audioPlayer = new Audio();
+    var trackList = [
+      {
+        title: "Some misuse of audio equipment",
+        src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
+        type: "audio/mpeg",
+      },
+      {
+        title: "Example speech",
+        src: "{{url_for('static', filename='sounds/makada.mp3')}}",
+        type: "audio/mpeg",
+      },
+      {
+        title: "A rendition of the wikipedia random game",
+        src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
+        type: "audio/mpeg",
+      },
+    ];
+    var trackListLen = trackList.length;
+    var currentTrack = 0;
+    var isShuffle = false;
+    var isRepeat = false;
+    var informationDivLeft = playerElement.querySelector(
+      "." + informationDivLeftName
+    );
+    var informationDivRight = playerElement.querySelector(
+      "." + informationDivRightName
+    );
+    var progressbar = playerElement.querySelector("." + progressbarName);
+    var progressbarWidth = progressbar.offsetWidth;
+    var progressmeter = playerElement.querySelector("." + progressmeterName);
 
-        var audioPlayer = new Audio();
-        var trackList = [
-            {
-                title: "Some misuse of audio equipment",
-                src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
-                type: "audio/mpeg",
-            },
-            {
-                title: "Example speech",
-                src: "{{url_for('static', filename='sounds/makada.mp3')}}",
-                type: "audio/mpeg",
-            },
-            {
-                title: "A rendition of the wikipedia random game",
-                src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
-                type: "audio/mpeg",
-            },
-        ];
-        var trackListLen = trackList.length;
-        var currentTrack = 0;
-        var isShuffle = false;
-        var isRepeat = false;
-        var informationDivLeft = playerElement.querySelector("." + informationDivLeftName);
-        var informationDivRight = playerElement.querySelector("." + informationDivRightName);
-        var progressbar = playerElement.querySelector("." + progressbarName);
-        var progressbarWidth = progressbar.offsetWidth;
-        var progressmeter = playerElement.querySelector("." + progressmeterName);
-
-
-        function play() {
-            audioPlayer.play();
-            checkPlayStatus();
-        }
-
-        function pause() {
-            audioPlayer.pause();
-            checkPlayStatus();
-        }
-
-        function stop() {
-            audioPlayer.pause();
-            audioPlayer.currentTime = 0;
-        }
-
-        function seeking(e) {
-            var percent = e.offsetX / progressbarWidth;
-            audioPlayer.currentTime = percent * audioPlayer.duration;
-        }
-
-        function displayTime(seconds) {
-            var minutes = parseInt(seconds / 60);
-            seconds = parseInt(seconds - minutes * 60);
-            return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
-        }
-
-        function updateTime() {
-            informationDivLeft.innerHTML = displayTime(audioPlayer.currentTime);
-            informationDivRight.innerHTML = displayTime(audioPlayer.duration);
-            document.querySelector('.song-duration').innerHTML = displayTime(audioPlayer.currentTime);
-            var percent = audioPlayer.currentTime / audioPlayer.duration;
-            progressmeter.style.width = percent * progressbarWidth + "px";
-        }
-
-        function playCurrentTrack() {
-            audioPlayer.pause();
-            audioPlayer.src = trackList[currentTrack].src;
-            audioPlayer.load();
-            audioPlayer.play();
-            updateTime();
-            var songTitles = document.querySelectorAll(".song-title");
-            songTitles.forEach(function (songTitle) {
-                songTitle.innerHTML = trackList[currentTrack].title;
-                console.log(songTitle);
-            });
-            var nextSongName = trackList[(currentTrack + 1) % trackListLen].title;
-            document.querySelector('.next-song-name').innerHTML = '"' + nextSongName + '"';
-            var previousSongName = trackList[(currentTrack - 1 + trackListLen) % trackListLen].title;
-            document.querySelector('.previous-song-name').innerHTML = '"' + previousSongName + '"';
-
-            console.log(currentTrack);
-        }
-
-        function playPrevious() {
-            currentTrack = (currentTrack - 1 + trackListLen) % trackListLen;
-            playCurrentTrack();
-        }
-
-        function playNext() {
-            currentTrack = (currentTrack + 1) % trackListLen;
-            playCurrentTrack();
-        }
-
-        function getRandomTrack() {
-            return Math.floor(Math.random() * trackListLen);
-        }
-
-
-        function toggleRepeat() {
-            isRepeat = !isRepeat;
-            if (isRepeat) {
-                repeatBtns.forEach(function (repeatBtn) {
-                    repeatBtn.style.color = 'red';
-                });
-                console.log("Repeat mode enabled");
-            } else {
-                repeatBtns.forEach(function (repeatBtn) {
-                    repeatBtn.style.color = 'white';
-                });
-                console.log("Repeat mode disabled");
-            }
-        }
-
-        function toggleShuffle() {
-            isShuffle = !isShuffle;
-            if (isShuffle) {
-                // Shuffle the trackList array
-                for (let i = trackListLen - 1; i > 0; i--) {
-                    const j = Math.floor(Math.random() * (i + 1));
-                    [trackList[i], trackList[j]] = [trackList[j], trackList[i]];
-                }
-                console.log("Shuffle mode enabled");
-            } else {
-                // Reset to the original order
-                trackList = [
-                    {
-                        title: "Some misuse of audio equipment",
-                        src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
-                        type: "audio/mpeg",
-                    },
-                    {
-                        title: "Example speech",
-                        src: "{{url_for('static', filename='sounds/makada.mp3')}}",
-                        type: "audio/mpeg",
-                    },
-                    {
-                        title: "A rendition of the wikipedia random game",
-                        src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
-                        type: "audio/mpeg",
-                    },
-                ];
-                console.log("Shuffle mode disabled");
-            }
-        }
-
-        audioPlayer.addEventListener("ended", function () {
-            if (isRepeat) {
-                // Repeat the current track
-                playCurrentTrack();
-            } else {
-                playNext();
-            }
-        });
-
-        function checkPlayStatus() {
-            if (audioPlayer.paused) {
-                document.querySelector(".pauseBtn").classList.add("hidden");
-                document.querySelector(".playBtn").classList.remove("hidden");
-            } else {
-                document.querySelector(".pauseBtn").classList.remove("hidden");
-                document.querySelector(".playBtn").classList.add("hidden");
-            }
-        }
-
-        audioPlayer.addEventListener("ended", function () {
-            playNext();
-        });
-
-        audioPlayer.addEventListener("timeupdate", function () {
-            updateTime();
-        });
-
-        audioPlayer.addEventListener("loadedmetadata", function () {
-            updateTime();
-        });
-
-        var playBtns = document.querySelectorAll(".playBtn");
-        var pauseBtns = document.querySelectorAll(".pauseBtn");
-        var nextBtns = document.querySelectorAll(".nextBtn");
-        var previousBtns = document.querySelectorAll(".previousBtn");
-        var shuffleBtns = document.querySelectorAll(".shuffleBtn");
-        var repeatBtns = document.querySelectorAll(".repeatBtn");
-
-
-        playBtns.forEach(function (playBtn) {
-            playBtn.addEventListener("click", play);
-        });
-        pauseBtns.forEach(function (pauseBtn) {
-            pauseBtn.addEventListener("click", pause);
-        });
-        nextBtns.forEach(function (nextBtn) {
-            nextBtn.addEventListener("click", playNext);
-        });
-        previousBtns.forEach(function (previousBtn) {
-            previousBtn.addEventListener("click", playPrevious);
-        });
-        shuffleBtns.forEach(function (shuffleBtn) {
-            shuffleBtn.addEventListener("click", toggleShuffle);
-        });
-        repeatBtns.forEach(function (repeatBtn) {
-            repeatBtn.addEventListener("click", toggleRepeat);
-        });
-        // document.querySelector('.next-song-name').;
-        // document.querySelector(".playBtn").addEventListener("click", play);
-        // document.querySelector(".pauseBtn").addEventListener("click", pause);
-        // document.querySelector(".nextBtn").addEventListener("click", playNext);
-        // document.querySelector(".previousBtn").addEventListener("click", playPrevious);
-        progressbar.addEventListener("click", seeking);
-
-        return {
-            init: function () {
-                playCurrentTrack();
-                checkPlayStatus();
-            },
-        };
+    function play() {
+      audioPlayer.play();
+      checkPlayStatus();
     }
 
-    document.addEventListener("DOMContentLoaded", function () {
-        var audioPlayers = document.querySelectorAll(".audio-player");
-        var bottomAudioPlayers = document.querySelectorAll(".bottom-audio-player");
-        var mobileAudioPlayers = document.querySelectorAll(".mobile-audio-player");
-        for (var i = 0; i < audioPlayers.length; i++) {
-            var playerElement = audioPlayers[i];
-            console.log(playerElement);
-            createAudioPlayer(playerElement, 'audio-player-info-left', 'audio-player-info-right', 'audio-player-progressbar', 'audio-player-progressmeter');
+    function pause() {
+      audioPlayer.pause();
+      checkPlayStatus();
+    }
+
+    function stop() {
+      audioPlayer.pause();
+      audioPlayer.currentTime = 0;
+    }
+
+    function seeking(e) {
+      var percent = e.offsetX / progressbarWidth;
+      audioPlayer.currentTime = percent * audioPlayer.duration;
+    }
+
+    function displayTime(seconds) {
+      var minutes = parseInt(seconds / 60);
+      seconds = parseInt(seconds - minutes * 60);
+      return minutes + ":" + (seconds < 10 ? "0" : "") + seconds;
+    }
+
+    function updateTime() {
+      informationDivLeft.innerHTML = displayTime(audioPlayer.currentTime);
+      informationDivRight.innerHTML = displayTime(audioPlayer.duration);
+      document.querySelector(".song-duration").innerHTML = displayTime(
+        audioPlayer.currentTime
+      );
+      var percent = audioPlayer.currentTime / audioPlayer.duration;
+      progressmeter.style.width = percent * progressbarWidth + "px";
+    }
+
+    function playCurrentTrack() {
+      audioPlayer.pause();
+      audioPlayer.src = trackList[currentTrack].src;
+      audioPlayer.load();
+      audioPlayer.play();
+      updateTime();
+      var songTitles = document.querySelectorAll(".song-title");
+      songTitles.forEach(function (songTitle) {
+        songTitle.innerHTML = trackList[currentTrack].title;
+        console.log(songTitle);
+      });
+      var nextSongName = trackList[(currentTrack + 1) % trackListLen].title;
+      document.querySelector(".next-song-name").innerHTML =
+        '"' + nextSongName + '"';
+      var previousSongName =
+        trackList[(currentTrack - 1 + trackListLen) % trackListLen].title;
+      document.querySelector(".previous-song-name").innerHTML =
+        '"' + previousSongName + '"';
+
+      console.log(currentTrack);
+    }
+
+    function playPrevious() {
+      currentTrack = (currentTrack - 1 + trackListLen) % trackListLen;
+      playCurrentTrack();
+    }
+
+    function playNext() {
+      currentTrack = (currentTrack + 1) % trackListLen;
+      playCurrentTrack();
+    }
+
+    function getRandomTrack() {
+      return Math.floor(Math.random() * trackListLen);
+    }
+
+    function toggleRepeat() {
+      isRepeat = !isRepeat;
+      if (isRepeat) {
+        repeatBtns.forEach(function (repeatBtn) {
+          repeatBtn.style.color = "red";
+        });
+        console.log("Repeat mode enabled");
+      } else {
+        repeatBtns.forEach(function (repeatBtn) {
+          repeatBtn.style.color = "white";
+        });
+        console.log("Repeat mode disabled");
+      }
+    }
+
+    function toggleShuffle() {
+      isShuffle = !isShuffle;
+      if (isShuffle) {
+        // Shuffle the trackList array
+        for (let i = trackListLen - 1; i > 0; i--) {
+          const j = Math.floor(Math.random() * (i + 1));
+          [trackList[i], trackList[j]] = [trackList[j], trackList[i]];
         }
-        for (var i = 0; i < bottomAudioPlayers.length; i++) {
-            var playerElement = bottomAudioPlayers[i];
-            console.log(playerElement);
-            createAudioPlayer(playerElement, 'audio-player-info-left-short', 'audio-player-info-right-short', 'bottom-player-progressbar', 'bottom-player-progressmeter');
-        }
-        for (var i = 0; i < mobileAudioPlayers.length; i++) {
-            var playerElement = mobileAudioPlayers[i];
-            console.log(playerElement);
-            createAudioPlayer(playerElement, 'audio-player-info-left', 'audio-player-info-right', 'mobile-bottom-player-progressbar', 'mobile-audio-player-progressmeter');
-        }
+        console.log("Shuffle mode enabled");
+      } else {
+        // Reset to the original order
+        trackList = [
+          {
+            title: "Some misuse of audio equipment",
+            src: "{{url_for('static', filename='sounds/diwana.mp3')}}",
+            type: "audio/mpeg",
+          },
+          {
+            title: "Example speech",
+            src: "{{url_for('static', filename='sounds/makada.mp3')}}",
+            type: "audio/mpeg",
+          },
+          {
+            title: "A rendition of the wikipedia random game",
+            src: "{{url_for('static', filename='sounds/larhsha.mp3')}}",
+            type: "audio/mpeg",
+          },
+        ];
+        console.log("Shuffle mode disabled");
+      }
+    }
+
+    audioPlayer.addEventListener("ended", function () {
+      if (isRepeat) {
+        // Repeat the current track
+        playCurrentTrack();
+      } else {
+        playNext();
+      }
     });
+
+    function checkPlayStatus() {
+      if (audioPlayer.paused) {
+        document.querySelector(".pauseBtn").classList.add("hidden");
+        document.querySelector(".playBtn").classList.remove("hidden");
+      } else {
+        document.querySelector(".pauseBtn").classList.remove("hidden");
+        document.querySelector(".playBtn").classList.add("hidden");
+      }
+    }
+
+    audioPlayer.addEventListener("ended", function () {
+      playNext();
+    });
+
+    audioPlayer.addEventListener("timeupdate", function () {
+      updateTime();
+    });
+
+    audioPlayer.addEventListener("loadedmetadata", function () {
+      updateTime();
+    });
+
+    var playBtns = document.querySelectorAll(".playBtn");
+    var pauseBtns = document.querySelectorAll(".pauseBtn");
+    var nextBtns = document.querySelectorAll(".nextBtn");
+    var previousBtns = document.querySelectorAll(".previousBtn");
+    var shuffleBtns = document.querySelectorAll(".shuffleBtn");
+    var repeatBtns = document.querySelectorAll(".repeatBtn");
+
+    playBtns.forEach(function (playBtn) {
+      playBtn.addEventListener("click", play);
+    });
+    pauseBtns.forEach(function (pauseBtn) {
+      pauseBtn.addEventListener("click", pause);
+    });
+    nextBtns.forEach(function (nextBtn) {
+      nextBtn.addEventListener("click", playNext);
+    });
+    previousBtns.forEach(function (previousBtn) {
+      previousBtn.addEventListener("click", playPrevious);
+    });
+    shuffleBtns.forEach(function (shuffleBtn) {
+      shuffleBtn.addEventListener("click", toggleShuffle);
+    });
+    repeatBtns.forEach(function (repeatBtn) {
+      repeatBtn.addEventListener("click", toggleRepeat);
+    });
+    // document.querySelector('.next-song-name').;
+    // document.querySelector(".playBtn").addEventListener("click", play);
+    // document.querySelector(".pauseBtn").addEventListener("click", pause);
+    // document.querySelector(".nextBtn").addEventListener("click", playNext);
+    // document.querySelector(".previousBtn").addEventListener("click", playPrevious);
+    progressbar.addEventListener("click", seeking);
+
+    return {
+      init: function () {
+        playCurrentTrack();
+        checkPlayStatus();
+      },
+    };
+  }
+
+  document.addEventListener("DOMContentLoaded", function () {
+    var audioPlayers = document.querySelectorAll(".audio-player");
+    var bottomAudioPlayers = document.querySelectorAll(".bottom-audio-player");
+    var mobileAudioPlayers = document.querySelectorAll(".mobile-audio-player");
+    for (var i = 0; i < audioPlayers.length; i++) {
+      var playerElement = audioPlayers[i];
+      console.log(playerElement);
+      createAudioPlayer(
+        playerElement,
+        "audio-player-info-left",
+        "audio-player-info-right",
+        "audio-player-progressbar",
+        "audio-player-progressmeter"
+      );
+    }
+    for (var i = 0; i < bottomAudioPlayers.length; i++) {
+      var playerElement = bottomAudioPlayers[i];
+      console.log(playerElement);
+      createAudioPlayer(
+        playerElement,
+        "audio-player-info-left-short",
+        "audio-player-info-right-short",
+        "bottom-player-progressbar",
+        "bottom-player-progressmeter"
+      );
+    }
+    for (var i = 0; i < mobileAudioPlayers.length; i++) {
+      var playerElement = mobileAudioPlayers[i];
+      console.log(playerElement);
+      createAudioPlayer(
+        playerElement,
+        "audio-player-info-left",
+        "audio-player-info-right",
+        "mobile-bottom-player-progressbar",
+        "mobile-audio-player-progressmeter"
+      );
+    }
+  });
 </script>
