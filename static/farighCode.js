@@ -314,5 +314,106 @@
   //     },
   //   };
   // })(UIController, APIController);
+
+
+
+
+  // const tabs = document.querySelectorAll("#tabs a");
+  //     tabs.forEach((tab) => {
+  //       tab.addEventListener("click", async function (event) {
+  //         event.preventDefault();
+  //         tabs.forEach((t) => {
+  //           t.classList.remove("active-tab");
+  //           const activeDiv = t.parentElement.querySelector(".active");
+  //           const hrElement = activeDiv.querySelector("hr");
+  //           if (hrElement) {
+  //             hrElement.remove();
+  //           }
+  //         });
+  //         // Add 'active-tab' class to the clicked tab
+  //         tab.classList.add("active-tab");
+
+  //         // Log the active tab name
+  //         console.log("Active Tab:", tab.getAttribute("data-tab"));
+
+  //         // Add hr element to the active tab
+  //         const activeDiv = tab.parentElement.querySelector(".active");
+  //         const hrElement = document.createElement("hr");
+  //         if (tab.getAttribute("data-tab") === "overview") {
+  //           hrElement.classList.add(
+  //             "w-[45px]",
+  //             "h-[2px]",
+  //             "mx-auto",
+  //             "bg-white",
+  //             "border-0",
+  //             "rounded",
+  //             "mt-2"
+  //           );
+  //           activeDiv.appendChild(hrElement);
+  //         } else if (tab.getAttribute("data-tab") === "sad-songs") {
+  //           hrElement.classList.add(
+  //             "w-[45px]",
+  //             "h-[2px]",
+  //             "mx-auto",
+  //             "bg-white",
+  //             "border-0",
+  //             "rounded",
+  //             "mt-2"
+  //           );
+  //           let searchMethod = await APICtrl.getConnectSearch(
+  //             accessToken,
+  //             inputValue,
+  //             "track"
+  //           );
+  //           UICtrl.displaySearchSongs(searchMethod);
+
+  //           activeDiv.appendChild(hrElement);
+  //         } else if (tab.getAttribute("data-tab") === "romantic-songs") {
+  //           hrElement.classList.add(
+  //             "w-[45px]",
+  //             "h-[2px]",
+  //             "mx-auto",
+  //             "bg-white",
+  //             "border-0",
+  //             "rounded",
+  //             "mt-2"
+  //           );
+  //           activeDiv.appendChild(hrElement);
+  //         } else if (tab.getAttribute("data-tab") === "heartbreaks") {
+  //           hrElement.classList.add(
+  //             "w-[45px]",
+  //             "h-[2px]",
+  //             "mx-auto",
+  //             "bg-white",
+  //             "border-0",
+  //             "rounded",
+  //             "mt-2"
+  //           );
+  //           activeDiv.appendChild(hrElement);
+  //         } else if (tab.getAttribute("data-tab") === "angry-mood") {
+  //           hrElement.classList.add(
+  //             "w-[45px]",
+  //             "h-[2px]",
+  //             "mx-auto",
+  //             "bg-white",
+  //             "border-0",
+  //             "rounded",
+  //             "mt-2"
+  //           );
+  //           activeDiv.appendChild(hrElement);
+  //         } else if (tab.getAttribute("data-tab") === "joyful") {
+  //           hrElement.classList.add(
+  //             "w-[45px]",
+  //             "h-[2px]",
+  //             "mx-auto",
+  //             "bg-white",
+  //             "border-0",
+  //             "rounded",
+  //             "mt-2"
+  //           );
+  //           activeDiv.appendChild(hrElement);
+  //         }
+  //       });
+  //     });
   
 

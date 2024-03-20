@@ -18,24 +18,25 @@
             <div class="navbar-input-and-show-container" x-cloak>
                 <div class="navbar-input-and-show-container-close">
                     <input type="text" x-on:focus="desktopNavSearchopen = true"
-                    :class="desktopNavSearchopen ? 'hidden' : 'search_input'" placeholder="Search"
-                    class="transition-all duration-500" x-cloak
-                    x-on:keydown.enter="desktopNavSearchopen = false" />
+                        :class="desktopNavSearchopen ? 'hidden' : 'search_input'" placeholder="Search"
+                        class="transition-all duration-500" x-cloak
+                        x-on:keydown.enter="desktopNavSearchopen = false" />
                 </div>
 
                 <!-- <div x-cloak> -->
-                <div class="search-main-box"
+                <div class="search-main-box hidden"
                     :class="desktopNavSearchopen ? 'bg-[#2c2f35] xl:w-[55vw] w-[75vw] xl:h-[50vh] h-[60vh] visible xl:mt-[20px] xl:right-[100%] 2xl:right-[70%] min-[1600px]:right-[100%]': 'invisible w-[6vw] h-[2vh] right-[60%] xl:right-[71.5%] min-[1600px]:right-[70%] xl:mt-7 bg-white' "
                     x-cloak>
                     <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak
-                        class="search-inner-box">
-                        <span :class="desktopNavSearchopen ? '': 'hidden'" x-cloak><i
+                        class="search-inner-box"><button>
+                            <span :class="desktopNavSearchopen ? '': 'hidden'" x-cloak><i
                                 class="fa-solid fa-magnifying-glass"></i></span>
+                        </button>
                         <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak
                             class="search-inner-box-main">
                             <input
                                 :class="desktopNavSearchopen ? 'h-[100%] xl:w-[88.7%] w-[92.5%] px-4 py-1 border-none focus:outline-none hover:border-[#0f1013] hover:border-[0.1px] rounded-xl bg-[#2c2f35]': 'hidden' "
-                                x-cloak type="text">
+                                x-cloak type="text" x-on:keydown.enter="desktopNavSearchopen = false">
 
                             <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
                                 <span><i class="fa-solid fa-microphone"></i></span>
@@ -83,7 +84,7 @@
                                     </div>
                                 </div>
                             </div>
-                            
+
                         </div>
                         <div class="every-result">
                             <div class="search-result-heading">

@@ -144,7 +144,7 @@ html {
 .every-result {
   @apply flex flex-col justify-start w-[23%] mx-[1%];
 }
-.search-result-heading{
+.search-result-heading {
   @apply capitalize xl:text-[14px];
 }
 .result-container {
@@ -251,11 +251,31 @@ html {
 .song-album-description {
   @apply text-white lg:text-sm md:text-xs xl:text-[10px] leading-3 font-poppinsRegular;
 }
-.album-upper-name{
-  @apply font-poppinsRegular text-white text-[11px] mt-1 pr-2;
+.album-upper-name,
+.album-upper-name-playlist {
+  @apply font-poppinsRegular text-white  text-[11px] mx-auto mt-1 ;
 }
-.album-upper-artist{
-  @apply text-[#c0c0c0] text-[10px];
+.upper-name-artist{
+  @apply font-poppinsRegular text-white text-[11px] mx-auto mt-1 text-center;
+}
+.album-upper-artist,
+.album-upper-artist-playlist{
+  @apply text-[#c0c0c0] mx-auto  text-[10px];
+}
+
+.upper-artist-title {
+  @apply text-[#c0c0c0] mx-auto text-[10px] text-center;
+}
+.mobile-albums-list-carousel .slick-slide {
+  @apply mx-1;
+}
+.album-upper-image-playlist img,
+.upper-image-artist img,
+.album-upper-image img {
+  @apply w-full;
+}
+.album-carousel-item{
+  @apply basis-2/6 bg-transparent;
 }
 .playlist-outer-container {
   /* @apply w-full fixed sm:top-[100px] 2xl:top-[150px] xl:top-[85px] md:w-[18vw] xl:w-[17.5vw] 2xl:w-[18vw] h-[95vh] xl:right-3 2xl:right-0; */
@@ -357,7 +377,10 @@ html {
 }
 
 .best-release-img {
-  @apply w-[100%] sm:h-9 md:h-10 lg:h-11 xl:w-[115px] xl:h-[115px] 2xl:h-[110px] border-none rounded-lg shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
+  @apply w-[100%] sm:h-9 mx-auto md:h-10 lg:h-11 xl:w-[115px] xl:h-[115px] 2xl:h-[110px] border-none rounded-lg shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
+}
+.best-release-img-artists {
+  @apply w-[100%] mx-auto sm:h-9 md:h-10 lg:h-11 xl:w-[130px] xl:h-[130px] 2xl:h-[110px] border-none rounded-full shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
 }
 .album-img {
   @apply w-[100%] sm:h-9 md:h-10 lg:h-11 xl:w-[130px] xl:h-[130px] 2xl:h-[140px] border-none rounded-lg shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
@@ -461,10 +484,10 @@ html {
   @apply h-auto ml-2 w-full px-7 pt-1 rounded-md bg-[#3B3E41];
 }
 .mobile-albums-new-release {
-  @apply w-[100%] xl:w-[68%] justify-end;
+  @apply w-[100%]  xl:w-[71%] justify-end;
 }
 .mobile-albums-list-carousel {
-  @apply ml-2 pl-3 pr-2  xl:w-[65%];
+  @apply ml-2 pl-3 gap-5 pr-2  xl:w-[68%];
 }
 .new-release-heading {
   @apply text-white capitalize my-3;

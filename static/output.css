@@ -964,10 +964,6 @@ video {
   flex-basis: 66.666667%;
 }
 
-.origin-center{
-  transform-origin: center;
-}
-
 .-translate-y-2{
   --tw-translate-y: -0.5rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -990,18 +986,6 @@ video {
 
 .rotate-180{
   --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-100{
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-90{
-  --tw-scale-x: .9;
-  --tw-scale-y: .9;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1411,10 +1395,6 @@ video {
   opacity: 0;
 }
 
-.opacity-100{
-  opacity: 1;
-}
-
 .shadow{
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -1471,20 +1451,12 @@ video {
   transition-duration: 200ms;
 }
 
-.duration-300{
-  transition-duration: 300ms;
-}
-
 .duration-500{
   transition-duration: 500ms;
 }
 
 .duration-700{
   transition-duration: 700ms;
-}
-
-.ease-in{
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .ease-out{
@@ -2790,19 +2762,60 @@ html {
   }
 }
 
-.album-upper-name{
+.album-upper-name,
+.album-upper-name-playlist{
+  margin-left: auto;
+  margin-right: auto;
   margin-top: 0.25rem;
-  padding-right: 0.5rem;
   font-family: poppins-regular, sans-serif;
   font-size: 11px;
   --tw-text-opacity: 1;
   color: rgb(255 255 255 / var(--tw-text-opacity));
 }
 
-.album-upper-artist{
+.upper-name-artist{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.25rem;
+  text-align: center;
+  font-family: poppins-regular, sans-serif;
+  font-size: 11px;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+.album-upper-artist,
+.album-upper-artist-playlist{
+  margin-left: auto;
+  margin-right: auto;
   font-size: 10px;
   --tw-text-opacity: 1;
   color: rgb(192 192 192 / var(--tw-text-opacity));
+}
+
+.upper-artist-title{
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center;
+  font-size: 10px;
+  --tw-text-opacity: 1;
+  color: rgb(192 192 192 / var(--tw-text-opacity));
+}
+
+.mobile-albums-list-carousel .slick-slide{
+  margin-left: 0.25rem;
+  margin-right: 0.25rem;
+}
+
+.album-upper-image-playlist img,
+.upper-image-artist img,
+.album-upper-image img{
+  width: 100%;
+}
+
+.album-carousel-item{
+  flex-basis: 33.333333%;
+  background-color: transparent;
 }
 
 .playlist-outer-container {
@@ -3222,6 +3235,8 @@ html {
 }
 
 .best-release-img{
+  margin-left: auto;
+  margin-right: auto;
   width: 100%;
   border-radius: 0.5rem;
   border-style: none;
@@ -3257,6 +3272,48 @@ html {
 
 @media (min-width: 1536px){
   .best-release-img{
+    height: 110px;
+  }
+}
+
+.best-release-img-artists{
+  margin-left: auto;
+  margin-right: auto;
+  width: 100%;
+  border-radius: 9999px;
+  border-style: none;
+  --tw-shadow: 0px 0px 3px 0.1px rgb(0.5,0.5,0.5);
+  --tw-shadow-colored: 0px 0px 3px 0.1px var(--tw-shadow-color);
+  box-shadow: var(--tw-ring-offset-shadow, 0 0 #0000), var(--tw-ring-shadow, 0 0 #0000), var(--tw-shadow);
+}
+
+@media (min-width: 640px){
+  .best-release-img-artists{
+    height: 2.25rem;
+  }
+}
+
+@media (min-width: 768px){
+  .best-release-img-artists{
+    height: 2.5rem;
+  }
+}
+
+@media (min-width: 1024px){
+  .best-release-img-artists{
+    height: 2.75rem;
+  }
+}
+
+@media (min-width: 1280px){
+  .best-release-img-artists{
+    height: 130px;
+    width: 130px;
+  }
+}
+
+@media (min-width: 1536px){
+  .best-release-img-artists{
     height: 110px;
   }
 }
@@ -3620,19 +3677,20 @@ html {
 
 @media (min-width: 1280px){
   .mobile-albums-new-release{
-    width: 68%;
+    width: 71%;
   }
 }
 
 .mobile-albums-list-carousel{
   margin-left: 0.5rem;
+  gap: 1.25rem;
   padding-left: 0.75rem;
   padding-right: 0.5rem;
 }
 
 @media (min-width: 1280px){
   .mobile-albums-list-carousel{
-    width: 65%;
+    width: 68%;
   }
 }
 
