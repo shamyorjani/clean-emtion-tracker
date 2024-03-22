@@ -239,165 +239,8 @@ const UIController = (function () {
     // playlistHeading : ".search-result-heading",
     // Add more selectors as needed
   };
-  const attachPlayTrackEvent = function (trackItem, track, accessToken) {
-    trackItem.addEventListener("click", function () {
-      // Call a function to play the selected track
-      playTrack(accessToken, track.uri);
-    });
-  };
-  const playTrack = function (accessToken, trackUri) {
-    const player = new Spotify.Player({
-      name: "Your App Name",
-      getOAuthToken: (cb) => {
-        cb(accessToken);
-      },
-    });
-    // window.onSpotifyWebPlaybackSDKReady = (accessToken, trackUri) => {
-    //   const player = new Spotify.Player({
-    //     name: "Web Playback SDK Quick Start Player",
-    //     getOAuthToken: (cb) => {
-    //       cb(accessToken);
-    //     },
-    //     volume: 0.5,
-    //   });
-
-    // Error handling
-    player.addListener("initialization_error", ({ message }) => {
-      console.log("initilizaion error");
-      console.error(message);
-    });
-    player.addListener("authentication_error", ({ message }) => {
-      console.log("authentican error" + accessToken + " " + trackUri);
-      console.error(message);
-    });
-    player.addListener("account_error", ({ message }) => {
-      console.error(message);
-    });
-    player.addListener("playback_error", ({ message }) => {
-      console.error(message);
-    });
-
-    // Playback status updates
-    player.addListener("player_state_changed", (state) => {
-      console.log(state);
-    });
-
-    // Ready
-    player.addListener("ready", ({ device_id }) => {
-      console.log("Ready with Device ID", device_id);
-      // Play the selected track
-      playOnDevice(accessToken, device_id, trackUri);
-    });
-
-    // Connect to the player
-    player.connect().then((success) => {
-      if (success) {
-        console.log("The Web Playback SDK successfully connected to Spotify!");
-      }
-    });
-    document.querySelector(".togglePlay").addEventListener("click", () => {
-      player.togglePlay().then(() => {
-        console.log("Toggled playback!");
-      });
-    });
-
-    // Spotify Web Playback SDK ready callback
-  };
-  window.onSpotifyWebPlaybackSDKReady = () => {
-    console.log("Spotify Web Playback SDK is ready.");
-  };
-
-  const playOnDevice = async function (accessToken, deviceId, trackUri) {
-    const playEndpoint = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
-
-    const result = await fetch(playEndpoint, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        uris: [trackUri],
-      }),
-    });
-
-    const data = await result.json();
-    console.log(data);
-  };
 
   return {
-    inputField: function () {
-      return {
-        connectBtn: document.querySelector(DOMElements.connectBtn),
-        playlistsContainer: document.querySelector(
-          DOMElements.playlistsContainer
-        ),
-        topTracksContainer: document.querySelector(
-          DOMElements.topTracksContainer
-        ),
-        userProfileContainer: document.querySelector(
-          DOMElements.userProfileContainer
-        ),
-        recentlyPlayedContainer: document.querySelector(
-          DOMElements.recentlyPlayedContainer
-        ),
-        togglePlaying: document.querySelector(DOMElements.togglePlaying),
-        artistName: document.querySelector(DOMElements.artistName),
-        currentSong: document.querySelector(DOMElements.currentSong),
-        songAuthor: document.querySelector(DOMElements.songAuthor),
-        leftAudioPlayerImg: document.querySelector(
-          DOMElements.leftAudioPlayerImg
-        ),
-        authorImage: document.querySelector(DOMElements.authorImage),
-        mainImage: document.querySelector(DOMElements.mainImage),
-        // newReleasesImage: document.querySelector(DOMElements.newReleasesImage),
-        // newReleasesName: document.querySelector(DOMElements.newReleasesName),
-        // newReleasesArtist: document.querySelector(
-        //   DOMElements.newReleasesArtist
-        // ),
-
-        // inputElement: document.querySelector(DOMElements.inputElement),
-        // playlistElement: document.querySelector(DOMElements.playlistElement),
-        // playlistHeading: document.querySelector(DOMElements.playlistHeading),
-        // Add more selectors as needed
-      };
-    },
-
-    displayUserPlaylists: function (playlists) {
-      const playlistsContainer = document.querySelector(
-        DOMElements.playlistsContainer
-      );
-      playlistsContainer.innerHTML = ""; // Clear existing content
-
-      playlists.forEach((playlist) => {
-        const playlistItem = document.createElement("div");
-        playlistItem.innerHTML = `
-        <div class="playlist-short-container">
-                <div class="playlist-icon-container">
-                    <div class="playlist-icon-inner-container">
-                        <i class="fa-regular fa-user playlist-icon"></i>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="playlist-name">${playlist.name}</h3>
-                    <p class="playlist-names">some other names</p>
-                    <p class="playlist-names">some other names</p>
-                    <div class="music-playlist-icon">
-                        <i class="fa-solid fa-music music-playlist-icon"></i>
-                        <p class="playlist-names">song name</p>
-
-                    </div>
-
-                </div>
-                <div class="playlist-song-time">
-                    <span class="song-time">37 m</span>
-                </div>
-            </div>
-        `;
-        playlistsContainer.appendChild(playlistItem);
-      });
-    },
     displayTopTracks: function (topTracks) {
       const topTracksContainer = document.querySelector(
         DOMElements.topTracksContainer
@@ -409,24 +252,6 @@ const UIController = (function () {
         trackItem.innerHTML = `<p>${track.name} by ${track.artists[0].name}</p>`;
         topTracksContainer.appendChild(trackItem);
       });
-    },
-    displayUserProfile: function (userProfile) {
-      const userProfileContainer = document.querySelector(
-        DOMElements.userProfileContainer
-      );
-      userProfileContainer.innerHTML = ""; // Clear existing content
-
-      const profileItem = document.createElement("div");
-      profileItem.setAttribute("class", "flex items-center");
-      if (userProfile.images) {
-        profileItem.innerHTML = `
-                <img src="${userProfile.images[0].url}" class="profile-image" alt="Profile Image">
-                
-                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= "text-[#bdc0c0]">${userProfile.display_name}</a>
-                `;
-      }
-      userProfileContainer.appendChild(profileItem);
-      //   console.log(userProfile);
     },
     displayRecentlyPlayedTracks: function (recentlyPlayedTracks, accessToken) {
       const recentlyPlayedContainer = document.querySelector(
@@ -446,510 +271,11 @@ const UIController = (function () {
         attachPlayTrackEvent(trackItem, track.track, accessToken);
       });
     },
-    displayArtistName: function (currentlyPlaying) {
-      const artistNameElement = document.querySelector(DOMElements.artistName);
-      const audioPlayerArtistName = document.querySelector(
-        DOMElements.songAuthor
-      );
-      audioPlayerArtistName.innerHTML = "";
-      artistNameElement.innerHTML = "";
-
-      if (!currentlyPlaying || !currentlyPlaying.item) {
-        return;
-      }
-      const artistName = currentlyPlaying.item.artists[0].name;
-      if (artistName.length > 10 && artistName.length < 15) {
-        artistNameElement.style.fontSize = "1.2rem";
-      } else if (artistName.length > 15) {
-        artistNameElement.style.fontSize = "1rem";
-      }
-      artistNameElement.innerHTML = artistName;
-      audioPlayerArtistName.innerHTML = artistName;
-    },
-    displayCurrentSongName: function (currentlyPlaying) {
-      const currentSongElement = document.querySelectorAll(
-        DOMElements.currentSong
-      );
-
-      let songName = "";
-      if (currentlyPlaying && currentlyPlaying.item) {
-        songName = currentlyPlaying.item.name;
-      }
-      currentSongElement.forEach(
-        (currentSong) => (currentSong.innerHTML = songName)
-      );
-    },
-    displayArtistImage: function (currentArtist) {
-      const artistImageElement = document.querySelectorAll(
-        DOMElements.leftAudioPlayerImg
-      );
-      const artistImage = document.querySelector(DOMElements.authorImage);
-      const mainImage = document.querySelector(DOMElements.mainImage);
-      artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
-
-      if (
-        currentArtist &&
-        currentArtist.images &&
-        currentArtist.images.length > 0
-      ) {
-        const artistUrl = currentArtist.images[0].url;
-
-        artistImage.style.backgroundImage = `url(${artistUrl})`;
-        mainImage.style.backgroundImage = `url(${artistUrl})`;
-        artistImageElement.forEach(
-          (artistImage) =>
-            (artistImage.innerHTML = `
-        <img
-          src="${artistUrl}"
-          class="bottom-player-artist-image"
-          alt="singer_image"
-          />`)
-        );
-      }
-    },
-    displayNewReleases: function (newReleases) {
-      const randomNumber = Math.floor(Math.random() * 40) + 1;
-      document
-        .querySelectorAll(DOMElements.newReleasesImage)
-        .forEach((singleImage, index) => {
-          const album = newReleases.albums.items[index + randomNumber];
-          if (album && album.images && album.images.length > 0) {
-            singleImage.innerHTML = `<img src="${album.images[0].url}" class="best-release-img" alt="singer_image">`;
-          }
-        });
-      document
-        .querySelectorAll(DOMElements.newReleasesName)
-        .forEach((name, index) => {
-          let albumName = "";
-          if (
-            newReleases.albums.items[index + randomNumber] &&
-            newReleases.albums.items[index + randomNumber].name
-          ) {
-            albumName = newReleases.albums.items[index + randomNumber].name;
-            if (albumName.length > 30) {
-              albumName = albumName.substring(0, 30) + "...";
-            }
-          }
-          name.innerHTML = albumName;
-        });
-
-      document
-        .querySelectorAll(DOMElements.newReleasesArtist)
-        .forEach((artist) => (artist.innerHTML = ""));
-      document
-        .querySelectorAll(DOMElements.newReleasesArtist)
-        .forEach((artist, index) => {
-          let artistNames = [];
-          if (
-            newReleases.albums.items[index + randomNumber] &&
-            newReleases.albums.items[index + randomNumber].artists
-          ) {
-            artistNames = newReleases.albums.items[
-              index + randomNumber
-            ].artists.map((artist) => artist.name);
-            if (artistNames.length > 14) {
-              artistNames = artistNames.slice(0, 14);
-              artistNames.push("...");
-            }
-          }
-          artist.innerHTML += artistNames.join(", ");
-        });
-    },
-    displaySearchRecommendation: function (searchMethod) {
-      document
-        .querySelectorAll(DOMElements.searchSongName)
-        .forEach((element, index) => {
-          if (
-            searchMethod.tracks &&
-            searchMethod.tracks.items &&
-            searchMethod.tracks.items[index] &&
-            searchMethod.tracks.items[index].name
-          ) {
-            let songName = searchMethod.tracks.items[index].name;
-            if (songName.length > 30) {
-              songName = songName.substring(0, 27) + "...";
-            }
-            element.innerHTML = songName;
-          }
-        });
-      document
-        .querySelectorAll(DOMElements.searchArtistName)
-        .forEach((element, index) => {
-          if (
-            searchMethod.tracks &&
-            searchMethod.tracks.items &&
-            searchMethod.tracks.items[index] &&
-            searchMethod.tracks.items[index].artists
-          ) {
-            let artistNames = searchMethod.tracks.items[index].artists
-              .map((artist) => artist.name)
-              .join(", ");
-            if (artistNames.length > 14) {
-              artistNames = artistNames.substring(0, 14) + "...";
-            }
-            element.innerHTML = artistNames;
-          }
-        });
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          searchMethod &&
-          searchMethod.tracks &&
-          searchMethod.tracks.items &&
-          searchMethod.tracks.items[index] &&
-          searchMethod.tracks.items[index].album &&
-          searchMethod.tracks.items[index].album.images &&
-          searchMethod.tracks.items[index].album.images[0] &&
-          searchMethod.tracks.items[index].album.images[0].url
-        ) {
-          element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
-        }
-      });
-    },
-    displayNewAlbum: function (searchMethod) {
-      document
-        .querySelectorAll(".album-upper-name")
-        .forEach((element, index) => {
-          if (
-            searchMethod.albums.items[index] &&
-            searchMethod.albums.items[index].name
-          ) {
-            let albumName = searchMethod.albums.items[index].name;
-            if (albumName.length > 30) {
-              albumName = albumName.substring(0, 27) + "...";
-            }
-            element.innerHTML = albumName;
-          }
-        });
-      document
-        .querySelectorAll(".album-upper-image")
-        .forEach((element, index) => {
-          if (
-            searchMethod.albums.items[index] &&
-            searchMethod.albums.items[index].images &&
-            searchMethod.albums.items[index].images[0] &&
-            searchMethod.albums.items[index].images[0].url
-          ) {
-            element.innerHTML = `<img src="${searchMethod.albums.items[index].images[0].url}" class="best-release-img" alt="singer_image">`;
-          }
-        });
-
-      document
-        .querySelectorAll(".album-upper-artist")
-        .forEach((element, index) => {
-          let artistNames = "";
-          if (
-            searchMethod.albums.items[index] &&
-            searchMethod.albums.items[index].artists
-          ) {
-            artistNames = searchMethod.albums.items[index].artists
-              .map((artist) => artist.name)
-              .join(", ");
-            if (artistNames.length > 18) {
-              artistNames = artistNames.substring(0, 18) + "...";
-            }
-          }
-          element.innerHTML = artistNames;
-        });
-    },
-    displayNewArtist: function (searchMethod) {
-      document
-        .querySelectorAll(DOMElements.newReleasesNameArtist)
-        .forEach((element, index) => {
-          if (
-            searchMethod.artists.items[index] &&
-            searchMethod.artists.items[index].name
-          ) {
-            let artistName = searchMethod.artists.items[index].name;
-            if (artistName.length > 30) {
-              artistName = artistName.substring(0, 27) + "...";
-            }
-            element.innerHTML = artistName;
-          }
-        });
-      document
-        .querySelectorAll(DOMElements.newReleasesImageArtist)
-        .forEach((element, index) => {
-          if (
-            searchMethod.artists.items[index] &&
-            searchMethod.artists.items[index].images &&
-            searchMethod.artists.items[index].images[0] &&
-            searchMethod.artists.items[index].images[0].url
-          ) {
-            element.innerHTML = `<img src="${searchMethod.artists.items[index].images[0].url}" class="best-release-img-artists" alt="singer_image">`;
-          }
-        });
-    },
-    displayNewPlaylist: function (searchMethod) {
-      document
-        .querySelectorAll(DOMElements.newReleasesArtistPlaylist)
-        .forEach((element, index) => {
-          let artistNames = "";
-          if (
-            searchMethod.playlists.items[index] &&
-            searchMethod.playlists.items[index].owner &&
-            searchMethod.playlists.items[index].owner.display_name
-          ) {
-            artistNames =
-              searchMethod.playlists.items[index].owner.display_name;
-          }
-          element.innerHTML = artistNames;
-        });
-      document
-        .querySelectorAll(DOMElements.newReleasesNamePlaylist)
-        .forEach((element, index) => {
-          if (
-            searchMethod.playlists.items[index] &&
-            searchMethod.playlists.items[index].name
-          ) {
-            let playlistName = searchMethod.playlists.items[index].name;
-            if (playlistName.length > 30) {
-              playlistName = playlistName.substring(0, 27) + "...";
-            }
-            element.innerHTML = playlistName;
-          }
-        });
-      document
-        .querySelectorAll(DOMElements.newReleasesImagePlaylist)
-        .forEach((element, index) => {
-          if (
-            searchMethod.playlists.items[index] &&
-            searchMethod.playlists.items[index].images &&
-            searchMethod.playlists.items[index].images[0] &&
-            searchMethod.playlists.items[index].images[0].url
-          ) {
-            element.innerHTML = `<img src="${searchMethod.playlists.items[index].images[0].url}" class="best-release-img" alt="singer_image">`;
-          }
-        });
-    },
-    displaySearchSongs: function (searchMethod) {
-      document.querySelectorAll(".result-text h4").forEach((element, index) => {
-        if (index < 3 || index >= 9) {
-          let songName;
-          if (searchMethod.tracks.items && searchMethod.tracks.items[index]) {
-            if (index >= 9) {
-              songName = searchMethod.tracks.items[index - 9]?.name;
-            } else {
-              songName = searchMethod.tracks.items[index]?.name;
-            }
-            if (songName && songName.length > 30) {
-              songName = songName.substring(0, 27) + "...";
-            }
-          }
-          element.innerHTML = songName || "";
-        }
-      });
-      document.querySelectorAll(".result-text h5").forEach((element, index) => {
-        if (index < 3 || index >= 9) {
-          let artistNames;
-          if (index >= 9 && searchMethod.tracks.items[index - 6]?.artists) {
-            artistNames = searchMethod.tracks.items[index - 6].artists
-              .map((artist) => artist.name)
-              .join(", ");
-          } else if (searchMethod.tracks.items[index]?.artists) {
-            artistNames = searchMethod.tracks.items[index].artists
-              .map((artist) => artist.name)
-              .join(", ");
-          }
-          if (artistNames && artistNames.length > 14) {
-            artistNames = artistNames.substring(0, 14) + "...";
-          }
-
-          element.innerHTML = artistNames;
-        }
-      });
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          index < 3 &&
-          searchMethod.tracks.items[index] &&
-          searchMethod.tracks.items[index].album &&
-          searchMethod.tracks.items[index].album.images &&
-          searchMethod.tracks.items[index].album.images[0] &&
-          searchMethod.tracks.items[index].album.images[0].url
-        ) {
-          element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
-        } else if (
-          index >= 9 &&
-          searchMethod.tracks.items[index - 6] &&
-          searchMethod.tracks.items[index - 6].album &&
-          searchMethod.tracks.items[index - 6].album.images &&
-          searchMethod.tracks.items[index - 6].album.images[0] &&
-          searchMethod.tracks.items[index - 6].album.images[0].url
-        ) {
-          element.style.backgroundImage = `url(${
-            searchMethod.tracks.items[index - 6].album.images[0].url
-          })`;
-        }
-      });
-    },
-    displaySearchAlbums: function (searchMethod) {
-      document.querySelectorAll(".result-text h4").forEach((element, index) => {
-        if (index >= 3 && index < 6) {
-          let albumName = searchMethod.albums.items[index - 3]?.name;
-          if (albumName && albumName.length > 30) {
-            albumName = albumName.substring(0, 27) + "...";
-          }
-          element.innerHTML = albumName || "";
-        }
-      });
-      document.querySelectorAll(".result-text h5").forEach((element, index) => {
-        if (
-          index >= 3 &&
-          index < 6 &&
-          searchMethod.albums.items[index - 3] &&
-          searchMethod.albums.items[index - 3].artists
-        ) {
-          let artistNames = searchMethod.albums.items[index - 3].artists
-            .map((artist) => artist.name)
-            .join(", ");
-          if (artistNames.length > 18) {
-            artistNames = artistNames.substring(0, 18) + "...";
-          }
-          element.innerHTML = artistNames;
-        }
-      });
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          index >= 3 &&
-          index < 6 &&
-          searchMethod.albums.items[index - 3] &&
-          searchMethod.albums.items[index - 3].images &&
-          searchMethod.albums.items[index - 3].images[0] &&
-          searchMethod.albums.items[index - 3].images[0].url
-        ) {
-          element.style.backgroundImage = `url(${
-            searchMethod.albums.items[index - 3].images[0].url
-          })`;
-        }
-      });
-    },
-    displaySearchPlaylists: function (searchMethod) {
-      document.querySelectorAll(".result-text h4").forEach((element, index) => {
-        if (
-          index >= 6 &&
-          index < 9 &&
-          searchMethod.playlists &&
-          searchMethod.playlists.items &&
-          searchMethod.playlists.items[index]
-        ) {
-          let songName = searchMethod.playlists.items[index].name;
-          if (songName.length > 30) {
-            songName = songName.substring(0, 27) + "...";
-          }
-          element.innerHTML = songName;
-        }
-      });
-
-      document.querySelectorAll(".result-text h5").forEach((element, index) => {
-        if (
-          index >= 6 &&
-          index < 9 &&
-          searchMethod.playlists &&
-          searchMethod.playlists.items &&
-          searchMethod.playlists.items[index] &&
-          searchMethod.playlists.items[index].owner &&
-          searchMethod.playlists.items[index].owner.display_name
-        ) {
-          let artistName =
-            searchMethod.playlists.items[index].owner.display_name;
-          element.innerHTML = artistName;
-        }
-      });
-
-      document.querySelectorAll(".result-image").forEach((element, index) => {
-        if (
-          index >= 6 &&
-          index < 9 &&
-          searchMethod.playlists &&
-          searchMethod.playlists.items &&
-          searchMethod.playlists.items[index] &&
-          searchMethod.playlists.items[index].images &&
-          searchMethod.playlists.items[index].images[0] &&
-          searchMethod.playlists.items[index].images[0].url
-        ) {
-          element.style.backgroundImage = `url(${searchMethod.playlists.items[index].images[0].url})`;
-        }
-      });
-    },
-    displaySongsRecommendation: function (searchMethod) {
-      document
-        .querySelectorAll(".album-img-container")
-        .forEach((element, index) => {
-          if (
-            searchMethod &&
-            searchMethod.tracks &&
-            searchMethod.tracks.items &&
-            searchMethod.tracks.items[index] &&
-            searchMethod.tracks.items[index].album &&
-            searchMethod.tracks.items[index].album.images &&
-            searchMethod.tracks.items[index].album.images[0] &&
-            searchMethod.tracks.items[index].album.images[0].url
-          ) {
-            element.innerHTML = `<img src="${searchMethod.tracks.items[index].album.images[0].url}" class="album-img" alt="singer_image">`;
-          }
-        });
-
-      let artistNameDiv = document.querySelectorAll(".max-w-\\[130px\\] h3");
-      artistNameDiv.forEach((element, index) => {
-        if (
-          searchMethod.tracks &&
-          searchMethod.tracks.items &&
-          searchMethod.tracks.items[index] &&
-          searchMethod.tracks.items[index].artists
-        ) {
-          let artistNames = searchMethod.tracks.items[index].artists
-            .map((artist) => artist.name)
-            .join(", ");
-          if (artistNames.length > 14) {
-            artistNames = artistNames.substring(0, 14) + "...";
-          }
-          element.innerHTML = artistNames;
-        }
-      });
-
-      let songsNameDiv = document.querySelectorAll(".max-w-\\[130px\\] h2");
-      songsNameDiv.forEach((element, index) => {
-        if (
-          searchMethod.tracks &&
-          searchMethod.tracks.items &&
-          searchMethod.tracks.items[index] &&
-          searchMethod.tracks.items[index].name
-        ) {
-          let songName = searchMethod.tracks.items[index].name;
-          if (songName.length > 30) {
-            songName = songName.substring(0, 27) + "...";
-          }
-          element.innerHTML = songName;
-        }
-      });
-    },
-    searchItemText: function () {
-      document
-        .querySelectorAll(DOMElements.searchSongName)
-        .forEach((element) => {
-          let songName = element.innerHTML;
-          if (songName.length > 20) {
-            element.innerHTML = songName.substring(0, 20) + "...";
-          }
-        });
-
-      document
-        .querySelectorAll(DOMElements.searchArtistName)
-        .forEach((element) => {
-          let artistName = element.innerHTML;
-          if (artistName.length > 20) {
-            element.innerHTML = artistName.substring(0, 20) + "...";
-          }
-        });
-    },
-
-    // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
   };
 })();
 
 // APP Controller Module
 const APPController = (async function (UICtrl, APICtrl) {
-  const DOMInputs = UICtrl.inputField();
-
   // After the user is redirected back
   window.addEventListener("load", async () => {
     if (accessToken) {
@@ -1027,7 +353,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       "love",
       "artist"
     );
-    UICtrl.displayNewArtist(searchMethod);
+    displayNewArtist(searchMethod);
 
     //  Functions
     // Function to update search results
@@ -1044,7 +370,7 @@ const APPController = (async function (UICtrl, APICtrl) {
         });
         // If the input value is empty, show default search results (e.g., "Sad")
         searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
-        UICtrl.displaySearchRecommendation(searchMethod);
+        displaySearchRecommendation(searchMethod);
       } else {
         playlistHeading.forEach((singleElement, index) => {
           singleElement.innerHTML =
@@ -1059,24 +385,24 @@ const APPController = (async function (UICtrl, APICtrl) {
           inputValue,
           "track"
         );
-        UICtrl.displaySearchSongs(searchMethod);
+        displaySearchSongs(searchMethod);
 
         searchMethod = await APICtrl.getConnectSearch(
           accessToken,
           inputValue,
           "album"
         );
-        UICtrl.displaySearchAlbums(searchMethod);
+        displaySearchAlbums(searchMethod);
 
         searchMethod = await APICtrl.getConnectSearch(
           accessToken,
           inputValue,
           "playlist"
         );
-        UICtrl.displaySearchPlaylists(searchMethod);
+        displaySearchPlaylists(searchMethod);
       }
       // console.log("input", inputElement);
-      // UICtrl.displaySearchRecommendation(searchMethod);
+      // displaySearchRecommendation(searchMethod);
 
       // Reset styles and headings
     }
@@ -1096,14 +422,13 @@ const APPController = (async function (UICtrl, APICtrl) {
         type
       );
       if (type === "track") {
-        UICtrl.displaySongsRecommendation(searchMethod);
+        displaySongsRecommendation(searchMethod);
       } else if (type === "album") {
-        UICtrl.displayNewAlbum(searchMethod);
+        displayNewAlbum(searchMethod);
       } else if (type === "playlist") {
-        UICtrl.displayNewPlaylist(searchMethod);
-      }
-      else if (type === "artist") {
-        UICtrl.displayNewArtist(searchMethod);
+        displayNewPlaylist(searchMethod);
+      } else if (type === "artist") {
+        displayNewArtist(searchMethod);
       }
     }
 
@@ -1119,7 +444,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       }
     });
     searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
-    UICtrl.displaySongsRecommendation(searchMethod);
+    displaySongsRecommendation(searchMethod);
 
     const tabs = document.querySelectorAll("#tabs a");
     tabs.forEach((tab) => {
@@ -1230,12 +555,12 @@ const APPController = (async function (UICtrl, APICtrl) {
     const userProfile = await APICtrl.getUserProfile(accessToken);
     const newReleases = await APICtrl.getNewReleases(accessToken);
     searchMethod = await APICtrl.getConnectSearch(accessToken, "", "playlist");
-    UICtrl.displayNewPlaylist(searchMethod);
+    displayNewPlaylist(searchMethod);
     // UICtrl display methods
-    UICtrl.displayUserProfile(userProfile);
-    UICtrl.displayUserPlaylists(playlists);
-    UICtrl.searchItemText();
-    UICtrl.displayNewReleases(newReleases);
+    displayUserProfile(userProfile);
+    displayUserPlaylists(playlists);
+    searchItemText();
+    displayNewReleases(newReleases);
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     const currentArtist =
       currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
@@ -1244,9 +569,9 @@ const APPController = (async function (UICtrl, APICtrl) {
             currentlyPlaying.item.artists[0].id
           )
         : null;
-    UICtrl.displayArtistName(currentlyPlaying);
-    UICtrl.displayCurrentSongName(currentlyPlaying);
-    UICtrl.displayArtistImage(currentArtist);
+    displayArtistName(currentlyPlaying);
+    displayCurrentSongName(currentlyPlaying);
+    displayArtistImage(currentArtist.images[0].url);
 
     if (currentArtist) {
       artistData(currentArtist.name);

@@ -15,175 +15,7 @@
     <div class="right-navigation-container">
         <div x-cloak class="w-full flex flex-center  gap-3 md:gap-8"
             :class="desktopNavSearchopen ? ' items-start' : 'items-center'">
-            <div class="navbar-input-and-show-container" x-cloak>
-                <div class="navbar-input-and-show-container-close">
-                    <input type="text" x-on:focus="desktopNavSearchopen = true"
-                        :class="desktopNavSearchopen ? 'hidden' : 'search_input'" placeholder="Search"
-                        class="transition-all duration-500" x-cloak
-                        x-on:keydown.enter="desktopNavSearchopen = false" />
-                </div>
-
-                <!-- <div x-cloak> -->
-                <div class="search-main-box hidden"
-                    :class="desktopNavSearchopen ? 'bg-[#2c2f35] xl:w-[55vw] w-[75vw] xl:h-[50vh] h-[60vh] visible xl:mt-[20px] xl:right-[100%] 2xl:right-[70%] min-[1600px]:right-[100%]': 'invisible w-[6vw] h-[2vh] right-[60%] xl:right-[71.5%] min-[1600px]:right-[70%] xl:mt-7 bg-white' "
-                    x-cloak>
-                    <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak
-                        class="search-inner-box"><button>
-                            <span :class="desktopNavSearchopen ? '': 'hidden'" x-cloak><i
-                                class="fa-solid fa-magnifying-glass"></i></span>
-                        </button>
-                        <div :class="desktopNavSearchopen ? '': 'invisible hidden h-0 p-0'" x-cloak
-                            class="search-inner-box-main">
-                            <input
-                                :class="desktopNavSearchopen ? 'h-[100%] xl:w-[88.7%] w-[92.5%] px-4 py-1 border-none focus:outline-none hover:border-[#0f1013] hover:border-[0.1px] rounded-xl bg-[#2c2f35]': 'hidden' "
-                                x-cloak type="text" x-on:keydown.enter="desktopNavSearchopen = false">
-
-                            <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
-                                <span><i class="fa-solid fa-microphone"></i></span>
-                            </button>
-                            <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
-                                <span><i class="fa-solid fa-camera"></i></span>
-                            </button>
-                        </div>
-
-                        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak class="navbar-clear-btn">Clear</button>
-                        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak
-                            x-on:click="desktopNavSearchopen = false">
-                            <span><i class="fa-solid fa-circle-xmark text-white"></i>
-                            </span>
-                        </button>
-                    </div>
-                    <div :class="desktopNavSearchopen ? '': 'hidden'" x-cloak class="search-outer-result-box">
-                        <div class="every-result">
-                            <div class="search-result-heading">
-                                Trending
-                            </div>
-                            <div class="result-container">
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                            </div>
-
-                        </div>
-                        <div class="every-result">
-                            <div class="search-result-heading">
-                                playlist
-                            </div>
-                            <div class="result-container">
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="every-result">
-                            <div class="search-result-heading">
-                                playlist
-                            </div>
-                            <div class="result-container">
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                        <div class="every-result ">
-                            <div class="search-result-heading">
-                                playlist
-                            </div>
-                            <div class="result-container">
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                                <div class="result">
-                                    <div class="result-image">
-                                    </div>
-                                    <div class="result-text">
-                                        <h4>arijit singh - sad songs - hindi</h4>
-                                        <h5 class="text-slate-300">mood wave</h5>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-
-                    </div>
-                </div>
-                <!-- </div> -->
-            </div>
+            {% include 'desktop/navbar-search-input.html' %}
             <!-- dropdown menu -->
             <div x-data="{
             dropdownOpen: false
@@ -361,71 +193,23 @@
 var inputElement = document.querySelector(
       '.search-inner-box-main input[type="text"]'
     );
+    
+    function displayUserProfile(userProfile) {
+      const userProfileContainer = document.querySelector(
+        '#profile-name-container'
+      );
+      userProfileContainer.innerHTML = ""; // Clear existing content
 
-//     // Get the playlist element
-    // var playlistElement = document.querySelectorAll(".every-result");
-    // var playlistHeading =  document.querySelectorAll(".search-result-heading");
-//     var searchList = ["Albums", "Playlists", "Songs"]
-
-//     playlistHeading.forEach((singleElement, index) => {
-//         if (index != 0) {
-//             singleElement.innerHTML = "";
-//         }
-//     });
-//     playlistElement.forEach((singleElement, index) => {
-//         if (index != 0) {
-//             singleElement.style.marginTop = "21px";
-//         }
-//     });
-
-//     // playlistElement.forEach(
-//     //     (singleElement) => (singleElement.style.display = "none")
-//     //   );
-
-//     inputElement.addEventListener("keyup", async function (event) {
-//       // Number 13 is the "Enter" key on the keyboard
-
-//       var inputValue = inputElement.value;
-//       // Cancel the default action, if needed
-//     //   event.preventDefault();
-
-//     if (inputValue == "") {
-        
-//         playlistElement.forEach((singleElement, index) => {
-//             if (index != 0) {
-//                 singleElement.style.marginTop = "21px";
-//             }
-//         });
-//         // If the input field is empty, add a 'hidden' class to the playlist element
-//         playlistHeading.forEach((singleElement, index) => {
-//             if (index != 0) {
-//                 singleElement.innerHTML = "";
-//             }
-//         });
-        
-      
-//     } else {
-//         playlistElement.forEach((singleElement, index) => {
-//             if (index != 0) {
-//                 singleElement.style.marginTop = "0px";
-//             }
-//         });
-        // playlistHeading.forEach((singleElement, index) => {
-        // if (index != 0) {
-        //     singleElement.innerHTML = searchList[index -1];
-        // }
-//     });
-        
-//     }
-
-//     //   const searchResult = await APICtrl.getConnectSearch(
-//     //     accessToken,
-//     //     inputValue
-//     //   );
-//     //   console.log("Search Result : ", searchResult);
-//       console.log(inputValue);
-//     });
-//     document.querySelector('.navbar-clear-btn').addEventListener('click', function() {
-//         inputElement.value = '';
-//     });
+      const profileItem = document.createElement("div");
+      profileItem.setAttribute("class", "flex items-center");
+      if (userProfile.images) {
+        profileItem.innerHTML = `
+                <img src="${userProfile.images[0].url}" class="profile-image" alt="Profile Image">
+                
+                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= "text-[#bdc0c0]">${userProfile.display_name}</a>
+                `;
+      }
+      userProfileContainer.appendChild(profileItem);
+      //   console.log(userProfile);
+    }
 </script>

@@ -39,6 +39,7 @@
     </div>
   </div>
 </div>
+
 <script>
   var artistBio = [];
 
@@ -54,15 +55,21 @@
     let data = await response.json();
     artistBio.push(data.artist.bio.summary);
 
-    console.log("some data ", data);
+    // console.log("some data ", data);
     let bio = artistBio[0];
 
     let artistBioElement = document.querySelector(".song-album-description");
     artistBioElement.innerHTML = "";
 
-    console.log("artist bio", bio);
+    if (true) {
+      artistBioElement.innerHTML = bio.substring(0, 220);
+    } else {
+      artistBioElement.innerHTML = "Sorry no bio available for this artist.";
+      artistBioElement.style.fontSize = "1.1rem";
+      artistBioElement.style.lineHeight = "1.5";
+    }
+    console.log("bio", bio);
 
-    artistBioElement.innerHTML = bio.substring(0, 220);
     // } catch (error) {
     //   console.error(error);
     // }
@@ -70,5 +77,57 @@
     //   // loader.style.display = "none";
     // }
   };
-  // artistData("a r rahman");
+  function displayArtistName(currentlyPlaying) {
+    const artistNameElement = document.querySelector(".song-album-name");
+    const audioPlayerArtistName = document.querySelector(".song-author");
+    audioPlayerArtistName.innerHTML = "";
+    artistNameElement.innerHTML = "";
+
+    if (!currentlyPlaying || !currentlyPlaying.item) {
+      return;
+    }
+    const artistName = currentlyPlaying.item.artists[0].name;
+    if (artistName.length > 10 && artistName.length < 15) {
+      artistNameElement.style.fontSize = "1.2rem";
+    } else if (artistName.length > 15) {
+      artistNameElement.style.fontSize = "1rem";
+    }
+    artistNameElement.innerHTML = artistName;
+    audioPlayerArtistName.innerHTML = artistName;
+  }
+
+  function displayCurrentSongName(currentlyPlaying) {
+    const currentSongElement = document.querySelectorAll(".song-title");
+
+    let songName = "";
+    if (currentlyPlaying && currentlyPlaying.item) {
+      songName = currentlyPlaying.item.name;
+    }
+    currentSongElement.forEach(
+      (currentSong) => (currentSong.innerHTML = songName)
+    );
+  }
+
+  function displayArtistImage(currentArtist) {
+    const artistImageElement = document.querySelectorAll(
+      ".left-audio-player-img"
+    );
+    const artistImage = document.querySelector(".author-image");
+    const mainImage = document.querySelector(".main");
+    artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
+
+    const artistUrl = currentArtist;
+
+    artistImage.style.backgroundImage = `url(${artistUrl})`;
+    mainImage.style.backgroundImage = `url(${artistUrl})`;
+    artistImageElement.forEach(
+      (artistImage) =>
+        (artistImage.innerHTML = `
+      <img
+            src="${artistUrl}"
+            class="bottom-player-artist-image"
+            alt="singer_image"
+          />`)
+    );
+  }
 </script>
