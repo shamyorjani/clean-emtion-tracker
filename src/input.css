@@ -267,7 +267,7 @@ html {
   @apply text-[#c0c0c0] mx-auto text-[10px] text-center;
 }
 .mobile-albums-list-carousel .slick-slide {
-  @apply mx-1;
+  @apply px-3;
 }
 .album-upper-image-playlist img,
 .upper-image-artist img,
@@ -281,7 +281,7 @@ html {
   @apply basis-2/6 bg-transparent;
 }
 .album-playlist-main-container {
-  @apply flex flex-row justify-end w-[85vw] gap-2 mt-12;
+  @apply flex flex-row justify-end  gap-2 mt-12;
 }
 .active-mick {
   @apply text-[#b42f18] h-5 w-5 mb-0 pb-0 pt-[4px];
@@ -292,6 +292,10 @@ html {
 }
 #playlist-toggler {
   @apply z-[9999];
+  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] max-h-[90vh] overflow-y-scroll z-[9999];
+}
+#playlist-toggler {
+  @apply z-[99999];
 }
 .playlist-short-container {
   @apply flex justify-between gap-1 px-3 mt-4 m-0 text-white w-[100%];
@@ -371,10 +375,16 @@ html {
   @apply relative left-0 top-0 bottom-0 h-[100vh] xl:w-[15vw] w-[300px] bg-[#2c2f35] flex flex-col justify-center items-center transition-all duration-700;
 }
 .albums-playlist {
-  @apply relative overflow-y-scroll h-[100vh] lg:w-[67vw] 2xl:w-[69vw] left-0 top-0 bottom-0 bg-[#2f3238] flex flex-col items-center z-10;
+  @apply relative overflow-y-scroll overflow-x-hidden h-[100vh] lg:w-[67vw] 2xl:w-[69vw] left-0 top-0 bottom-0 bg-[#2f3238] flex flex-col items-center z-10;
+}
+.albums-item {
+  @apply w-full;
+}
+#albums-bottom-section {
+  @apply overflow-x-hidden;
 }
 .albums-playlist-body {
-  @apply flex flex-col justify-center items-center pt-12 text-[12px] bg-[#2f3238] w-[100%] z-50;
+  @apply flex flex-col justify-center items-center pt-12 text-[12px] bg-[#2f3238] w-[100%] z-50 overflow-x-hidden;
 }
 .bars {
   @apply my-4 contrast-50;
