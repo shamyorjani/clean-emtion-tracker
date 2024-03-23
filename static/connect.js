@@ -407,11 +407,6 @@ const APPController = (async function (UICtrl, APICtrl) {
       ".album-playlist-main-container"
     );
 
-    document
-      .querySelectorAll(".album-playlist-main-container")
-      .forEach((container) => {
-        container.style.display = "none";
-      });
     var mickSelect = document.getElementById("mic-id");
     var mickToggle = document.getElementById("start");
     var recognition = new webkitSpeechRecognition();
@@ -436,9 +431,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     recognition.addEventListener("end", () => {
       mickSelect.classList.remove("active-mick");
     });
-    document.addEventListener("DOMContentLoaded", function () {
-
-    });
+    document.addEventListener("DOMContentLoaded", function () {});
     // const micIcon = document.getElementById("mic-id");
 
     // micIcon.addEventListener("click", function () {
@@ -450,7 +443,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     //     micIcon.classList.toggle("active-mick", true);
     //   }
     // });
-    
+
     const tabs = document.querySelectorAll("#tabs a");
     tabs.forEach((tab) => {
       tab.addEventListener("click", async function (event) {
@@ -472,6 +465,9 @@ const APPController = (async function (UICtrl, APICtrl) {
         // Add hr element to the active tab
         const activeDiv = tab.parentElement.querySelector(".active");
         const hrElement = document.createElement("hr");
+        hideContainer.forEach((container) => {
+          container.style.display = "flex";
+        });
         if (tab.getAttribute("data-tab") === "overview") {
           hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
