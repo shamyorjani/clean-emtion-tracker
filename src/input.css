@@ -338,6 +338,10 @@ html {
   @apply text-[#c0c0c0] xl:text-[8px] 2xl:text-[10px] font-poppinsRegular;
 }
 /* audio player */
+
+.main-volume-progress {
+  @apply h-1 w-[95%] flex items-center justify-end mt-2;
+}
 .current-song-artist-image {
   @apply w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[63px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm;
 }
