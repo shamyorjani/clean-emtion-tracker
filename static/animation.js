@@ -154,7 +154,7 @@ document.addEventListener("DOMContentLoaded", function () {
   scrollableDiv.addEventListener("wheel", function (event) {
     // Calculate the amount to scroll based on the wheel delta
     var delta = event.deltaY || event.detail || event.wheelDelta;
-    var scrollAmount = delta > 0 ? 100 : -100; // You can adjust the scroll amount as needed
+    var scrollAmount = delta > 0 ? 50 : -50; // You can adjust the scroll amount as needed
 
     // Calculate the maximum scroll height for the div
     var maxScrollHeight =

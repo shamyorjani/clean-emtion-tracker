@@ -70,13 +70,13 @@
       />
     </div>
   </div>
-  <div>
+  <div class="albums-item" style="width: 100%">
     <div class="album-playlist-main-container">
       <div
-        class="basis-4/6 bg-transparent ml-52 flex justify-top w-[100%] h-[115px]"
+        class="basis-4/6 bg-transparent ml-0 flex justify-end w-[100%] h-[115px]"
       >
         <div
-          class="flex flex-col justify-center items-start text-white text-[18px] font-semibold"
+          class="flex flex-col justify-center items-end text-white text-[18px] font-semibold"
         >
           <h1>Albums</h1>
           <h1>Best Release</h1>
@@ -102,13 +102,14 @@
   </div>
 
   <!-- Playlists -->
-  <div>
+
+  <div class="albums-item" style="width: 100%">
     <div class="album-playlist-main-container">
       <div
-        class="basis-4/6 bg-transparent ml-52 flex justify-top w-[100%] h-[115px]"
+        class="basis-4/6 bg-transparent ml-0 flex justify-end w-[100%] h-[115px]"
       >
         <div
-          class="flex flex-col justify-center items-start text-white text-[18px] font-semibold"
+          class="flex flex-col justify-center items-end text-white text-[18px] font-semibold"
         >
           <h1>The Best</h1>
           <h1>Playlists</h1>
@@ -186,13 +187,14 @@
       </div>
     </div>
   </div>
-  <div>
+
+  <div class="albums-item" style="width: 100%">
     <div class="album-playlist-main-container">
       <div
-        class="basis-4/6 bg-transparent ml-52 flex justify-top w-[100%] h-[115px]"
+        class="basis-4/6 bg-transparent ml-0 flex justify-end w-[100%] h-[115px]"
       >
         <div
-          class="flex flex-col justify-center items-start text-white text-[18px] font-semibold"
+          class="flex flex-col justify-center items-end text-white text-[18px] font-semibold"
         >
           <h1>Top Rated</h1>
           <h1>Artists</h1>
@@ -282,7 +284,10 @@
       </div>
     </div>
   </div>
-  <div class="my-10">
+  <div
+    class="albums-item my-10"
+    style="width: 100%; display: flex; justify-content: center"
+  >
     <div class="flex flex-row flex-wrap w-[50vw] gap-2">
       <div class="text-white text-[18px] font-semibold mb-2 w-[50vw]">
         <h1>New Release Songs</h1>
@@ -518,4 +523,7 @@
   </div>
 </div>
 <!-- <script src="desktop/js/albums-playlist.js"></script> -->
-<script src="{{url_for('static',filename='js/albums-playlist.js')}}" defer></script>
+<script
+  src="{{url_for('static',filename='js/albums-playlist.js')}}"
+  defer
+></script>

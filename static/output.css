@@ -724,8 +724,8 @@ video {
   margin-bottom: 0.5rem;
 }
 
-.ml-52{
-  margin-left: 13rem;
+.ml-0{
+  margin-left: 0px;
 }
 
 .ml-6{
@@ -1009,6 +1009,10 @@ video {
 
 .items-start{
   align-items: flex-start;
+}
+
+.items-end{
+  align-items: flex-end;
 }
 
 .items-center{
@@ -2795,8 +2799,8 @@ html {
 }
 
 .mobile-albums-list-carousel .slick-slide{
-  margin-left: 0.25rem;
-  margin-right: 0.25rem;
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
 }
 
 .album-upper-image-playlist img,
@@ -2834,7 +2838,6 @@ html {
 .album-playlist-main-container{
   margin-top: 3rem;
   display: flex;
-  width: 85vw;
   flex-direction: row;
   justify-content: flex-end;
   gap: 0.5rem;
@@ -3182,6 +3185,7 @@ html {
   height: 100vh;
   flex-direction: column;
   align-items: center;
+  overflow-x: hidden;
   overflow-y: scroll;
   --tw-bg-opacity: 1;
   background-color: rgb(47 50 56 / var(--tw-bg-opacity));
@@ -3199,6 +3203,14 @@ html {
   }
 }
 
+.albums-item{
+  width: 100%;
+}
+
+#albums-bottom-section{
+  overflow-x: hidden;
+}
+
 .albums-playlist-body{
   z-index: 50;
   display: flex;
@@ -3206,6 +3218,7 @@ html {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  overflow-x: hidden;
   --tw-bg-opacity: 1;
   background-color: rgb(47 50 56 / var(--tw-bg-opacity));
   padding-top: 3rem;
