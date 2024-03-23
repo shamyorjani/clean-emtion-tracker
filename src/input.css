@@ -288,7 +288,10 @@ html {
 }
 
 .playlist-main-container {
-  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] max-h-[90vh] overflow-y-scroll z-[99999];
+  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] max-h-[90vh] overflow-y-scroll z-[9999];
+}
+#playlist-toggler {
+  @apply z-[99999];
 }
 .playlist-short-container {
   @apply flex justify-between gap-1 px-3 mt-4 m-0 text-white w-[100%];
@@ -300,7 +303,7 @@ html {
   @apply border border-white flex-center rounded-full relative;
 }
 .playlist-icon-inner-container:hover > .play-icon {
-  @apply visible bg-[rgba(0,0,0,0.5)] cursor-pointer; 
+  @apply visible bg-[rgba(0,0,0,0.5)] cursor-pointer;
 }
 .play-icon {
   @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full invisible;

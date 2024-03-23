@@ -20,7 +20,7 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
           <div class="playlist-short-container">
               <div class="playlist-icon-container">
                   <div class="playlist-icon-inner-container">
-                      <span class="play-icon">
+                      <span class="play-icon sidebar-play-btn">
                         <i class="fas fa-play"></i>
                       </span>
                           <img src='${
