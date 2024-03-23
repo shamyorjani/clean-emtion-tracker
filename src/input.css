@@ -334,6 +334,25 @@ html {
   @apply text-[#c0c0c0] xl:text-[8px] 2xl:text-[10px] font-poppinsRegular;
 }
 /* audio player */
+
+.main-volume-progress {
+  @apply h-1 w-[95%] flex items-center justify-end mt-2;
+}
+
+.custom-input-range {
+  @apply appearance-none w-[10%] h-1 bg-red-600 rounded-lg outline-none;
+}
+.custom-input-range::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+
+.custom-input-range::-moz-range-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+
+.custom-input-range::-ms-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
 .current-song-artist-image {
   @apply w-auto sm:h-9 md:h-10 lg:h-11 xl:h-[63px] xl:w-[60px] 2xl:h-14 bg-transparent border-none rounded-sm;
 }

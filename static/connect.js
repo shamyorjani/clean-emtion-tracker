@@ -565,6 +565,60 @@ const APPController = (async function (UICtrl, APICtrl) {
     if (currentArtist) {
       artistData(currentArtist.name);
     }
+
+    const sidebarPlayBtn = document.querySelectorAll(".sidebar-play-btn");
+    sidebarPlayBtn.forEach((btn, index) => {
+      btn.addEventListener("click", async () => {
+        const track = recentlyPlayedTracks.items[index].track;
+        attachPlayTrackEvent(btn, track, accessToken);
+      });
+    });
+    const nextButtons = document.querySelectorAll(".nextBtn");
+    const prevButtons = document.querySelectorAll(".previousBtn");
+    let next = 0;
+    let prev = recentlyPlayedTracks.length - 1;
+    nextButtons.forEach((nextButton) => {
+      nextButton.addEventListener("click", async () => {
+        next++;
+        if (next >= recentlyPlayedTracks.length) {
+          next = 0;
+        }
+        attachPlayTrackEvent(nextButton, topTracks[next], accessToken);
+      });
+    });
+    prevButtons.forEach((prevButton) => {
+      prevButton.addEventListener("click", async () => {
+        prev--;
+        if (prev < 0) {
+          prev = recentlyPlayedTracks.length - 1;
+        }
+        attachPlayTrackEvent(prevButton, topTracks[prev], accessToken);
+      });
+    });
+
+    const repeatBtn = document.querySelector(".repeatBtn");
+    repeatBtn.addEventListener("click", async () => {
+      await APICtrl.setRepeatMode(accessToken, "context");
+      console.log("repeat enabled");
+    });
+    // Function to shuffle an array
+    function shuffleArray(array) {
+      for (let i = array.length - 1; i > 0; i--) {
+        const j = Math.floor(Math.random() * (i + 1));
+        [array[i], array[j]] = [array[j], array[i]];
+      }
+      return array;
+    }
+
+    // Shuffle button event listener
+    var shuffleBtn = document.querySelector(".shuffleBtn");
+    shuffleBtn.addEventListener("click", () => {
+      // Shuffle the topTracks array
+      const shuffledTracks = shuffleArray(topTracks);
+
+      // Play the first track in the shuffled array
+      attachPlayTrackEvent(shuffleBtn, shuffledTracks[0], accessToken);
+    });
   }
   return {
     init: function () {
