@@ -10,7 +10,6 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
 
   recentlyPlayedTracks.items.forEach((track) => {
     const trackItem = document.createElement("div");
-
     const trackName =
       track.track.name.length <= 15
         ? track.track.name
@@ -43,7 +42,5 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
           </div>
               `;
     recentlyPlayedContainer.appendChild(trackItem);
-
-    attachPlayTrackEvent(trackItem, track.track, accessToken);
   });
 }
