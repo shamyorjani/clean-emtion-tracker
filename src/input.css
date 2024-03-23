@@ -277,8 +277,8 @@ html {
 .album-carousel-item{
   @apply basis-2/6 bg-transparent;
 }
-.playlist-outer-container {
-  /* @apply w-full fixed sm:top-[100px] 2xl:top-[150px] xl:top-[85px] md:w-[18vw] xl:w-[17.5vw] 2xl:w-[18vw] h-[95vh] xl:right-3 2xl:right-0; */
+.album-playlist-main-container {
+  @apply flex flex-row justify-end w-[85vw] gap-2 mt-12;
 }
 .playlist-main-container {
   @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] h-[90vh] z-[-10];

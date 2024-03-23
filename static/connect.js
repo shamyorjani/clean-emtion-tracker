@@ -400,7 +400,6 @@ const APPController = (async function (UICtrl, APICtrl) {
           "playlist"
         );
         displaySearchPlaylists(searchMethod);
-        
       }
       // console.log("input", inputElement);
       // displaySearchRecommendation(searchMethod);
@@ -441,11 +440,19 @@ const APPController = (async function (UICtrl, APICtrl) {
         await searchReleases(inputValue, "playlist");
         await searchReleases(inputValue, "artist");
 
-        inputElement.value = "";
+        // inputElement.value = "";
       }
     });
     searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
     displaySongsRecommendation(searchMethod);
+
+    const hideContainer = document.querySelectorAll(
+      ".album-playlist-main-container"
+    );
+
+    // document.querySelectorAll(".album-playlist-main-container").forEach((container) => {
+    //   container.style.display = "none";
+    // });
 
     const tabs = document.querySelectorAll("#tabs a");
     tabs.forEach((tab) => {
@@ -479,8 +486,11 @@ const APPController = (async function (UICtrl, APICtrl) {
             "mt-2"
           );
           activeDiv.appendChild(hrElement);
-          let value = "nul";
-          console.log("value", value);
+          hideContainer.forEach((container) => {
+            container.style.display = "flex";
+          });
+          let value = inputElement.value;
+          await searchReleases(value, "track");
         } else if (tab.getAttribute("data-tab") === "sad-songs") {
           hrElement.classList.add(
             "w-[45px]",
@@ -492,6 +502,10 @@ const APPController = (async function (UICtrl, APICtrl) {
             "mt-2"
           );
           activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
+
           await searchReleases("sad songs", "track");
         } else if (tab.getAttribute("data-tab") === "romantic-songs") {
           hrElement.classList.add(
@@ -504,6 +518,9 @@ const APPController = (async function (UICtrl, APICtrl) {
             "mt-2"
           );
           activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
           await searchReleases("romantic songs", "track");
         } else if (tab.getAttribute("data-tab") === "heartbreaks") {
           hrElement.classList.add(
@@ -516,6 +533,9 @@ const APPController = (async function (UICtrl, APICtrl) {
             "mt-2"
           );
           activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
           await searchReleases("heart broken songs", "track");
         } else if (tab.getAttribute("data-tab") === "angry-mood") {
           hrElement.classList.add(
@@ -528,6 +548,9 @@ const APPController = (async function (UICtrl, APICtrl) {
             "mt-2"
           );
           activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
           await searchReleases("angry mood", "track");
         } else if (tab.getAttribute("data-tab") === "joyful") {
           hrElement.classList.add(
@@ -540,6 +563,9 @@ const APPController = (async function (UICtrl, APICtrl) {
             "mt-2"
           );
           activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
           await searchReleases("happy mood", "track");
         }
       });
@@ -572,7 +598,9 @@ const APPController = (async function (UICtrl, APICtrl) {
         : null;
     displayArtistName(currentlyPlaying);
     displayCurrentSongName(currentlyPlaying);
-    displayArtistImage(currentArtist.images[0].url);
+    if (currentArtist) {
+      displayArtistImage(currentArtist.images[0].url);
+    }
 
     if (currentArtist) {
       artistData(currentArtist.name);

@@ -780,10 +780,6 @@ video {
   margin-top: 1rem;
 }
 
-.block{
-  display: block;
-}
-
 .inline-block{
   display: inline-block;
 }
@@ -2818,8 +2814,13 @@ html {
   background-color: transparent;
 }
 
-.playlist-outer-container {
-  /* @apply w-full fixed sm:top-[100px] 2xl:top-[150px] xl:top-[85px] md:w-[18vw] xl:w-[17.5vw] 2xl:w-[18vw] h-[95vh] xl:right-3 2xl:right-0; */
+.album-playlist-main-container{
+  margin-top: 3rem;
+  display: flex;
+  width: 85vw;
+  flex-direction: row;
+  justify-content: flex-end;
+  gap: 0.5rem;
 }
 
 .playlist-main-container{
