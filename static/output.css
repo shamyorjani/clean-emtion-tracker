@@ -828,10 +828,6 @@ video {
   height: 1rem;
 }
 
-.h-96{
-  height: 24rem;
-}
-
 .h-\[100\%\]{
   height: 100%;
 }
@@ -866,6 +862,10 @@ video {
 
 .h-screen{
   height: 100vh;
+}
+
+.h-96{
+  height: 24rem;
 }
 
 .w-1\/2{
