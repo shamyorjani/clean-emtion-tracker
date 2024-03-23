@@ -724,8 +724,8 @@ video {
   margin-bottom: 0.5rem;
 }
 
-.ml-52{
-  margin-left: 13rem;
+.ml-0{
+  margin-left: 0px;
 }
 
 .ml-6{
@@ -778,10 +778,6 @@ video {
 
 .mt-4{
   margin-top: 1rem;
-}
-
-.ml-0{
-  margin-left: 0px;
 }
 
 .block{
@@ -940,10 +936,6 @@ video {
   width: 80%;
 }
 
-.w-\[85vw\]{
-  width: 85vw;
-}
-
 .w-\[92\.5\%\]{
   width: 92.5%;
 }
@@ -968,10 +960,6 @@ video {
   flex-basis: 66.666667%;
 }
 
-.origin-center{
-  transform-origin: center;
-}
-
 .-translate-y-2{
   --tw-translate-y: -0.5rem;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
@@ -994,18 +982,6 @@ video {
 
 .rotate-180{
   --tw-rotate: 180deg;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-100{
-  --tw-scale-x: 1;
-  --tw-scale-y: 1;
-  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
-}
-
-.scale-90{
-  --tw-scale-x: .9;
-  --tw-scale-y: .9;
   transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y));
 }
 
@@ -1419,10 +1395,6 @@ video {
   opacity: 0;
 }
 
-.opacity-100{
-  opacity: 1;
-}
-
 .shadow{
   --tw-shadow: 0 1px 3px 0 rgb(0 0 0 / 0.1), 0 1px 2px -1px rgb(0 0 0 / 0.1);
   --tw-shadow-colored: 0 1px 3px 0 var(--tw-shadow-color), 0 1px 2px -1px var(--tw-shadow-color);
@@ -1479,20 +1451,12 @@ video {
   transition-duration: 200ms;
 }
 
-.duration-300{
-  transition-duration: 300ms;
-}
-
 .duration-500{
   transition-duration: 500ms;
 }
 
 .duration-700{
   transition-duration: 700ms;
-}
-
-.ease-in{
-  transition-timing-function: cubic-bezier(0.4, 0, 1, 1);
 }
 
 .ease-out{
