@@ -339,6 +339,20 @@ html {
 }
 /* audio player */
 
+.custom-input-range {
+  @apply appearance-none w-[10%] h-1 bg-red-600 rounded-lg outline-none;
+}
+.custom-input-range::-webkit-slider-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+
+.custom-input-range::-moz-range-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
+
+.custom-input-range::-ms-thumb {
+  @apply appearance-none w-4 h-4 bg-white rounded-full shadow-md cursor-pointer;
+}
 .main-volume-progress {
   @apply h-1 w-[95%] flex items-center justify-end mt-2;
 }

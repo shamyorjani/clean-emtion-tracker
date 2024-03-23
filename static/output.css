@@ -3098,6 +3098,15 @@ html {
 
 /* audio player */
 
+.main-volume-progress{
+  margin-top: 0.5rem;
+  display: flex;
+  height: 0.25rem;
+  width: 95%;
+  align-items: center;
+  justify-content: flex-end;
+}
+
 .current-song-artist-image{
   width: auto;
   border-radius: 0.125rem;
