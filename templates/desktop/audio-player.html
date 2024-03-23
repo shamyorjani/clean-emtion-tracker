@@ -135,10 +135,19 @@
     const artistName = document.querySelector(".song-album-name");
     const songName = document.querySelector(".song-title");
     const songAuthor = document.querySelector(".song-author");
+    const currentImage = document.querySelector(".left-audio-player-img");
+    const mainImageBackground = document.querySelector(".main");
+    mainImageBackground.style.backgroundImage = `url(${track.album.images[0].url})`;
     artistData(track.artists[0].name);
     artistName.innerHTML = track.artists[0].name;
     songAuthor.innerHTML = track.artists[0].name;
     songName.innerHTML = track.name;
+    currentImage.innerHTML = `<img
+              src="${track.album.images[0].url}"
+              class="current-song-artist-image"
+              alt="singer_image"
+            />`;
+
     trackItem.addEventListener("click", function () {
       // Call a function to play the selected track
       // loader.style.display = "block";
