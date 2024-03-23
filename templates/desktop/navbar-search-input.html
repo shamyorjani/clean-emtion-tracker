@@ -39,8 +39,8 @@
           x-on:keydown.enter="desktopNavSearchopen = false"
         />
 
-        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
-          <span><i class="fa-solid fa-microphone"></i></span>
+        <button :class="desktopNavSearchopen ? '': 'hidden'" id="start" x-cloak>
+          <span><i class="fa-solid fa-microphone" id="mic-id"></i></span>
         </button>
         <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
           <span><i class="fa-solid fa-camera"></i></span>

@@ -932,10 +932,6 @@ video {
   width: 80%;
 }
 
-.w-\[85vw\]{
-  width: 85vw;
-}
-
 .w-\[92\.5\%\]{
   width: 92.5%;
 }
@@ -2821,6 +2817,16 @@ html {
   flex-direction: row;
   justify-content: flex-end;
   gap: 0.5rem;
+}
+
+.active-mick{
+  margin-bottom: 0px;
+  height: 1.25rem;
+  width: 1.25rem;
+  padding-bottom: 0px;
+  padding-top: 4px;
+  --tw-text-opacity: 1;
+  color: rgb(180 47 24 / var(--tw-text-opacity));
 }
 
 .playlist-main-container{

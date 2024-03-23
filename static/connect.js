@@ -431,16 +431,16 @@ const APPController = (async function (UICtrl, APICtrl) {
         displayNewArtist(searchMethod);
       }
     }
-
+    async function searchResults() {
+      const inputValue = inputElement.value.trim();
+      await searchReleases(inputValue, "album");
+      await searchReleases(inputValue, "track");
+      await searchReleases(inputValue, "playlist");
+      await searchReleases(inputValue, "artist");
+    }
     inputElement.addEventListener("keydown", async function (event) {
       if (event.key === "Enter") {
-        const inputValue = inputElement.value.trim();
-        await searchReleases(inputValue, "album");
-        await searchReleases(inputValue, "track");
-        await searchReleases(inputValue, "playlist");
-        await searchReleases(inputValue, "artist");
-
-        // inputElement.value = "";
+        searchResults();
       }
     });
     searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
@@ -450,10 +450,50 @@ const APPController = (async function (UICtrl, APICtrl) {
       ".album-playlist-main-container"
     );
 
-    // document.querySelectorAll(".album-playlist-main-container").forEach((container) => {
-    //   container.style.display = "none";
-    // });
+    document
+      .querySelectorAll(".album-playlist-main-container")
+      .forEach((container) => {
+        container.style.display = "none";
+      });
+    var mickSelect = document.getElementById("mic-id");
+    var mickToggle = document.getElementById("start");
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = window.navigator.language;
+    recognition.interimResults = true;
 
+    mickToggle.addEventListener("click", () => {
+      if (!mickSelect.classList.contains("active-mick")) {
+        recognition.start();
+        mickSelect.classList.add("active-mick");
+      } else if (mickSelect.classList.contains("active-mick")) {
+        recognition.stop();
+        mickSelect.classList.remove("active-mick"); // Move this line here
+      }
+    });
+
+    recognition.addEventListener("result", async (event) => {
+      const result = event.results[event.results.length - 1][0].transcript;
+      inputElement.value = result;
+      await updateSearchResults(result);
+    });
+    recognition.addEventListener("end", () => {
+      mickSelect.classList.remove("active-mick");
+    });
+    document.addEventListener("DOMContentLoaded", function () {
+
+    });
+    // const micIcon = document.getElementById("mic-id");
+
+    // micIcon.addEventListener("click", function () {
+    //   let isActive = false;
+    //   isActive = !isActive;
+    //   if (!isActive) {
+    //     micIcon.classList.toggle("active-mick", false);
+    //   } else {
+    //     micIcon.classList.toggle("active-mick", true);
+    //   }
+    // });
+    
     const tabs = document.querySelectorAll("#tabs a");
     tabs.forEach((tab) => {
       tab.addEventListener("click", async function (event) {

@@ -280,6 +280,10 @@ html {
 .album-playlist-main-container {
   @apply flex flex-row justify-end w-[85vw] gap-2 mt-12;
 }
+.active-mick{
+  @apply text-[#b42f18] h-5 w-5 mb-0 pb-0 pt-[4px];
+}
+
 .playlist-main-container {
   @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] h-[90vh] z-[-10];
 }
