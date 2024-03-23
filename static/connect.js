@@ -206,6 +206,7 @@ const APIController = (function () {
 })();
 
 // UI Module
+
 const UIController = (function () {
   const DOMElements = {
     connectBtn: "#connectBtn",
@@ -251,24 +252,6 @@ const UIController = (function () {
         const trackItem = document.createElement("div");
         trackItem.innerHTML = `<p>${track.name} by ${track.artists[0].name}</p>`;
         topTracksContainer.appendChild(trackItem);
-      });
-    },
-    displayRecentlyPlayedTracks: function (recentlyPlayedTracks, accessToken) {
-      const recentlyPlayedContainer = document.querySelector(
-        DOMElements.recentlyPlayedContainer
-      );
-      recentlyPlayedContainer.innerHTML = ""; // Clear existing content
-
-      recentlyPlayedTracks.items.forEach((track) => {
-        const trackItem = document.createElement("div");
-        trackItem.innerHTML = `<p>${track.track.name} by ${track.track.artists[0].name}</p>`;
-        recentlyPlayedContainer.appendChild(trackItem);
-        newReleasesArtist;
-
-        // Make the track clickable
-        // console.log(recentlyPlayedTracks);
-        // console.log(accessToken);
-        attachPlayTrackEvent(trackItem, track.track, accessToken);
       });
     },
   };
@@ -358,59 +341,33 @@ const APPController = (async function (UICtrl, APICtrl) {
     //  Functions
     // Function to update search results
 
-    async function updateSearchResults(inputValue) {
-      var searchMethod;
-
-      if (inputValue === "") {
-        playlistHeading.forEach((singleElement, index) => {
-          singleElement.innerHTML = index !== 0 ? "" : "Trending";
-        });
-        playlistElement.forEach((singleElement, index) => {
-          singleElement.style.marginTop = index !== 0 ? "21px" : "0px";
-        });
-        // If the input value is empty, show default search results (e.g., "Sad")
-        searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
-        displaySearchRecommendation(searchMethod);
-      } else {
-        playlistHeading.forEach((singleElement, index) => {
-          singleElement.innerHTML =
-            index !== 0 ? searchList[index - 1] : "Trending";
-        });
-        playlistElement.forEach((singleElement, index) => {
-          singleElement.style.marginTop = index !== 0 ? "0px" : "0px";
-        });
-        // Otherwise, perform search based on the input value
-        searchMethod = await APICtrl.getConnectSearch(
-          accessToken,
-          inputValue,
-          "track"
-        );
-        displaySearchSongs(searchMethod);
-
-        searchMethod = await APICtrl.getConnectSearch(
-          accessToken,
-          inputValue,
-          "album"
-        );
-        displaySearchAlbums(searchMethod);
-
-        searchMethod = await APICtrl.getConnectSearch(
-          accessToken,
-          inputValue,
-          "playlist"
-        );
-        displaySearchPlaylists(searchMethod);
-      }
-      // console.log("input", inputElement);
-      // displaySearchRecommendation(searchMethod);
-
-      // Reset styles and headings
-    }
     async function mainSearchMethod() {
-      updateSearchResults("");
+      updateSearchResults(
+        "",
+        playlistHeading,
+        playlistElement,
+        APICtrl.getConnectSearch,
+        displaySearchPlaylists,
+        displaySearchRecommendation,
+        displaySearchSongs,
+        displaySearchAlbums,
+        searchList,
+        accessToken
+      );
       inputElement.addEventListener("keyup", async function (event) {
         var inputValue = inputElement.value.trim();
-        await updateSearchResults(inputValue);
+        await updateSearchResults(
+          inputValue,
+          playlistHeading,
+          playlistElement,
+          APICtrl.getConnectSearch,
+          displaySearchPlaylists,
+          displaySearchRecommendation,
+          displaySearchSongs,
+          displaySearchAlbums,
+          searchList,
+          accessToken
+        );
       });
     }
     mainSearchMethod();
@@ -516,15 +473,7 @@ const APPController = (async function (UICtrl, APICtrl) {
         const activeDiv = tab.parentElement.querySelector(".active");
         const hrElement = document.createElement("hr");
         if (tab.getAttribute("data-tab") === "overview") {
-          hrElement.classList.add(
-            "w-[45px]",
-            "h-[2px]",
-            "mx-auto",
-            "bg-white",
-            "border-0",
-            "rounded",
-            "mt-2"
-          );
+          hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
           hideContainer.forEach((container) => {
             container.style.display = "flex";
@@ -532,15 +481,7 @@ const APPController = (async function (UICtrl, APICtrl) {
           let value = inputElement.value;
           await searchReleases(value, "track");
         } else if (tab.getAttribute("data-tab") === "sad-songs") {
-          hrElement.classList.add(
-            "w-[45px]",
-            "h-[2px]",
-            "mx-auto",
-            "bg-white",
-            "border-0",
-            "rounded",
-            "mt-2"
-          );
+          hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
           hideContainer.forEach((container) => {
             container.style.display = "none";
@@ -548,60 +489,28 @@ const APPController = (async function (UICtrl, APICtrl) {
 
           await searchReleases("sad songs", "track");
         } else if (tab.getAttribute("data-tab") === "romantic-songs") {
-          hrElement.classList.add(
-            "w-[45px]",
-            "h-[2px]",
-            "mx-auto",
-            "bg-white",
-            "border-0",
-            "rounded",
-            "mt-2"
-          );
+          hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
           hideContainer.forEach((container) => {
             container.style.display = "none";
           });
           await searchReleases("romantic songs", "track");
         } else if (tab.getAttribute("data-tab") === "heartbreaks") {
-          hrElement.classList.add(
-            "w-[45px]",
-            "h-[2px]",
-            "mx-auto",
-            "bg-white",
-            "border-0",
-            "rounded",
-            "mt-2"
-          );
+          hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
           hideContainer.forEach((container) => {
             container.style.display = "none";
           });
           await searchReleases("heart broken songs", "track");
         } else if (tab.getAttribute("data-tab") === "angry-mood") {
-          hrElement.classList.add(
-            "w-[45px]",
-            "h-[2px]",
-            "mx-auto",
-            "bg-white",
-            "border-0",
-            "rounded",
-            "mt-2"
-          );
+          hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
           hideContainer.forEach((container) => {
             container.style.display = "none";
           });
           await searchReleases("angry mood", "track");
         } else if (tab.getAttribute("data-tab") === "joyful") {
-          hrElement.classList.add(
-            "w-[45px]",
-            "h-[2px]",
-            "mx-auto",
-            "bg-white",
-            "border-0",
-            "rounded",
-            "mt-2"
-          );
+          hrElement.classList.add("hrElementTab");
           activeDiv.appendChild(hrElement);
           hideContainer.forEach((container) => {
             container.style.display = "none";
@@ -615,7 +524,18 @@ const APPController = (async function (UICtrl, APICtrl) {
       .querySelector(".navbar-clear-btn")
       .addEventListener("click", function () {
         inputElement.value = "";
-        updateSearchResults("");
+        updateSearchResults(
+          "",
+          playlistHeading,
+          playlistElement,
+          APICtrl.getConnectSearch,
+          displaySearchPlaylists,
+          displaySearchRecommendation,
+          displaySearchSongs,
+          displaySearchAlbums,
+          searchList,
+          accessToken
+        );
       });
 
     // APPController.init();
@@ -625,7 +545,11 @@ const APPController = (async function (UICtrl, APICtrl) {
     displayNewPlaylist(searchMethod);
     // UICtrl display methods
     displayUserProfile(userProfile);
-    displayUserPlaylists(playlists);
+    // displayUserPlaylists(playlists);
+    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+      accessToken
+    );
+    displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
     searchItemText();
     displayNewReleases(newReleases);
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);

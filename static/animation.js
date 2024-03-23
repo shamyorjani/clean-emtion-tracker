@@ -45,54 +45,66 @@ document.addEventListener("DOMContentLoaded", function () {
   observer.observe(sections[sections.length - 1]);
 
   // Listen for wheel events
-  document.addEventListener(
-    "wheel",
-    (event) => {
-      event.cancelable && event.preventDefault();
-      const isScrollingDown = event.deltaY > 0;
-
-      if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        // Scroll down to the end of the current section
-        if (
-          sections[currentSectionIndex].scrollHeight -
-            sections[currentSectionIndex].scrollTop ===
-          sections[currentSectionIndex].clientHeight
-        ) {
-          // If at the end of the current section, move to the next section
-          currentSectionIndex++;
-          sections[currentSectionIndex].scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        } else {
-          // If not at the end, continue scrolling within the current section
-          sections[currentSectionIndex].scrollBy(
-            0,
-            sections[currentSectionIndex].clientHeight
-          );
-        }
-      } else if (!isScrollingDown && currentSectionIndex > 0) {
-        // Scroll up to the end of the previous section
-        if (sections[currentSectionIndex].scrollTop === 0) {
-          // If at the top of the current section, move to the previous section
-          currentSectionIndex--;
-          sections[currentSectionIndex].scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-          });
-        } else {
-          // If not at the top, continue scrolling within the current section
-          sections[currentSectionIndex].scrollBy(
-            0,
-            -sections[currentSectionIndex].clientHeight
-          );
-        }
-      }
-      resetStylesIfNeeded(currentSectionIndex);
-      //   console.log(currentSectionIndex);
-    },
-    { passive: false }
+  const playlistMainContainer = document.querySelector(
+    ".playlist-main-container"
   );
+
+  playlistMainContainer.addEventListener("mouseenter", () => {
+    document.removeEventListener("wheel", customScroll);
+  });
+
+  playlistMainContainer.addEventListener("mouseleave", () => {
+    document.addEventListener("wheel", customScroll);
+  });
+
+  function customScroll(event) {
+    // Add your custom scrolling logic here
+    // This function is called when scrolling is allowed
+    event.cancelable && event.preventDefault();
+    const isScrollingDown = event.deltaY > 0;
+
+    if (isScrollingDown && currentSectionIndex < sections.length - 1) {
+      // Scroll down to the end of the current section
+      if (
+        sections[currentSectionIndex].scrollHeight -
+          sections[currentSectionIndex].scrollTop ===
+        sections[currentSectionIndex].clientHeight
+      ) {
+        // If at the end of the current section, move to the next section
+        currentSectionIndex++;
+        sections[currentSectionIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      } else {
+        // If not at the end, continue scrolling within the current section
+        sections[currentSectionIndex].scrollBy(
+          0,
+          sections[currentSectionIndex].clientHeight
+        );
+      }
+    } else if (!isScrollingDown && currentSectionIndex > 0) {
+      // Scroll up to the end of the previous section
+      if (sections[currentSectionIndex].scrollTop === 0) {
+        // If at the top of the current section, move to the previous section
+        currentSectionIndex--;
+        sections[currentSectionIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      } else {
+        // If not at the top, continue scrolling within the current section
+        sections[currentSectionIndex].scrollBy(
+          0,
+          -sections[currentSectionIndex].clientHeight
+        );
+      }
+    }
+    resetStylesIfNeeded(currentSectionIndex);
+  }
+
+  // Attach the wheel event listener initially
+  document.addEventListener("wheel", customScroll);
 
   // Listen for button click event
   moveBackButton.addEventListener("click", () => {
@@ -169,8 +181,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-
-  
 
   document.addEventListener("touchstart", function (event) {
     startY = event.touches[0].clientY;

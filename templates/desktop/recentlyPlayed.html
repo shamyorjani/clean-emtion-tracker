@@ -8,7 +8,7 @@
       <h1
         class="text-white xl:text-[1rem] text-2xl font-poppinsRegular xl:mb-14 ml-6"
       >
-        Playlist
+        Recently Played
       </h1>
     </div>
     <div class="playlist-container">
@@ -20,13 +20,8 @@
         </div>
 
         <div>
-          <h3 class="playlist-name">Lauren Stachie</h3>
-          <p class="playlist-names">some other names</p>
-          <p class="playlist-names">some other names</p>
-          <div class="music-playlist-icon">
-            <i class="fa-solid fa-music music-playlist-icon"></i>
-            <p class="playlist-names">song name</p>
-          </div>
+          <h3 class="playlist-name">Song Name</h3>
+          <p class="playlist-names">Artists names</p>
         </div>
         <div class="playlist-song-time">
           <span class="song-time">37 m</span>
@@ -112,6 +107,7 @@
   </button>
 </div>
 
-
-
-<script src="{{url_for('static',filename='js/playlist.js')}}" defer></script>
+<script
+  src="{{url_for('static',filename='js/recentlyPlayed.js')}}"
+  defer
+></script>
