@@ -932,10 +932,6 @@ video {
   width: 80%;
 }
 
-.w-\[85vw\]{
-  width: 85vw;
-}
-
 .w-\[92\.5\%\]{
   width: 92.5%;
 }
@@ -2807,6 +2803,27 @@ html {
 .upper-image-artist img,
 .album-upper-image img{
   width: 100%;
+}
+
+@media (min-width: 1600px){
+  .album-upper-image-playlist img,
+.upper-image-artist img,
+.album-upper-image img{
+    height: 150px;
+    width: 150px;
+  }
+}
+
+.hrElementTab{
+  margin-left: auto;
+  margin-right: auto;
+  margin-top: 0.5rem;
+  height: 2px;
+  width: 45px;
+  border-radius: 0.25rem;
+  border-width: 0px;
+  --tw-bg-opacity: 1;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity));
 }
 
 .album-carousel-item{

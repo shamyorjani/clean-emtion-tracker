@@ -253,13 +253,13 @@ html {
 }
 .album-upper-name,
 .album-upper-name-playlist {
-  @apply font-poppinsRegular text-white  text-[11px] mx-auto mt-1 ;
+  @apply font-poppinsRegular text-white  text-[11px] mx-auto mt-1;
 }
-.upper-name-artist{
+.upper-name-artist {
   @apply font-poppinsRegular text-white text-[11px] mx-auto mt-1 text-center;
 }
 .album-upper-artist,
-.album-upper-artist-playlist{
+.album-upper-artist-playlist {
   @apply text-[#c0c0c0] mx-auto  text-[10px];
 }
 
@@ -272,9 +272,12 @@ html {
 .album-upper-image-playlist img,
 .upper-image-artist img,
 .album-upper-image img {
-  @apply w-full;
+  @apply w-full min-[1600px]:w-[150px] min-[1600px]:h-[150px];
 }
-.album-carousel-item{
+.hrElementTab {
+  @apply w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2;
+}
+.album-carousel-item {
   @apply basis-2/6 bg-transparent;
 }
 .album-playlist-main-container {
