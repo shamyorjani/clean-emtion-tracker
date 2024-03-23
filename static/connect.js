@@ -253,24 +253,6 @@ const UIController = (function () {
         topTracksContainer.appendChild(trackItem);
       });
     },
-    displayRecentlyPlayedTracks: function (recentlyPlayedTracks, accessToken) {
-      const recentlyPlayedContainer = document.querySelector(
-        DOMElements.recentlyPlayedContainer
-      );
-      recentlyPlayedContainer.innerHTML = ""; // Clear existing content
-
-      recentlyPlayedTracks.items.forEach((track) => {
-        const trackItem = document.createElement("div");
-        trackItem.innerHTML = `<p>${track.track.name} by ${track.track.artists[0].name}</p>`;
-        recentlyPlayedContainer.appendChild(trackItem);
-        newReleasesArtist;
-
-        // Make the track clickable
-        // console.log(recentlyPlayedTracks);
-        // console.log(accessToken);
-        attachPlayTrackEvent(trackItem, track.track, accessToken);
-      });
-    },
   };
 })();
 
@@ -522,7 +504,11 @@ const APPController = (async function (UICtrl, APICtrl) {
     displayNewPlaylist(searchMethod);
     // UICtrl display methods
     displayUserProfile(userProfile);
-    displayUserPlaylists(playlists);
+    // displayUserPlaylists(playlists);
+    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+      accessToken
+    );
+    displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
     searchItemText();
     displayNewReleases(newReleases);
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);

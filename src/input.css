@@ -284,19 +284,29 @@ html {
   @apply flex flex-row justify-end w-[85vw] gap-2 mt-12;
 }
 .playlist-main-container {
-  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] h-[90vh] z-[-10];
+  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] max-h-[90vh] overflow-y-scroll z-[99999];
 }
 .playlist-short-container {
-  @apply flex gap-1 pl-3 mt-4 m-0 text-white w-[100%];
+  @apply flex justify-between gap-1 px-3 mt-4 m-0 text-white w-[100%];
 }
 .playlist-icon-container {
-  @apply flex justify-center items-center pb-4;
+  @apply flex justify-center items-center gap-5 pb-4;
 }
 .playlist-icon-inner-container {
-  @apply border border-white px-4 xl:px-[14px] py-2 flex-center rounded-full w-[40%];
+  @apply border border-white flex-center rounded-full relative;
 }
-.playlist-icon {
-  @apply xl:text-[12px];
+.playlist-icon-inner-container:hover > .play-icon {
+  @apply visible bg-[rgba(0,0,0,0.5)] cursor-pointer; 
+}
+.play-icon {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full invisible;
+}
+.playlist-icon-inner-container .fa-play {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2;
+}
+
+.recent-track-image {
+  @apply w-10 h-10 rounded-full;
 }
 .playlist-name {
   @apply font-poppinsRegular xl:text-[12px] 2xl:text-[14px];
@@ -308,7 +318,7 @@ html {
   @apply text-[10px] text-[#c0c0c0];
 }
 .playlist-song-time {
-  @apply flex justify-end lg:ml-[10%] 2xl:ml-[20%];
+  @apply flex justify-end;
 }
 .song-time {
   @apply text-[10px];
