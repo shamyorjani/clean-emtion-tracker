@@ -400,6 +400,7 @@ const APPController = (async function (UICtrl, APICtrl) {
           "playlist"
         );
         displaySearchPlaylists(searchMethod);
+        
       }
       // console.log("input", inputElement);
       // displaySearchRecommendation(searchMethod);
