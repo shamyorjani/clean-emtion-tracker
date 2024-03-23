@@ -206,6 +206,7 @@ const APIController = (function () {
 })();
 
 // UI Module
+
 const UIController = (function () {
   const DOMElements = {
     connectBtn: "#connectBtn",
