@@ -563,19 +563,20 @@
         element.innerHTML = artistNames;
       });
     document
-      .querySelectorAll(".album-upper-artist-playlist")
-      .forEach((element, index) => {
-        if (
-          searchMethod.playlists.items[index] &&
-          searchMethod.playlists.items[index].name
-        ) {
-          let playlistName = searchMethod.playlists.items[index].name;
-          if (playlistName.length > 30) {
-            playlistName = playlistName.substring(0, 27) + "...";
+      document
+        .querySelectorAll(".album-upper-name-playlist")
+        .forEach((element, index) => {
+          if (
+            searchMethod.playlists.items[index] &&
+            searchMethod.playlists.items[index].name
+          ) {
+            let playlistName = searchMethod.playlists.items[index].name;
+            if (playlistName.length > 30) {
+              playlistName = playlistName.substring(0, 27) + "...";
+            }
+            element.innerHTML = playlistName;
           }
-          element.innerHTML = playlistName;
-        }
-      });
+        });
     document
       .querySelectorAll(".album-upper-image-playlist")
       .forEach((element, index) => {
