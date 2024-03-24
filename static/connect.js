@@ -562,10 +562,12 @@ const APPController = (async function (UICtrl, APICtrl) {
     // UICtrl display methods
     displayUserProfile(userProfile);
     // displayUserPlaylists(playlists);
-    // const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
-    //   accessToken
-    // );
-    // displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+      accessToken
+    );
+    displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    showAllSongData(recentlyPlayedTracks.items[0].track);
+
     searchItemText();
     displayNewReleases(newReleases);
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
@@ -576,15 +578,15 @@ const APPController = (async function (UICtrl, APICtrl) {
             currentlyPlaying.item.artists[0].id
           )
         : null;
-    displayArtistName(currentlyPlaying);
-    displayCurrentSongName(currentlyPlaying);
-    if (currentArtist) {
-      displayArtistImage(currentArtist.images[0].url);
-    }
+    // displayArtistName(currentlyPlaying);
+    // displayCurrentSongName(currentlyPlaying);
+    // if (currentArtist) {
+    //   displayArtistImage(currentArtist.images[0].url);
+    // }
 
-    if (currentArtist) {
-      artistData(currentArtist.name);
-    }
+    // if (currentArtist) {
+    //   artistData(currentArtist.name);
+    // }
 
     const sidebarPlayBtn = document.querySelectorAll(
       ".playlist-icon-container"
