@@ -471,7 +471,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       await updateSearchResults(result);
     });
     recognition.addEventListener("end", () => {
-      mickSelect.classList.remove("active-mick");
+      mickSelect.style.color = "white";
     });
     document.addEventListener("DOMContentLoaded", function () {});
     // const micIcon = document.getElementById("mic-id");
