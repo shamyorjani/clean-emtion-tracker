@@ -288,7 +288,7 @@ html {
 }
 
 .playlist-main-container {
-  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] max-h-[90vh] overflow-y-scroll z-[9999];
+  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] min-h-[70v] max-h-[90vh] overflow-y-scroll z-[9999];
 }
 #playlist-toggler {
   @apply z-[99999];
@@ -298,6 +298,9 @@ html {
 }
 .playlist-icon-container {
   @apply flex justify-center items-center gap-5 pb-4;
+}
+#playlist-container {
+  @apply min-h-[70vh];
 }
 .playlist-icon-inner-container {
   @apply border border-white flex-center rounded-full relative;
