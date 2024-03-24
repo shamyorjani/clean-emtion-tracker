@@ -395,6 +395,9 @@ html {
 .albums-playlist {
   @apply relative overflow-y-scroll overflow-x-hidden h-[100vh] lg:w-[67vw] 2xl:w-[69vw] left-0 top-0 bottom-0 bg-[#2f3238] flex flex-col items-center z-10;
 }
+.carosuel-slide-class {
+  @apply hover:cursor-pointer;
+}
 .albums-item {
   @apply w-full;
 }

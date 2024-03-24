@@ -3313,6 +3313,10 @@ html {
   }
 }
 
+.carosuel-slide-class:hover{
+  cursor: pointer;
+}
+
 .albums-item{
   width: 100%;
 }

@@ -78,7 +78,9 @@ function displayAlbumTracks(albumTracks, accessToken) {
                       <span class="play-icon sidebar-play-btn">
                         <i class="fas fa-play"></i>
                       </span >
-                      ${counter}
+                          <img src='${
+                            track.album.images[0].url
+                          }' class="recent-track-image" />
                   </div>
                   <div>
                       <h3 class="playlist-name">${trackName}</h3>

@@ -83,6 +83,16 @@ const APIController = (function () {
     return data.items;
   };
 
+  const _getAlbum = async (accessToken, albumId) => {
+    const result = await fetch(`https://api.spotify.com/v1/albums/${albumId}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    const data = await result.json();
+    return data;
+  };
   const _getConnectedUserPlaylists = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/playlists", {
       method: "GET",
@@ -194,6 +204,9 @@ const APIController = (function () {
     getAlbumTracks(accessToken, albumId) {
       return _getAlbumTracks(accessToken, albumId);
     },
+    getAlbum(accessToken, albumId) {
+      return _getAlbum(accessToken, albumId);
+    },
     getConnectedUserPlaylists(accessToken) {
       return _getConnectedUserPlaylists(accessToken);
     },
@@ -296,7 +309,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     "sad",
     "artist"
   );
-  
+
   document
     .querySelector(".logo-link")
     .setAttribute("href", window.location.href);
@@ -391,16 +404,15 @@ const APPController = (async function (UICtrl, APICtrl) {
       accessToken,
       "4OXoBlapQygTdzAifJm8BL"
     );
+    const album = await APICtrl.getAlbum(accessToken, "4OXoBlapQygTdzAifJm8BL");
+    console.log("Album:", album);
     displayAlbumTracks(albumTracks, accessToken);
-  
-  
-    
-  
+
     const durations = albumTracks.items
       ? albumTracks.items.map((track) => track.duration_ms)
       : [];
     console.log("Durations:", durations);
-  
+
     async function searchReleases(inputValue, type) {
       let searchMethod = await APICtrl.getConnectSearch(
         accessToken,
