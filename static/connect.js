@@ -566,6 +566,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     //   accessToken
     // );
     // displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    // check
     searchItemText();
     displayNewReleases(newReleases);
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
