@@ -473,18 +473,6 @@ const APPController = (async function (UICtrl, APICtrl) {
     recognition.addEventListener("end", () => {
       mickSelect.style.color = "white";
     });
-    document.addEventListener("DOMContentLoaded", function () {});
-    // const micIcon = document.getElementById("mic-id");
-
-    // micIcon.addEventListener("click", function () {
-    //   let isActive = false;
-    //   isActive = !isActive;
-    //   if (!isActive) {
-    //     micIcon.classList.toggle("active-mick", false);
-    //   } else {
-    //     micIcon.classList.toggle("active-mick", true);
-    //   }
-    // });
 
     const tabs = document.querySelectorAll("#tabs a");
     tabs.forEach((tab) => {
