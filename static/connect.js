@@ -591,7 +591,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     );
     sidebarPlayBtn.forEach((btn, index) => {
       btn.addEventListener("click", async () => {
-        const track = recentlyPlayedTracks.items[index].track;
+        const track = uniqueTracks[index].track;
         attachPlayTrackEvent(btn, track, accessToken);
       });
     });

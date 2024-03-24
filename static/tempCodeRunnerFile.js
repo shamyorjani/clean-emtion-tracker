@@ -215,7 +215,7 @@ function createAudioPlayer() {
     checkPlayStatus();
   }
 }
-document.addEventListener("DOMContentLoaded", function () {
-  var player = createAudioPlayer();
-  player.init();
-});
+// document.addEventListener("DOMContentLoaded", function () {
+//   var player = createAudioPlayer();
+//   player.init();
+// });

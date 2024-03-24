@@ -7,7 +7,7 @@ var artistData = async (artistName) => {
   // if (typeof artistName !== "string") {
   //   artistName = String(artistName);
   // }
-  console.log(artistName);
+  console.log("get artist data name", artistName);
   artistName = artistName.split(" ").join("+");
   // loader.style.display = "block"; // Show the loader
   let response = await fetch(

@@ -128,10 +128,10 @@
     progressMeter.style.backgroundColor = "red";
   }
 
-  // const loader = document.querySelector(".player-loader");
-  // loader.style.display = "none";
-
-  function attachPlayTrackEvent(trackItem, track, accessToken) {
+  const loader = document.querySelector(".player-loader");
+  loader.style.display = "none";
+  let trackData;
+  function showAllSongData(track) {
     const artistName = document.querySelector(".song-album-name");
     const songName = document.querySelector(".song-title");
     const songAuthor = document.querySelector(".song-author");
@@ -139,18 +139,23 @@
     const mainImageBackground = document.querySelector(".main");
     mainImageBackground.style.backgroundImage = `url(${track.album.images[0].url})`;
     artistData(track.artists[0].name);
+    console.log("artist name", track.artists[0].name);
     artistName.innerHTML = track.artists[0].name;
     songAuthor.innerHTML = track.artists[0].name;
     songName.innerHTML = track.name;
-    currentImage.innerHTML = `<img
+    currentImage.innerHTML = `<img".player-loader");
+  loader.style.display = "none";
               src="${track.album.images[0].url}"
               class="current-song-artist-image"
               alt="singer_image"
             />`;
-
+  }
+  function attachPlayTrackEvent(trackItem, track, accessToken) {
+    // artistData(track.artists[0].name);
+    trackData = track;
     trackItem.addEventListener("click", function () {
       // Call a function to play the selected track
-      // loader.style.display = "block";
+      loader.style.display = "block";
       playTrack(accessToken, track.uri);
     });
   }
@@ -180,7 +185,9 @@
     // Ready
     player.addListener("ready", ({ device_id }) => {
       console.log("Ready with Device ID", device_id);
-      // loader.style.display = "none";
+      loader.style.display = "none";
+      showAllSongData(trackData);
+
       // Play the selected track
       playOnDevice(accessToken, device_id, trackUri);
       player.setVolume(0.3).then(() => {
@@ -254,15 +261,19 @@
         console.log("The Web Playback SDK successfully connected to Spotify!");
       }
     });
-    document.querySelector(".playBtn").addEventListener("click", () => {
-      player.togglePlay().then(() => {
-        console.log("Toggled playback!");
+    document.querySelectorAll(".playBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        player.togglePlay().then(() => {
+          console.log("Toggled playback!");
+        });
       });
     });
 
-    document.querySelector(".pauseBtn").addEventListener("click", () => {
-      player.togglePlay().then(() => {
-        console.log("Toggled playback!");
+    document.querySelectorAll(".pauseBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        player.togglePlay().then(() => {
+          console.log("Toggled playback!");
+        });
       });
     });
 

@@ -2890,6 +2890,7 @@ html {
   position: fixed;
   z-index: 9999;
   max-height: 90vh;
+  min-height: 70v;
   width: 100%;
   overflow-y: scroll;
   border-radius: 0.375rem;
@@ -2951,17 +2952,11 @@ html {
   padding-bottom: 1rem;
 }
 
-.playlist-icon-inner-container{
-  position: relative;
-  border-radius: 9999px;
-  border-width: 1px;
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
-  display: flex;
-  justify-content: center;
+#playlist-container{
+  min-height: 70vh;
 }
 
-.album-icon-inner-container{
+.playlist-icon-inner-container{
   position: relative;
   border-radius: 9999px;
   border-width: 1px;
