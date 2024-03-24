@@ -8,14 +8,18 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
+  const uniqueTracks = [];
   recentlyPlayedTracks.items.forEach((track) => {
-    const trackItem = document.createElement("div");
-    const trackName =
-      track.track.name.length <= 15
-        ? track.track.name
-        : track.track.name.slice(0, 15) + "...";
+    const isDuplicate = uniqueTracks.some((t) => t.track.name === track.track.name);
+    if (!isDuplicate) {
+      uniqueTracks.push(track);
+      const trackItem = document.createElement("div");
+      const trackName =
+        track.track.name.length <= 15
+          ? track.track.name
+          : track.track.name.slice(0, 15) + "...";
 
-    trackItem.innerHTML = `
+      trackItem.innerHTML = `
           <div class="playlist-short-container">
               <div class="playlist-icon-container">
                   <div class="playlist-icon-inner-container">
@@ -41,6 +45,7 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
               </div>
           </div>
               `;
-    recentlyPlayedContainer.appendChild(trackItem);
+      recentlyPlayedContainer.appendChild(trackItem);
+    }
   });
 }

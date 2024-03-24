@@ -69,6 +69,16 @@ const APIController = (function () {
     const data = await result.json();
     return data;
   };
+  const _getAlbumTracks = async (accessToken, albumId) => {
+    const result = await fetch(`https://api.spotify.com/v1/albums/${albumId}/tracks`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    const data = await result.json();
+    return data.items;
+  };
 
   const _getConnectedUserPlaylists = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/playlists", {
@@ -178,6 +188,9 @@ const APIController = (function () {
     getConnectSearch(accessToken, query, type) {
       return _getConnectSearch(accessToken, query, type);
     },
+    getAlbumTracks(accessToken, albumId) {
+      return _getAlbumTracks(accessToken, albumId);
+    },
     getConnectedUserPlaylists(accessToken) {
       return _getConnectedUserPlaylists(accessToken);
     },
@@ -280,7 +293,20 @@ const APPController = (async function (UICtrl, APICtrl) {
     "sad",
     "artist"
   );
-  console.log("artist", searchMethod);
+  const albumTracks = await APICtrl.getAlbumTracks(accessToken, "4OXoBlapQygTdzAifJm8BL");
+  console.log("albums tracks", albumTracks);
+  const artistNames = albumTracks.items ? albumTracks.items.map((track) => track.artists[0].name) : [];
+  console.log("Artist Names:", artistNames);
+
+  const trackNames = albumTracks.items ? albumTracks.items.map((track) => track.name) : [];
+  console.log("Track Names:", trackNames);
+
+  const imageUrls = albumTracks.items ? albumTracks.items.map((track) => track.album.images[0].url) : [];
+  console.log("Image URLs:", imageUrls);
+
+  const durations = albumTracks.items ? albumTracks.items.map((track) => track.duration_ms) : [];
+  console.log("Durations:", durations);
+
   document
     .querySelector(".logo-link")
     .setAttribute("href", window.location.href);
@@ -394,6 +420,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       await searchReleases(inputValue, "track");
       await searchReleases(inputValue, "playlist");
       await searchReleases(inputValue, "artist");
+
     }
     inputElement.addEventListener("keydown", async function (event) {
       if (event.key === "Enter") {
@@ -539,6 +566,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     const newReleases = await APICtrl.getNewReleases(accessToken);
     searchMethod = await APICtrl.getConnectSearch(accessToken, "", "playlist");
     displayNewPlaylist(searchMethod);
+    console.log("newReleases", newReleases);
     // UICtrl display methods
     displayUserProfile(userProfile);
     // displayUserPlaylists(playlists);

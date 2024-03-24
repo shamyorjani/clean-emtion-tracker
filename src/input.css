@@ -325,10 +325,10 @@ html {
   @apply text-[10px] text-[#c0c0c0];
 }
 .playlist-song-time {
-  @apply flex justify-end;
+  @apply flex justify-center;
 }
 .song-time {
-  @apply text-[10px];
+  @apply flex items-center h-[50%] text-[10px];
 }
 .playlist-names {
   @apply text-[#c0c0c0] xl:text-[8px] 2xl:text-[10px] font-poppinsRegular;
