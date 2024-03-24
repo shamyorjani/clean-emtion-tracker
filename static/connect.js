@@ -566,7 +566,9 @@ const APPController = (async function (UICtrl, APICtrl) {
       artistData(currentArtist.name);
     }
 
-    const sidebarPlayBtn = document.querySelectorAll(".sidebar-play-btn");
+    const sidebarPlayBtn = document.querySelectorAll(
+      ".playlist-icon-container"
+    );
     sidebarPlayBtn.forEach((btn, index) => {
       btn.addEventListener("click", async () => {
         const track = recentlyPlayedTracks.items[index].track;
