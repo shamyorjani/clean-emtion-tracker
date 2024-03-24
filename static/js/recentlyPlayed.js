@@ -1,16 +1,17 @@
 function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
   const recentlyPlayedContainer = document.querySelector(".playlist-container");
   recentlyPlayedContainer.innerHTML = ""; // Clear existing content
-  console.log("recenlty tracks", recentlyPlayedTracks);
   const formatDuration = (durationMs) => {
     const minutes = Math.floor(durationMs / 60000);
     const seconds = Math.floor((durationMs % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  const uniqueTracks = [];
+  console.log("recenlty tracks", uniqueTracks);
   recentlyPlayedTracks.items.forEach((track) => {
-    const isDuplicate = uniqueTracks.some((t) => t.track.name === track.track.name);
+    const isDuplicate = uniqueTracks.some(
+      (t) => t.track.name === track.track.name
+    );
     if (!isDuplicate) {
       uniqueTracks.push(track);
       const trackItem = document.createElement("div");
@@ -49,3 +50,5 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
     }
   });
 }
+
+let uniqueTracks = [];
