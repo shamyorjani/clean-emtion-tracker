@@ -74,7 +74,7 @@ function displayAlbumTracks(albumTracks, accessToken) {
       trackItem.innerHTML = `
           <div class="playlist-short-container">
               <div class="playlist-icon-container">
-                  <div class="playlist-icon-inner-container">
+                  <div class="playlist-icon-inner-container p-12">
                       <span class="play-icon sidebar-play-btn">
                         <i class="fas fa-play"></i>
                       </span >
