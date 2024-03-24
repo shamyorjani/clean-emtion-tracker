@@ -2961,6 +2961,16 @@ html {
   justify-content: center;
 }
 
+.album-icon-inner-container{
+  position: relative;
+  border-radius: 9999px;
+  border-width: 1px;
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+  display: flex;
+  justify-content: center;
+}
+
 .playlist-icon-inner-container:hover > .play-icon{
   visibility: visible;
   cursor: pointer;

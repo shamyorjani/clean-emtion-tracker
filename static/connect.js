@@ -296,31 +296,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     "sad",
     "artist"
   );
-  const albumTracks = await APICtrl.getAlbumTracks(
-    accessToken,
-    "4OXoBlapQygTdzAifJm8BL"
-  );
-  console.log("albums tracks", albumTracks);
-  const artistNames = albumTracks.items
-    ? albumTracks.items.map((track) => track.artists[0].name)
-    : [];
-  console.log("Artist Names:", artistNames);
-
-  const trackNames = albumTracks.items
-    ? albumTracks.items.map((track) => track.name)
-    : [];
-  console.log("Track Names:", trackNames);
-
-  const imageUrls = albumTracks.items
-    ? albumTracks.items.map((track) => track.album.images[0].url)
-    : [];
-  console.log("Image URLs:", imageUrls);
-
-  const durations = albumTracks.items
-    ? albumTracks.items.map((track) => track.duration_ms)
-    : [];
-  console.log("Durations:", durations);
-
+  
   document
     .querySelector(".logo-link")
     .setAttribute("href", window.location.href);
@@ -411,7 +387,20 @@ const APPController = (async function (UICtrl, APICtrl) {
       });
     }
     mainSearchMethod();
-
+    const albumTracks = await APICtrl.getAlbumTracks(
+      accessToken,
+      "4OXoBlapQygTdzAifJm8BL"
+    );
+    displayAlbumTracks(albumTracks, accessToken);
+  
+  
+    
+  
+    const durations = albumTracks.items
+      ? albumTracks.items.map((track) => track.duration_ms)
+      : [];
+    console.log("Durations:", durations);
+  
     async function searchReleases(inputValue, type) {
       let searchMethod = await APICtrl.getConnectSearch(
         accessToken,
@@ -573,10 +562,10 @@ const APPController = (async function (UICtrl, APICtrl) {
     // UICtrl display methods
     displayUserProfile(userProfile);
     // displayUserPlaylists(playlists);
-    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
-      accessToken
-    );
-    displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    // const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+    //   accessToken
+    // );
+    // displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
     searchItemText();
     displayNewReleases(newReleases);
     const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);

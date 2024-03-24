@@ -299,7 +299,10 @@ html {
 .playlist-icon-container {
   @apply flex justify-center items-center gap-5 pb-4;
 }
-.playlist-icon-inner-container {
+.playlist-icon-inner-container{
+  @apply border border-white flex-center rounded-full relative;
+}
+.album-icon-inner-container{
   @apply border border-white flex-center rounded-full relative;
 }
 .playlist-icon-inner-container:hover > .play-icon {
