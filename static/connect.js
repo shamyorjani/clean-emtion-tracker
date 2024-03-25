@@ -406,10 +406,10 @@ const APPController = (async function (UICtrl, APICtrl) {
       accessToken,
       "4OXoBlapQygTdzAifJm8BL"
     );
+    displayAlbumTracks(albumTracks, accessToken);
 
     const album = await APICtrl.getAlbum(accessToken, "4OXoBlapQygTdzAifJm8BL");
     console.log("album image", album.images[0].url);
-    displayAlbumTracks(albumTracks, accessToken);
 
     const durations = albumTracks.items
       ? albumTracks.items.map((track) => track.duration_ms)
@@ -577,30 +577,31 @@ const APPController = (async function (UICtrl, APICtrl) {
     // UICtrl display methods
     displayUserProfile(userProfile);
     // displayUserPlaylists(playlists);
-    // const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
-    //   accessToken
-    // );
+    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+      accessToken
+    );
+    // showAllSongData(recentlyPlayedTracks.items[0].track);
     // displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
     // check
     searchItemText();
     displayNewReleases(newReleases);
-    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
-    const currentArtist =
-      currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
-        ? await APICtrl.getArtist(
-            accessToken,
-            currentlyPlaying.item.artists[0].id
-          )
-        : null;
-    displayArtistName(currentlyPlaying);
-    displayCurrentSongName(currentlyPlaying);
-    if (currentArtist) {
-      displayArtistImage(currentArtist.images[0].url);
-    }
+    // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    // const currentArtist =
+    //   currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
+    //     ? await APICtrl.getArtist(
+    //         accessToken,
+    //         currentlyPlaying.item.artists[0].id
+    //       )
+    //     : null;
+    // displayArtistName(currentlyPlaying);
+    // displayCurrentSongName(currentlyPlaying);
+    // if (currentArtist) {
+    //   displayArtistImage(currentArtist.images[0].url);
+    // }
 
-    if (currentArtist) {
-      artistData(currentArtist.name);
-    }
+    // if (currentArtist) {
+    //   artistData(currentArtist.name);
+    // }
 
     const sidebarPlayBtn = document.querySelectorAll(
       ".playlist-icon-container"
