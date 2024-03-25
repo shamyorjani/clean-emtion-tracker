@@ -269,6 +269,10 @@ html {
 .mobile-albums-list-carousel .slick-slide {
   @apply px-2 xl:px-1;
 }
+
+.carosuel-slide-class {
+  @apply hover:cursor-pointer;
+}
 .album-upper-image-playlist img,
 .upper-image-artist img,
 .album-upper-image img {

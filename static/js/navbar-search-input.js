@@ -181,6 +181,25 @@ function displaySearchPlaylists(searchMethod) {
 
 function displaySongsRecommendation(searchMethod) {
   document
+    .querySelectorAll(".carosuel-slide-class")
+    .forEach((element, index) => {
+      if (
+        searchMethod &&
+        searchMethod.tracks &&
+        searchMethod.tracks.items &&
+        searchMethod.tracks.items[index] &&
+        searchMethod.tracks.items[index].album &&
+        searchMethod.tracks.items[index].album.images &&
+        searchMethod.tracks.items[index].album.images[0] &&
+        searchMethod.tracks.items[index].album.images[0].url
+      ) {
+        element.setAttribute(
+          "data-album-id",
+          searchMethod.tracks.items[index].album.id
+        );
+      }
+    });
+  document
     .querySelectorAll(".album-img-container")
     .forEach((element, index) => {
       if (

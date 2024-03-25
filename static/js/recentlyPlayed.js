@@ -52,7 +52,11 @@
 // }
 
 // let uniqueTracks = [];
-function displayAlbumTracks(albumTracks, accessToken) {
+function displayAlbumTracks(
+  albumTracks,
+  accessToken,
+  albumImageUrl = "../static/assets/images/img1.jpeg"
+) {
   const albumTracksContainer = document.querySelector(".playlist-container");
   albumTracksContainer.innerHTML = ""; // Clear existing content
   console.log("albums tracks", albumTracks);
@@ -78,7 +82,8 @@ function displayAlbumTracks(albumTracks, accessToken) {
                       <span class="play-icon sidebar-play-btn">
                         <i class="fas fa-play"></i>
                       </span >
-                      ${counter}
+                      <img src='${albumImageUrl}' class="recent-track-image" />
+                      
                   </div>
                   <div>
                       <h3 class="playlist-name">${trackName}</h3>

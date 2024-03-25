@@ -2834,6 +2834,10 @@ html {
   }
 }
 
+.carosuel-slide-class:hover{
+  cursor: pointer;
+}
+
 .album-upper-image-playlist img,
 .upper-image-artist img,
 .album-upper-image img{

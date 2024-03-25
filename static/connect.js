@@ -336,7 +336,7 @@ const APPController = (async function (UICtrl, APICtrl) {
           class="best-release-img"
           alt="singer_image"
         />
-      </div>
+      </div>  
       <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
       <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
     </div>
@@ -402,14 +402,13 @@ const APPController = (async function (UICtrl, APICtrl) {
       });
     }
     mainSearchMethod();
+    const album = await APICtrl.getAlbum(accessToken, "4OXoBlapQygTdzAifJm8BL");
+    console.log("album image", album.name);
     const albumTracks = await APICtrl.getAlbumTracks(
       accessToken,
       "4OXoBlapQygTdzAifJm8BL"
     );
-    displayAlbumTracks(albumTracks, accessToken);
-
-    const album = await APICtrl.getAlbum(accessToken, "4OXoBlapQygTdzAifJm8BL");
-    console.log("album image", album.images[0].url);
+    // displayAlbumTracks(albumTracks, accessToken, album.images[0].url);
 
     const durations = albumTracks.items
       ? albumTracks.items.map((track) => track.duration_ms)
@@ -585,6 +584,25 @@ const APPController = (async function (UICtrl, APICtrl) {
     // check
     searchItemText();
     displayNewReleases(newReleases);
+    document
+      .querySelectorAll(".carosuel-slide-class")
+      .forEach((albumElement) => {
+        albumElement.addEventListener("click", async function () {
+          // Get the album id from the clicked element
+          const albumId = this.getAttribute("data-album-id");
+
+          // Fetch the album details
+          const album = await APICtrl.getAlbum(accessToken, albumId);
+          const albumTracks = await APICtrl.getAlbumTracks(
+            accessToken,
+            albumId
+          );
+          // console.log(album);
+
+          // Display the album tracks and the album image
+          displayAlbumTracks(albumTracks, accessToken, album.images[0].url);
+        });
+      });
     // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     // const currentArtist =
     //   currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
