@@ -160,7 +160,7 @@ html {
   @apply capitalize text-[12px] w-[60%];
 }
 .result-text h4 {
-  @apply 2xl:text-[15px] xl:text-[10px] text-[16px];
+  @apply 2xl:text-[15px] xl:text-[10px] text-[16px] hover:cursor-pointer;
 }
 .result-text h5 {
   @apply 2xl:text-[12px] xl:text-[9px] text-[13px];
@@ -251,6 +251,21 @@ html {
 .song-album-description {
   @apply text-white lg:text-sm md:text-xs xl:text-[10px] leading-3 font-poppinsRegular;
 }
+.sidebar-title-style {
+  @apply text-white xl:text-[1rem] text-2xl font-poppinsRegular xl:mb-5 px-3;
+}
+.tabs-container-active {
+  @apply flex flex-row justify-between items-center;
+}
+.tabs-container-active .sidebar-title-style {
+  @apply ml-0;
+}
+.active-tab.right {
+  @apply bg-[#23262c] border-r border-b border-solid border-white rounded-br-lg text-[#d6d6d6];
+}
+.active-tab.left {
+  @apply bg-[#23262c] border-l border-b border-solid border-white rounded-bl-lg text-[#d6d6d6];
+}
 .album-upper-name,
 .album-upper-name-playlist {
   @apply font-poppinsRegular text-white  text-[11px] mx-auto mt-1;
@@ -276,7 +291,7 @@ html {
 .album-upper-image-playlist img,
 .upper-image-artist img,
 .album-upper-image img {
-  @apply w-full min-[1600px]:w-[150px] min-[1600px]:h-[150px];
+  @apply w-full min-[1600px]:w-[150px] min-[1600px]:h-[150px] hover:cursor-pointer;
 }
 .hrElementTab {
   @apply w-[45px] h-[2px] mx-auto bg-white border-0 rounded mt-2;
@@ -292,7 +307,7 @@ html {
 }
 
 .playlist-main-container {
-  @apply pt-4 px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] min-h-[70v] max-h-[90vh] overflow-y-scroll z-[9999];
+  @apply px-0 bg-[#2c2f35] xl:w-[18vw] 2xl:w-[15.5vw] fixed sm:top-[100px] 2xl:top-[110px] xl:top-[85px] rounded-md w-full  md:w-[280px] min-h-[70v] max-h-[90vh] overflow-y-scroll z-[9999];
 }
 #playlist-toggler {
   @apply z-[99999];

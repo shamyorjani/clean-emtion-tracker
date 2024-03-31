@@ -66,6 +66,11 @@ function displayNewPlaylist(searchMethod) {
         searchMethod.playlists.items[index].images[0].url
       ) {
         element.innerHTML = `<img src="${searchMethod.playlists.items[index].images[0].url}" class="best-release-img" alt="singer_image">`;
+
+        element.setAttribute(
+          "data-playlist-id",
+          searchMethod.playlists.items[index].id
+        );
       }
     });
 }

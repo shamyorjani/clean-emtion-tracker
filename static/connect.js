@@ -106,6 +106,36 @@ const APIController = (function () {
     return data.items;
   };
 
+  const _getPlaylistTracks = async (accessToken, playlist_id) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
+
+  const _getPlaylistImage = async (accessToken, playlist_id) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/images`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
+
   const _getNewReleases = async (accessToken) => {
     const result = await fetch(
       "https://api.spotify.com/v1/browse/new-releases?limit=50",
@@ -135,6 +165,20 @@ const APIController = (function () {
     return data;
   };
 
+  const _getArtistTopTracks = async (accessToken, artistId) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/artists/${artistId}/top-tracks`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+    const data = await result.json();
+    return data;
+  };
+
   const _getTopTracks = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/top/tracks", {
       method: "GET",
@@ -159,7 +203,7 @@ const APIController = (function () {
   };
   const _getRecentlyPlayedTracks = async (accessToken) => {
     const result = await fetch(
-      "https://api.spotify.com/v1/me/player/recently-played",
+      "https://api.spotify.com/v1/me/player/recently-played?limit=6",
       {
         method: "GET",
         headers: {
@@ -212,7 +256,12 @@ const APIController = (function () {
     getConnectedUserPlaylists(accessToken) {
       return _getConnectedUserPlaylists(accessToken);
     },
-
+    getPlaylistTracks(accessToken, playlist_id) {
+      return _getPlaylistTracks(accessToken, playlist_id);
+    },
+    getPlaylistImage(accessToken, playlist_id) {
+      return _getPlaylistImage(accessToken, playlist_id);
+    },
     getTopTracks(accessToken) {
       return _getTopTracks(accessToken);
     },
@@ -230,6 +279,9 @@ const APIController = (function () {
     },
     getNewReleases(accessToken) {
       return _getNewReleases(accessToken);
+    },
+    getArtistTopTracks(accessToken, artistId) {
+      return _getArtistTopTracks(accessToken, artistId);
     },
 
     // Add more public methods for additional functionalities
@@ -421,6 +473,8 @@ const APPController = (async function (UICtrl, APICtrl) {
         inputValue,
         type
       );
+
+      console.log("artit info", searchMethod.artists.items[0]);
       if (type === "track") {
         displaySongsRecommendation(searchMethod);
       } else if (type === "album") {
@@ -579,8 +633,11 @@ const APPController = (async function (UICtrl, APICtrl) {
     const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
       accessToken
     );
-    // showAllSongData(recentlyPlayedTracks.items[0].track);
-    // displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    showAllSongData(
+      recentlyPlayedTracks.items[0].track,
+      recentlyPlayedTracks.items[0].track.album.images[0].url
+    );
+    displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
     // check
     searchItemText();
     displayNewReleases(newReleases);
@@ -597,12 +654,39 @@ const APPController = (async function (UICtrl, APICtrl) {
             accessToken,
             albumId
           );
+
           // console.log(album);
 
           // Display the album tracks and the album image
           displayAlbumTracks(albumTracks, accessToken, album.images[0].url);
         });
       });
+
+    document
+      .querySelectorAll(".album-upper-image-playlist")
+      .forEach((element, index) => {
+        let playtracks = [];
+        element.addEventListener("click", async function () {
+          const playlistId = this.getAttribute("data-playlist-id");
+          const playlistTracks = await APICtrl.getPlaylistTracks(
+            accessToken,
+            playlistId
+          );
+          const playlistImage = await APICtrl.getPlaylistImage(
+            accessToken,
+            playlistId
+          );
+          playlistTracks.items.forEach((track) => {
+            playtracks.push(track.track);
+          });
+          // playtracks.push(playlistTracks.items[index].track);
+          // console.log("playlistTracks image content", element.innerHTML);
+          console.log("playlistTracks", playtracks[0]);
+          console.log("playlist image", playlistImage);
+          displayAlbumTracks(playtracks, accessToken, playlistImage[0].url);
+        });
+      });
+
     // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     // const currentArtist =
     //   currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
@@ -622,14 +706,24 @@ const APPController = (async function (UICtrl, APICtrl) {
     // }
 
     const sidebarPlayBtn = document.querySelectorAll(
-      ".playlist-icon-container"
+      ".playlist-icon-inner-container"
     );
+
     sidebarPlayBtn.forEach((btn, index) => {
-      btn.addEventListener("click", async () => {
-        const track = uniqueTracks[index].track;
-        attachPlayTrackEvent(btn, track, accessToken);
+      btn.addEventListener("click", () => {
+        console.log("clicked");
+        const track = uniqueTracks[index];
+
+        console.log("track", track);
+        attachPlayTrackEvent(
+          btn,
+          track.track,
+          accessToken,
+          track.track.album.images[0].url
+        );
       });
     });
+
     const nextButtons = document.querySelectorAll(".nextBtn");
     const prevButtons = document.querySelectorAll(".previousBtn");
     let next = 0;

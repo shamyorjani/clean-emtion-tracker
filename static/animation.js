@@ -19,6 +19,7 @@ document.addEventListener("DOMContentLoaded", function () {
   const sections = document.querySelectorAll(".section");
   const mobileSections = document.querySelectorAll(".mobile-section");
   const animatedDiv = document.querySelector("#playlist-container");
+  animatedDiv.style.right = "-100%";
   const moveBackButton = document.querySelector("#playlist-toggler");
   const rightNavigation = document.querySelector(".right-navigation-container");
   const profileName = document.querySelector("#profile-name-container");

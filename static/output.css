@@ -16,7 +16,7 @@
 @tailwind components;
 @tailwind utilities; */
 
-/* ! tailwindcss v3.4.1 | MIT License | https://tailwindcss.com */
+/* ! tailwindcss v3.4.3 | MIT License | https://tailwindcss.com */
 
 /*
 1. Prevent padding and border from affecting element width. (https://github.com/mozdevs/cssremedy/issues/4)
@@ -227,6 +227,8 @@ textarea {
   /* 1 */
   line-height: inherit;
   /* 1 */
+  letter-spacing: inherit;
+  /* 1 */
   color: inherit;
   /* 1 */
   margin: 0;
@@ -250,9 +252,9 @@ select {
 */
 
 button,
-[type='button'],
-[type='reset'],
-[type='submit'] {
+input:where([type='button']),
+input:where([type='reset']),
+input:where([type='submit']) {
   -webkit-appearance: button;
   /* 1 */
   background-color: transparent;
@@ -508,6 +510,10 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
 }
 
 ::backdrop{
@@ -558,6 +564,10 @@ video {
   --tw-backdrop-opacity:  ;
   --tw-backdrop-saturate:  ;
   --tw-backdrop-sepia:  ;
+  --tw-contain-size:  ;
+  --tw-contain-layout:  ;
+  --tw-contain-paint:  ;
+  --tw-contain-style:  ;
 }
 
 .container{
@@ -912,10 +922,6 @@ video {
   width: 300px;
 }
 
-.w-\[40\%\]{
-  width: 40%;
-}
-
 .w-\[45px\]{
   width: 45px;
 }
@@ -1059,11 +1065,6 @@ video {
   gap: 1px;
 }
 
-.gap-x-2{
-  -moz-column-gap: 0.5rem;
-       column-gap: 0.5rem;
-}
-
 .overflow-hidden{
   overflow: hidden;
 }
@@ -1115,11 +1116,6 @@ video {
 .border-\[\#2C2F35\]{
   --tw-border-opacity: 1;
   border-color: rgb(44 47 53 / var(--tw-border-opacity));
-}
-
-.border-white{
-  --tw-border-opacity: 1;
-  border-color: rgb(255 255 255 / var(--tw-border-opacity));
 }
 
 .bg-\[\#181b1f\]{
@@ -1223,17 +1219,8 @@ video {
   padding-bottom: 0.375rem;
 }
 
-.py-2{
-  padding-top: 0.5rem;
-  padding-bottom: 0.5rem;
-}
-
 .py-4{
   padding-top: 1rem;
-  padding-bottom: 1rem;
-}
-
-.pb-4{
   padding-bottom: 1rem;
 }
 
@@ -1605,10 +1592,6 @@ video {
 }
 
 @media (min-width: 1024px){
-  .lg\:ml-\[10\%\]{
-    margin-left: 10%;
-  }
-
   .lg\:mt-\[350px\]{
     margin-top: 350px;
   }
@@ -1728,11 +1711,6 @@ video {
     align-items: flex-end;
   }
 
-  .xl\:px-\[14px\]{
-    padding-left: 14px;
-    padding-right: 14px;
-  }
-
   .xl\:pr-\[75px\]{
     padding-right: 75px;
   }
@@ -1781,10 +1759,6 @@ video {
     margin-bottom: 1.25rem;
   }
 
-  .\32xl\:ml-\[20\%\]{
-    margin-left: 20%;
-  }
-
   .\32xl\:w-\[70\%\]{
     width: 70%;
   }
@@ -1795,10 +1769,6 @@ video {
 
   .\32xl\:pt-6{
     padding-top: 1.5rem;
-  }
-
-  .\32xl\:text-\[14px\]{
-    font-size: 14px;
   }
 }
 
@@ -2408,6 +2378,10 @@ html {
   font-size: 16px;
 }
 
+.result-text h4:hover{
+  cursor: pointer;
+}
+
 @media (min-width: 1280px){
   .result-text h4{
     font-size: 10px;
@@ -2782,6 +2756,60 @@ html {
   }
 }
 
+.sidebar-title-style{
+  padding-left: 0.75rem;
+  padding-right: 0.75rem;
+  font-family: poppins-regular, sans-serif;
+  font-size: 1.5rem;
+  line-height: 2rem;
+  --tw-text-opacity: 1;
+  color: rgb(255 255 255 / var(--tw-text-opacity));
+}
+
+@media (min-width: 1280px){
+  .sidebar-title-style{
+    margin-bottom: 1.25rem;
+    font-size: 1rem;
+  }
+}
+
+.tabs-container-active{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.tabs-container-active .sidebar-title-style{
+  margin-left: 0px;
+}
+
+.active-tab.right{
+  border-bottom-right-radius: 0.5rem;
+  border-right-width: 1px;
+  border-bottom-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(35 38 44 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(214 214 214 / var(--tw-text-opacity));
+}
+
+.active-tab.left{
+  border-bottom-left-radius: 0.5rem;
+  border-left-width: 1px;
+  border-bottom-width: 1px;
+  border-style: solid;
+  --tw-border-opacity: 1;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity));
+  --tw-bg-opacity: 1;
+  background-color: rgb(35 38 44 / var(--tw-bg-opacity));
+  --tw-text-opacity: 1;
+  color: rgb(214 214 214 / var(--tw-text-opacity));
+}
+
 .album-upper-name,
 .album-upper-name-playlist{
   margin-left: auto;
@@ -2842,6 +2870,12 @@ html {
 .upper-image-artist img,
 .album-upper-image img{
   width: 100%;
+}
+
+.album-upper-image-playlist img:hover,
+.upper-image-artist img:hover,
+.album-upper-image img:hover{
+  cursor: pointer;
 }
 
 @media (min-width: 1600px){
@@ -2906,7 +2940,6 @@ html {
   background-color: rgb(44 47 53 / var(--tw-bg-opacity));
   padding-left: 0px;
   padding-right: 0px;
-  padding-top: 1rem;
 }
 
 @media (min-width: 640px){

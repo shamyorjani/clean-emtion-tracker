@@ -1,73 +1,90 @@
-// function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
-//   const recentlyPlayedContainer = document.querySelector(".playlist-container");
-//   recentlyPlayedContainer.innerHTML = ""; // Clear existing content
-//   const formatDuration = (durationMs) => {
-//     const minutes = Math.floor(durationMs / 60000);
-//     const seconds = Math.floor((durationMs % 60000) / 1000);
-//     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
-//   };
+function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
+  const recentlyPlayedContainer = document.querySelector("#recentlyPlayedTab");
+  recentlyPlayedContainer.innerHTML = ""; // Clear existing content
+  const formatDuration = (durationMs) => {
+    const minutes = Math.floor(durationMs / 60000);
+    const seconds = Math.floor((durationMs % 60000) / 1000);
+    return `${minutes}:${seconds.toString().padStart(2, "0")}`;
+  };
 
-//   console.log("recenlty tracks", uniqueTracks);
-//   recentlyPlayedTracks.items.forEach((track) => {
-//     const isDuplicate = uniqueTracks.some(
-//       (t) => t.track.name === track.track.name
-//     );
-//     if (!isDuplicate) {
-//       uniqueTracks.push(track);
-//       const trackItem = document.createElement("div");
-//       const trackName =
-//         track.track.name.length <= 15
-//           ? track.track.name
-//           : track.track.name.slice(0, 15) + "...";
+  console.log("recenlty tracks", uniqueTracks);
+  recentlyPlayedTracks.items.forEach((track) => {
+    const isDuplicate = uniqueTracks.some(
+      (t) => t.track.name === track.track.name
+    );
+    if (!isDuplicate) {
+      uniqueTracks.push(track);
+      const trackItem = document.createElement("div");
+      const trackName =
+        track.track.name.length <= 15
+          ? track.track.name
+          : track.track.name.slice(0, 15) + "...";
 
-//       trackItem.innerHTML = `
-//           <div class="playlist-short-container">
-//               <div class="playlist-icon-container">
-//                   <div class="playlist-icon-inner-container">
-//                       <span class="play-icon sidebar-play-btn">
-//                         <i class="fas fa-play"></i>
-//                       </span>
-//                           <img src='${
-//                             track.track.album.images[0].url
-//                           }' class="recent-track-image" />
-//                   </div>
-//                   <div>
-//                       <h3 class="playlist-name">${trackName}</h3>
-//                       <p class="playlist-names">${
-//                         track.track.artists[0].name
-//                       }</p>
-//                   </div>
-//               </div>
+      trackItem.innerHTML = `
+          <div class="playlist-short-container">
+              <div class="playlist-icon-container">
+                  <div class="playlist-icon-inner-container">
+                      <span class="play-icon sidebar-play-btn">
+                        <i class="fas fa-play"></i>
+                      </span>
+                          <img src='${
+                            track.track.album.images[0].url
+                          }' class="recent-track-image" />
+                  </div>
+                  <div>
+                      <h3 class="playlist-name">${trackName}</h3>
+                      <p class="playlist-names">${
+                        track.track.artists[0].name
+                      }</p>
+                  </div>
+              </div>
 
-//               <div class="playlist-song-time">
-//                   <span class="song-time">${formatDuration(
-//                     track.track.duration_ms
-//                   )}</span>
-//               </div>
-//           </div>
-//               `;
-//       recentlyPlayedContainer.appendChild(trackItem);
-//     }
-//   });
-// }
+              <div class="playlist-song-time">
+                  <span class="song-time">${formatDuration(
+                    track.track.duration_ms
+                  )}</span>
+              </div>
+          </div>
+              `;
+      recentlyPlayedContainer.appendChild(trackItem);
+    }
+  });
+}
 
-// let uniqueTracks = [];
+let uniqueTracks = [];
+
 function displayAlbumTracks(
   albumTracks,
   accessToken,
   albumImageUrl = "../static/assets/images/img1.jpeg"
 ) {
-  const albumTracksContainer = document.querySelector(".playlist-container");
+  const albumTracksContainer = document.querySelector("#albumTracksTab");
   albumTracksContainer.innerHTML = ""; // Clear existing content
+
+  const albumTracksTabBtn = document.querySelector("#albumTracksTabBtn");
+  albumTracksTabBtn.style.display = "inline-block";
+  showTab("albumTracks");
+  setActiveTab(albumTracksTabBtn);
+
+  const tabsContainer = document.querySelector(".tabs-container");
+  tabsContainer.classList.add("tabs-container-active");
+
+  const recentTracksTabBtn = document.querySelector("#recentlyPlayedTabBtn");
+  recentTracksTabBtn.classList.remove("right");
+  recentTracksTabBtn.classList.add("left");
+
   console.log("albums tracks", albumTracks);
+
   const formatDuration = (durationMs) => {
     const minutes = Math.floor(durationMs / 60000);
     const seconds = Math.floor((durationMs % 60000) / 1000);
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
   let counter = 0;
+
   const uniqueTracks = [];
   albumTracks.forEach((track) => {
+    // console.log("track", track);
     const isDuplicate = uniqueTracks.some((t) => t.name === track.name);
     if (!isDuplicate) {
       uniqueTracks.push(track);
@@ -83,14 +100,14 @@ function displayAlbumTracks(
                         <i class="fas fa-play"></i>
                       </span >
                       <img src='${albumImageUrl}' class="recent-track-image" />
-                      
+
                   </div>
                   <div>
                       <h3 class="playlist-name">${trackName}</h3>
                       <p class="playlist-names">${track.artists[0].name}</p>
                   </div>
               </div>
-  
+
               <div class="playlist-song-time">
                   <span class="song-time">${formatDuration(
                     track.duration_ms
@@ -100,5 +117,19 @@ function displayAlbumTracks(
               `;
       albumTracksContainer.appendChild(trackItem);
     }
+  });
+
+  const sidebarPlayBtn = document.querySelectorAll(
+    ".playlist-icon-inner-container"
+  );
+
+  sidebarPlayBtn.forEach((btn, index) => {
+    btn.addEventListener("click", () => {
+      console.log("clicked");
+      const track = albumTracks[index - 6];
+
+      console.log("clicked track sidebar", track, "index", index);
+      attachPlayTrackEvent(btn, track, accessToken, albumImageUrl);
+    });
   });
 }

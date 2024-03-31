@@ -130,14 +130,15 @@
 
   const loader = document.querySelector(".player-loader");
   loader.style.display = "none";
-  let trackData;
-  function showAllSongData(track) {
+  let trackData = [];
+  function showAllSongData(track, albumImageUrl) {
     const artistName = document.querySelector(".song-album-name");
     const songName = document.querySelector(".song-title");
     const songAuthor = document.querySelector(".song-author");
     const currentImage = document.querySelector(".left-audio-player-img");
     const mainImageBackground = document.querySelector(".main");
-    mainImageBackground.style.backgroundImage = `url(${track.album.images[0].url})`;
+    console.log("tracks image", track);
+    mainImageBackground.style.backgroundImage = `url(${albumImageUrl})`;
     artistData(track.artists[0].name);
     console.log("artist name", track.artists[0].name);
     artistName.innerHTML = track.artists[0].name;
@@ -145,14 +146,16 @@
     songName.innerHTML = track.name;
     currentImage.innerHTML = `<img".player-loader");
   loader.style.display = "none";
-              src="${track.album.images[0].url}"
+              src="${albumImageUrl}"
               class="current-song-artist-image"
               alt="singer_image"
             />`;
   }
-  function attachPlayTrackEvent(trackItem, track, accessToken) {
+  function attachPlayTrackEvent(trackItem, track, accessToken, albumImageUrl) {
     // artistData(track.artists[0].name);
-    trackData = track;
+    trackData[0] = track;
+    trackData[1] = albumImageUrl;
+
     trackItem.addEventListener("click", function () {
       // Call a function to play the selected track
       loader.style.display = "block";
@@ -186,7 +189,7 @@
     player.addListener("ready", ({ device_id }) => {
       console.log("Ready with Device ID", device_id);
       loader.style.display = "none";
-      showAllSongData(trackData);
+      showAllSongData(trackData[0], trackData[1]);
 
       // Play the selected track
       playOnDevice(accessToken, device_id, trackUri);
