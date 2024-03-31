@@ -706,7 +706,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     // }
 
     const sidebarPlayBtn = document.querySelectorAll(
-      ".playlist-icon-inner-container"
+      ".recent-icon-inner-container"
     );
 
     sidebarPlayBtn.forEach((btn, index) => {

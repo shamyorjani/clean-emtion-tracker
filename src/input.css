@@ -327,11 +327,21 @@ html {
 .playlist-icon-inner-container:hover > .play-icon {
   @apply visible bg-[rgba(0,0,0,0.5)] cursor-pointer;
 }
-.play-icon {
-  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full invisible;
-}
 .playlist-icon-inner-container .fa-play {
   @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-3 rounded-full;
+}
+
+.recent-icon-inner-container {
+  @apply border border-white flex-center rounded-full relative;
+}
+.recent-icon-inner-container:hover > .play-icon {
+  @apply visible bg-[rgba(0,0,0,0.5)] cursor-pointer;
+}
+.recent-icon-inner-container .fa-play {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 p-3 rounded-full;
+}
+.play-icon {
+  @apply absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-10 h-10 rounded-full invisible;
 }
 
 .recent-track-image {

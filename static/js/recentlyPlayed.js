@@ -23,7 +23,7 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
       trackItem.innerHTML = `
           <div class="playlist-short-container">
               <div class="playlist-icon-container">
-                  <div class="playlist-icon-inner-container">
+                  <div class="recent-icon-inner-container">
                       <span class="play-icon sidebar-play-btn">
                         <i class="fas fa-play"></i>
                       </span>
@@ -126,7 +126,7 @@ function displayAlbumTracks(
   sidebarPlayBtn.forEach((btn, index) => {
     btn.addEventListener("click", () => {
       console.log("clicked");
-      const track = albumTracks[index - 6];
+      const track = albumTracks[index];
 
       console.log("clicked track sidebar", track, "index", index);
       attachPlayTrackEvent(btn, track, accessToken, albumImageUrl);
