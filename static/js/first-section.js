@@ -7,13 +7,14 @@ var artistData = async (artistName) => {
   // if (typeof artistName !== "string") {
   //   artistName = String(artistName);
   // }
-  console.log("get artist data name", artistName);
   artistName = artistName.split(" ").join("+");
   // loader.style.display = "block"; // Show the loader
   let response = await fetch(
     `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
   );
   let data = await response.json();
+  console.log("artist data name", data.artist.bio.summary);
+  artistBio.length = 0;
   artistBio.push(data.artist.bio.summary);
 
   // console.log("some data ", data);
@@ -21,6 +22,7 @@ var artistData = async (artistName) => {
 
   let artistBioElement = document.querySelector(".song-album-description");
   artistBioElement.innerHTML = "";
+  console.log("bio", bio);
 
   if (bio.length > 20) {
     artistBioElement.innerHTML = bio.substring(0, 220);
@@ -29,7 +31,6 @@ var artistData = async (artistName) => {
     artistBioElement.style.fontSize = "1.1rem";
     artistBioElement.style.lineHeight = "1.5";
   }
-  console.log("bio", bio);
 
   // } catch (error) {
   //   console.error(error);

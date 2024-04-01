@@ -127,6 +127,7 @@ function displayAlbumTracks(
     btn.addEventListener("click", () => {
       console.log("clicked");
       const track = albumTracks[index];
+      // artistData(track.artists[0].name);
 
       console.log("clicked track sidebar", track, "index", index);
       attachPlayTrackEvent(btn, track, accessToken, albumImageUrl);

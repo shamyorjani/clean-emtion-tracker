@@ -137,10 +137,10 @@
     const songAuthor = document.querySelector(".song-author");
     const currentImage = document.querySelector(".left-audio-player-img");
     const mainImageBackground = document.querySelector(".main");
-    console.log("tracks image", track);
+    // console.log("tracks show all song data", track);
     mainImageBackground.style.backgroundImage = `url(${albumImageUrl})`;
-    artistData(track.artists[0].name);
     console.log("artist name", track.artists[0].name);
+    artistData(track.artists[0].name);
     artistName.innerHTML = track.artists[0].name;
     songAuthor.innerHTML = track.artists[0].name;
     songName.innerHTML = track.name;

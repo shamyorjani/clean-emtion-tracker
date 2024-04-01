@@ -713,7 +713,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       btn.addEventListener("click", () => {
         console.log("clicked");
         const track = uniqueTracks[index];
-
+        // artistData(track.track.artists[0].name);
         console.log("track", track);
         attachPlayTrackEvent(
           btn,
