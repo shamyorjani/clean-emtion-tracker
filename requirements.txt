@@ -1,2 +1,2 @@
-deepface>=0.0.7
-flask>=3.0
+deepface
+flask
