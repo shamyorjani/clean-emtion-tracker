@@ -475,7 +475,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     }
     mainSearchMethod();
     const album = await APICtrl.getAlbum(accessToken, "4OXoBlapQygTdzAifJm8BL");
-    console.log("album image", album.name);
+    // console.log("album image", album.name);
     const albumTracks = await APICtrl.getAlbumTracks(
       accessToken,
       "4OXoBlapQygTdzAifJm8BL"
@@ -485,7 +485,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     const durations = albumTracks.items
       ? albumTracks.items.map((track) => track.duration_ms)
       : [];
-    console.log("Durations:", durations);
+    // console.log("Durations:", durations);
 
     async function searchReleases(inputValue, type) {
       let searchMethod = await APICtrl.getConnectSearch(
@@ -646,7 +646,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     const newReleases = await APICtrl.getNewReleases(accessToken);
     searchMethod = await APICtrl.getConnectSearch(accessToken, "", "playlist");
     displayNewPlaylist(searchMethod);
-    console.log("newReleases", newReleases);
+    // console.log("newReleases", newReleases);
     // UICtrl display methods
     displayUserProfile(userProfile);
     // displayUserPlaylists(playlists);
@@ -816,13 +816,15 @@ const APPController = (async function (UICtrl, APICtrl) {
         attachPlayTrackEvent(uniqueTracks[next].track, accessToken);
       });
     });
-    prevButtons.forEach((prevButton) => {
-      prev--;
-      if (prev < 0) {
-        prev = recentlyPlayedTracks.length - 1;
-      }
-      attachPlayTrackEvent(topTracks[prev], accessToken);
-    });
+    // prevButtons.forEach((prevButton) => {
+    //   prev--;
+    //   if (prev < 0) {
+    //     prev = recentlyPlayedTracks.length - 1;
+    //   }
+    //   if (topTracks) {
+    //     attachPlayTrackEvent(topTracks[prev], accessToken);
+    //   }
+    // });
 
     // const repeatBtn = document.querySelector(".repeatBtn");
     // repeatBtn.addEventListener("click", async () => {

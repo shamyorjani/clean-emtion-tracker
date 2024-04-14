@@ -13,7 +13,7 @@ var artistData = async (artistName) => {
     `https://ws.audioscrobbler.com/2.0/?method=artist.getinfo&artist=${artistName}&api_key=a6430db72689041eaecff4ca70a70c00&format=json`
   );
   let data = await response.json();
-  console.log("artist data name", data.artist.bio.summary);
+  // console.log("artist data name", data.artist.bio.summary);
   artistBio.length = 0;
   artistBio.push(data.artist.bio.summary);
 
@@ -22,7 +22,7 @@ var artistData = async (artistName) => {
 
   let artistBioElement = document.querySelector(".song-album-description");
   artistBioElement.innerHTML = "";
-  console.log("bio", bio);
+  // console.log("bio", bio);
 
   if (bio.length > 20) {
     artistBioElement.innerHTML = bio.substring(0, 220);

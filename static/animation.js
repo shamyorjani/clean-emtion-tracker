@@ -5,12 +5,28 @@ document.addEventListener("DOMContentLoaded", function () {
   var animatedPlayer = document.getElementById("top-audio-player");
   var animatedPlaylistToggler = document.getElementById("playlist-toggler");
   var animatedBackground = document.getElementById("fullscreen-animator");
+  var navbarEllipsis = document.querySelector(".dropdownBtn");
+  var searchInput = document.querySelector(".search_input");
 
   // Add the animate-once class to trigger the animation on page load
   animatedText.classList.add("animate-once");
   animatedPlayer.classList.add("animate-once");
   animatedPlaylistToggler.classList.add("animate-toggler");
   animatedBackground.classList.add("background-fade");
+
+  navbarEllipsis.addEventListener("click", function () {
+    // Move the animatedDiv back to the right
+    if (animatedDiv.style.right == "0%") {
+      animatedDiv.style.right = "-100%";
+    }
+  });
+
+  searchInput.addEventListener("focus", function () {
+    // Move the animatedDiv back to the right
+    if (animatedDiv.style.right == "0%") {
+      animatedDiv.style.right = "-100%";
+    }
+  });
 
   setTimeout(function () {
     animatedBackground.classList.add("hidden");
@@ -27,21 +43,26 @@ document.addEventListener("DOMContentLoaded", function () {
   var animatedBackground = document.getElementById("fullscreen-animator");
 
   // Query for the .artist-upper-name, .album-upper-img, and .playlist-upper-name elements
-  const artistNames = document.querySelectorAll(".carosuel-slide-class");
-  const albumImages = document.querySelectorAll(".album-upper-image-playlist");
+  const albumImages = document.querySelectorAll(".album-upper-image");
+  const artistNames = document.querySelectorAll(".album-upper-image-playlist");
   const playlistNames = document.querySelectorAll(".upper-image-artist");
   const singleSong = document.querySelectorAll(".album-img-container");
 
   // For each element, add a click event listener
-  [...artistNames, ...albumImages, ...playlistNames, ...singleSong].forEach(
-    (element) => {
-      element.addEventListener("click", () => {
-        // Call the simulateScroll function with the desired direction
-        // Replace 'up' with 'down' if you want to simulate a down scroll
-        simulateScroll("up");
-      });
-    }
-  );
+  [...artistNames, ...playlistNames, ...singleSong].forEach((element) => {
+    element.addEventListener("click", () => {
+      simulateScroll("up");
+    });
+  });
+  albumImages.forEach((element) => {
+    element.addEventListener("click", () => {
+      console.log(
+        "clicked album element element elementelementelementelementelementelementelement" +
+          element
+      );
+      simulateScroll("up");
+    });
+  });
   function simulateScroll(direction) {
     // Create a new event object
     const event = {
@@ -143,8 +164,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       animatedDiv.style.right = "0%";
     }
-    // Hide the button after moving back
-    // moveBackButton.style.right = "-200px";
   });
 
   function animateSlide() {

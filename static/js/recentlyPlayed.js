@@ -7,7 +7,7 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  console.log("recenlty tracks", uniqueTracks);
+  // console.log("recenlty tracks", uniqueTracks);  
   recentlyPlayedTracks.items.forEach((track) => {
     const isDuplicate = uniqueTracks.some(
       (t) => t.track.name === track.track.name

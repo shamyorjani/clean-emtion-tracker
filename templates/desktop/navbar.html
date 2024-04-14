@@ -22,7 +22,7 @@
         }" class="relative">
 
                 <button @click="dropdownOpen=true, desktopNavSearchopen=false"
-                    class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none">
+                    class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none dropdownBtn">
                     <i class="fa-solid fa-ellipsis rounded-full text-2xl xl:text-xl text-white"></i></button>
 
                 <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200"
