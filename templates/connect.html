@@ -79,6 +79,8 @@
 
         const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
 
+        localStorage.setItem("sessionStartTime", Date.now());
+
         window.location.href = authUrl;
       }
     </script>

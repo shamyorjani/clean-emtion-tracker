@@ -23,6 +23,10 @@ function displayNewArtist(searchMethod) {
       searchMethod.artists.items[index].images[0].url
     ) {
       element.innerHTML = `<img src="${searchMethod.artists.items[index].images[0].url}" class="best-release-img-artists" alt="singer_image">`;
+      element.setAttribute(
+        "data-artist-id",
+        searchMethod.artists.items[index].id
+      );
     }
   });
 }

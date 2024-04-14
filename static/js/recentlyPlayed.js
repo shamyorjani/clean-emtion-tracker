@@ -56,7 +56,8 @@ let uniqueTracks = [];
 function displayAlbumTracks(
   albumTracks,
   accessToken,
-  albumImageUrl = "../static/assets/images/img1.jpeg"
+  albumImageUrl = "../static/assets/images/img1.jpeg",
+  selectionNameContent
 ) {
   const albumTracksContainer = document.querySelector("#albumTracksTab");
   albumTracksContainer.innerHTML = ""; // Clear existing content
@@ -83,7 +84,13 @@ function displayAlbumTracks(
   let counter = 0;
 
   const uniqueTracks = [];
-  albumTracks.forEach((track) => {
+
+  const selectionName = document.createElement("h1");
+  selectionName.textContent = selectionNameContent;
+  selectionName.classList.add("selection-name");
+  albumTracksContainer.appendChild(selectionName);
+
+  albumTracks.forEach((track, index) => {
     // console.log("track", track);
     const isDuplicate = uniqueTracks.some((t) => t.name === track.name);
     if (!isDuplicate) {
@@ -99,7 +106,13 @@ function displayAlbumTracks(
                       <span class="play-icon sidebar-play-btn">
                         <i class="fas fa-play"></i>
                       </span >
-                      <img src='${albumImageUrl}' class="recent-track-image" />
+                      <img src='
+                      ${
+                        // albumImageUrl
+                        Array.isArray(albumImageUrl)
+                          ? albumImageUrl[index]
+                          : albumImageUrl
+                      }' class="recent-track-image" />
 
                   </div>
                   <div>
@@ -130,7 +143,7 @@ function displayAlbumTracks(
       // artistData(track.artists[0].name);
 
       console.log("clicked track sidebar", track, "index", index);
-      attachPlayTrackEvent(btn, track, accessToken, albumImageUrl);
+      attachPlayTrackEvent(track, accessToken, albumImageUrl);
     });
   });
 }

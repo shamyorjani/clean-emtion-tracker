@@ -22,12 +22,12 @@ function updateTime(currentPos, totalDuration) {
 }
 const loader = document.querySelector(".player-loader");
 loader.style.display = "none";
-const attachPlayTrackEvent = function (trackItem, track, accessToken) {
-  trackItem.addEventListener("click", function () {
-    // Call a function to play the selected track
-    loader.style.display = "block";
-    playTrack(accessToken, track.uri);
-  });
+const attachPlayTrackEvent = function (track, accessToken) {
+  // trackItem.addEventListener("click", function () {
+  // Call a function to play the selected track
+  loader.style.display = "block";
+  playTrack(accessToken, track.uri);
+  // });
 };
 const playTrack = function (accessToken, trackUri) {
   const player = new Spotify.Player({

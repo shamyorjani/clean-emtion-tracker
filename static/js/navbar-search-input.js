@@ -213,6 +213,10 @@ function displaySongsRecommendation(searchMethod) {
         searchMethod.tracks.items[index].album.images[0].url
       ) {
         element.innerHTML = `<img src="${searchMethod.tracks.items[index].album.images[0].url}" class="album-img" alt="singer_image">`;
+        element.setAttribute(
+          "data-single-song-id",
+          searchMethod.tracks.items[index].id
+        );
       }
     });
 

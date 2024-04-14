@@ -67,9 +67,19 @@
           <h4 class="text-[10px] xl:text-[9px] capitalize">sia</h4>
         </div>
         <div class="flex justify-center items-center my-2">
-          <i class="fa-solid fa-volume-high text-sm xl:text-[12px]"></i>
-          <div class="volume-progressbar" onclick="seeking(event)">
-            <div class="volume-progressmeter"></div>
+          <!--<i class="fa-solid fa-volume-high text-sm xl:text-[12px]"></i>-->
+          <div class="main-volume-progress">
+            <input
+              type="range"
+              name=""
+              id=""
+              min="0"
+              max="1"
+              step="0.1"
+              value="0.6"
+              class="custom-input-range"
+              style="width: 90%"
+            />
           </div>
         </div>
       </div>

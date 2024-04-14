@@ -26,6 +26,34 @@ document.addEventListener("DOMContentLoaded", function () {
   const bottomLeftPlayer = document.querySelector(".left-media-player");
   var animatedBackground = document.getElementById("fullscreen-animator");
 
+  // Query for the .artist-upper-name, .album-upper-img, and .playlist-upper-name elements
+  const artistNames = document.querySelectorAll(".carosuel-slide-class");
+  const albumImages = document.querySelectorAll(".album-upper-image-playlist");
+  const playlistNames = document.querySelectorAll(".upper-image-artist");
+  const singleSong = document.querySelectorAll(".album-img-container");
+
+  // For each element, add a click event listener
+  [...artistNames, ...albumImages, ...playlistNames, ...singleSong].forEach(
+    (element) => {
+      element.addEventListener("click", () => {
+        // Call the simulateScroll function with the desired direction
+        // Replace 'up' with 'down' if you want to simulate a down scroll
+        simulateScroll("up");
+      });
+    }
+  );
+  function simulateScroll(direction) {
+    // Create a new event object
+    const event = {
+      deltaY: direction === "down" ? 1 : -1,
+      cancelable: true,
+      preventDefault: function () {},
+    };
+
+    // Call the customScroll function with the event object
+    customScroll(event);
+  }
+
   let currentSectionIndex = 0;
 
   // Set up the Intersection Observer

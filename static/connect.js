@@ -83,6 +83,17 @@ const APIController = (function () {
     return data.items;
   };
 
+  const _getTrack = async (accessToken, trackId) => {
+    const result = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    const data = await result.json();
+    return data;
+  };
+
   const _getAlbum = async (accessToken, albumId) => {
     const result = await fetch(`https://api.spotify.com/v1/albums/${albumId}`, {
       method: "GET",
@@ -250,6 +261,10 @@ const APIController = (function () {
       return _getAlbumTracks(accessToken, albumId);
     },
 
+    getTrack(accessToken, trackId) {
+      return _getTrack(accessToken, trackId);
+    },
+
     getAlbum(accessToken, albumId) {
       return _getAlbum(accessToken, albumId);
     },
@@ -346,6 +361,7 @@ const APPController = (async function (UICtrl, APICtrl) {
   window.addEventListener("load", async () => {
     if (accessToken) {
       const userType = await APICtrl.getUserProfile(accessToken);
+      // let accessToken;
 
       if (userType.product !== "premium") {
         // redirect to free subscription page
@@ -357,6 +373,10 @@ const APPController = (async function (UICtrl, APICtrl) {
   const accessToken = new URLSearchParams(
     window.location.hash.substring(1)
   ).get("access_token");
+
+  if (!accessToken) {
+    window.location.href = "/connect";
+  }
 
   let searchMethod = await APICtrl.getConnectSearch(
     accessToken,
@@ -643,10 +663,16 @@ const APPController = (async function (UICtrl, APICtrl) {
     displayNewReleases(newReleases);
     document
       .querySelectorAll(".carosuel-slide-class")
-      .forEach((albumElement) => {
+      .forEach((albumElement, index) => {
         albumElement.addEventListener("click", async function () {
           // Get the album id from the clicked element
           const albumId = this.getAttribute("data-album-id");
+          const albumNames = document.querySelectorAll(
+            ".album-upper-name-playlist"
+          );
+          const albumName = albumNames[index].textContent;
+
+          console.log("albumName", albumName);
 
           // Fetch the album details
           const album = await APICtrl.getAlbum(accessToken, albumId);
@@ -658,7 +684,12 @@ const APPController = (async function (UICtrl, APICtrl) {
           // console.log(album);
 
           // Display the album tracks and the album image
-          displayAlbumTracks(albumTracks, accessToken, album.images[0].url);
+          displayAlbumTracks(
+            albumTracks,
+            accessToken,
+            album.images[0].url,
+            albumName
+          );
         });
       });
 
@@ -666,7 +697,14 @@ const APPController = (async function (UICtrl, APICtrl) {
       .querySelectorAll(".album-upper-image-playlist")
       .forEach((element, index) => {
         let playtracks = [];
+        let tracksImages = [];
         element.addEventListener("click", async function () {
+          const playlistNames = document.querySelectorAll(
+            ".album-upper-name-playlist"
+          );
+          const playlistName = playlistNames[index].textContent;
+
+          console.log("albumName", playlistName);
           const playlistId = this.getAttribute("data-playlist-id");
           const playlistTracks = await APICtrl.getPlaylistTracks(
             accessToken,
@@ -678,15 +716,47 @@ const APPController = (async function (UICtrl, APICtrl) {
           );
           playlistTracks.items.forEach((track) => {
             playtracks.push(track.track);
+            tracksImages.push(track.track.album.images[0].url);
           });
           // playtracks.push(playlistTracks.items[index].track);
           // console.log("playlistTracks image content", element.innerHTML);
           console.log("playlistTracks", playtracks[0]);
           console.log("playlist image", playlistImage);
-          displayAlbumTracks(playtracks, accessToken, playlistImage[0].url);
+          displayAlbumTracks(
+            playtracks,
+            accessToken,
+            tracksImages,
+            playlistName
+          );
         });
       });
 
+    document
+      .querySelectorAll(".upper-image-artist")
+      .forEach((element, index) => {
+        element.addEventListener("click", async () => {
+          let tracksImages = [];
+
+          const artistNames = document.querySelectorAll(".upper-name-artist");
+          const artistName = artistNames[index].textContent;
+
+          const artistId = element.getAttribute("data-artist-id");
+          const artistTopTracks = await APICtrl.getArtistTopTracks(
+            accessToken,
+            artistId
+          );
+          artistTopTracks.tracks.forEach((track) => {
+            tracksImages.push(track.album.images[0].url);
+          });
+
+          displayAlbumTracks(
+            artistTopTracks.tracks,
+            accessToken,
+            tracksImages,
+            artistName
+          );
+        });
+      });
     // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     // const currentArtist =
     //   currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
@@ -705,18 +775,27 @@ const APPController = (async function (UICtrl, APICtrl) {
     //   artistData(currentArtist.name);
     // }
 
+    document
+      .querySelectorAll(".album-img-container")
+      .forEach(async (element) => {
+        element.addEventListener("click", async () => {
+          const singleSongId = element.getAttribute("data-single-song-id");
+          const track = await APICtrl.getTrack(accessToken, singleSongId);
+          attachPlayTrackEvent(track, accessToken, track.album.images[0].url);
+          console.log(track);
+        });
+      });
+
     const sidebarPlayBtn = document.querySelectorAll(
       ".recent-icon-inner-container"
     );
 
     sidebarPlayBtn.forEach((btn, index) => {
-      btn.addEventListener("click", () => {
-        console.log("clicked");
+      btn.addEventListener("click", async () => {
         const track = uniqueTracks[index];
         // artistData(track.track.artists[0].name);
         console.log("track", track);
         attachPlayTrackEvent(
-          btn,
           track.track,
           accessToken,
           track.track.album.images[0].url
@@ -731,50 +810,53 @@ const APPController = (async function (UICtrl, APICtrl) {
     nextButtons.forEach((nextButton) => {
       nextButton.addEventListener("click", async () => {
         next++;
-        if (next >= recentlyPlayedTracks.length) {
+        if (next >= recentlyPlayedTracks.items.length) {
           next = 0;
         }
-        attachPlayTrackEvent(nextButton, topTracks[next], accessToken);
+        attachPlayTrackEvent(uniqueTracks[next].track, accessToken);
       });
     });
     prevButtons.forEach((prevButton) => {
-      prevButton.addEventListener("click", async () => {
-        prev--;
-        if (prev < 0) {
-          prev = recentlyPlayedTracks.length - 1;
-        }
-        attachPlayTrackEvent(prevButton, topTracks[prev], accessToken);
-      });
-    });
-
-    const repeatBtn = document.querySelector(".repeatBtn");
-    repeatBtn.addEventListener("click", async () => {
-      await APICtrl.setRepeatMode(accessToken, "context");
-      console.log("repeat enabled");
-    });
-    // Function to shuffle an array
-    function shuffleArray(array) {
-      for (let i = array.length - 1; i > 0; i--) {
-        const j = Math.floor(Math.random() * (i + 1));
-        [array[i], array[j]] = [array[j], array[i]];
+      prev--;
+      if (prev < 0) {
+        prev = recentlyPlayedTracks.length - 1;
       }
-      return array;
-    }
-
-    // Shuffle button event listener
-    var shuffleBtn = document.querySelector(".shuffleBtn");
-    shuffleBtn.addEventListener("click", () => {
-      // Shuffle the topTracks array
-      const shuffledTracks = shuffleArray(topTracks);
-
-      // Play the first track in the sbhuffled array
-      attachPlayTrackEvent(shuffleBtn, shuffledTracks[0], accessToken);
+      attachPlayTrackEvent(topTracks[prev], accessToken);
     });
+
+    // const repeatBtn = document.querySelector(".repeatBtn");
+    // repeatBtn.addEventListener("click", async () => {
+    //   await APICtrl.setRepeatMode(accessToken, "context");
+    //   console.log("repeat enabled");
+    // });
+    // // Function to shuffle an array
+    // function shuffleArray(array) {
+    //   for (let i = array.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random() * (i + 1));
+    //     [array[i], array[j]] = [array[j], array[i]];
+    //   }
+    //   return array;
+    // }
+
+    // // Shuffle button event listener
+    // var shuffleBtn = document.querySelector(".shuffleBtn");
+    // // Shuffle the topTracks array
+    // const shuffledTracks = shuffleArray(topTracks);
+
+    // // Play the first track in the sbhuffled array
+    // attachPlayTrackEvent(shuffleBtn, shuffledTracks[0], accessToken);
+
+    let accessTokenExpiration;
+    accessTokenExpiration = Date.now() + 3600 * 1000; // Set expiration time to 20 seconds
+
+    setInterval(() => {
+      if (Date.now() >= accessTokenExpiration) {
+        window.location.href = "/connect"; // Redirect to /connect URL if expiration time is reached
+      }
+    }, 1000);
   }
   return {
-    init: function () {
-      console.log("App is starting");
-    },
+    init: function () {},
   };
 })(UIController, APIController);
 

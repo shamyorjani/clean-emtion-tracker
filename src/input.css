@@ -370,7 +370,9 @@ html {
 .main-volume-progress {
   @apply h-1 w-[95%] flex items-center justify-end mt-2;
 }
-
+.selection-name {
+  @apply text-white text-[18px] font-poppinsRegular ps-4;
+}
 .custom-input-range {
   @apply appearance-none w-[10%] h-1 bg-red-600 rounded-lg outline-none;
 }
@@ -460,7 +462,7 @@ html {
   @apply w-[100%] mx-auto sm:h-9 md:h-10 lg:h-11 xl:w-[130px] xl:h-[130px] 2xl:h-[110px] border-none rounded-full shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
 }
 .album-img {
-  @apply w-[100%] sm:h-9 md:h-10 lg:h-11 xl:w-[130px] xl:h-[130px] 2xl:h-[140px] border-none rounded-lg shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)];
+  @apply w-[100%] sm:h-9 md:h-10 lg:h-11 xl:w-[130px] xl:h-[130px] 2xl:h-[140px] border-none rounded-lg shadow-[0px_0px_3px_0.1px_rgb(0.5,0.5,0.5)] hover:cursor-pointer;
 }
 
 /* bottom section  */
