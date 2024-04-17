@@ -1,0 +1,11 @@
+# Exported from Render on 2024-04-17T19:25:54Z
+services:
+  - type: web
+    name: clean-emtion-tracker
+    runtime: python
+    repo: https://github.com/shamyorjani/clean-emtion-tracker
+    plan: free
+    region: oregon
+    buildCommand: pip install -r requirements.txt
+    startCommand: gunicorn app:app --bind 0.0.0.0:5000
+version: "1"
