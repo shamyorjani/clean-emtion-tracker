@@ -43,7 +43,6 @@ document.addEventListener("DOMContentLoaded", function () {
   var animatedBackground = document.getElementById("fullscreen-animator");
 
   // Query for the .artist-upper-name, .album-upper-img, and .playlist-upper-name elements
-  const albumImages = document.querySelectorAll(".album-upper-image");
   const artistNames = document.querySelectorAll(".album-upper-image-playlist");
   const playlistNames = document.querySelectorAll(".upper-image-artist");
   const singleSong = document.querySelectorAll(".album-img-container");
@@ -54,14 +53,20 @@ document.addEventListener("DOMContentLoaded", function () {
       simulateScroll("up");
     });
   });
+
+  const albumImages = document.querySelectorAll(".album-upper-image");
   albumImages.forEach((element) => {
-    element.addEventListener("click", () => {
-      console.log(
-        "clicked album element element elementelementelementelementelementelementelement" +
-          element
-      );
-      simulateScroll("up");
-    });
+    element.addEventListener(
+      "click",
+      () => {
+        console.log(
+          "clicked album element element elementelementelementelementelementelementelement" +
+            element
+        );
+        simulateScroll("up", { passive: false });
+      },
+      { passive: false }
+    );
   });
   function simulateScroll(direction) {
     // Create a new event object
@@ -72,7 +77,7 @@ document.addEventListener("DOMContentLoaded", function () {
     };
 
     // Call the customScroll function with the event object
-    customScroll(event);
+    customScroll(event, { passive: false });
   }
 
   let currentSectionIndex = 0;
@@ -110,7 +115,14 @@ document.addEventListener("DOMContentLoaded", function () {
   function customScroll(event) {
     // Add your custom scrolling logic here
     // This function is called when scrolling is allowed
-    event.cancelable && event.preventDefault();
+    if (
+      event.cancelable &&
+      !event.defaultPrevented &&
+      !event.defaultPrevented
+    ) {
+      event.preventDefault();
+    }
+
     const isScrollingDown = event.deltaY > 0;
 
     if (isScrollingDown && currentSectionIndex < sections.length - 1) {
