@@ -74,6 +74,13 @@ html {
   overflow-y: scroll;
 }
 
+.sidebar-tracks-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
+}
+
 /* Tailwind Styles */
 #fullscreen-animator {
   @apply w-[100vw] min-h-[100%] fixed;

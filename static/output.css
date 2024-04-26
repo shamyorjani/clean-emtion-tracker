@@ -1420,6 +1420,10 @@ video {
   outline-offset: 2px;
 }
 
+.outline{
+  outline-style: solid;
+}
+
 .blur{
   --tw-blur: blur(8px);
   filter: var(--tw-blur) var(--tw-brightness) var(--tw-contrast) var(--tw-grayscale) var(--tw-hue-rotate) var(--tw-invert) var(--tw-saturate) var(--tw-sepia) var(--tw-drop-shadow);
@@ -1869,6 +1873,13 @@ html {
 .section {
   scroll-snap-type: y mandatory;
   overflow-y: scroll;
+}
+
+.sidebar-tracks-loader {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 50vh;
 }
 
 /* Tailwind Styles */

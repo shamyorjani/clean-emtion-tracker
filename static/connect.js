@@ -375,7 +375,8 @@ const APPController = (async function (UICtrl, APICtrl) {
   ).get("access_token");
 
   if (!accessToken) {
-    window.location.href = "/connect";
+    // window.location.href = "/connect";
+    connectToSpotify();
   }
 
   let searchMethod = await APICtrl.getConnectSearch(
@@ -393,7 +394,8 @@ const APPController = (async function (UICtrl, APICtrl) {
 
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
-
+    console.log("playlists", playlists);
+    showPlaylists(playlists);
     var mobileCarousel = document.querySelector(".mobile-albums-list-carousel");
     mobileCarousel.innerHTML = "";
 
@@ -661,11 +663,27 @@ const APPController = (async function (UICtrl, APICtrl) {
     // check
     searchItemText();
     displayNewReleases(newReleases);
+
+    const showSIdeBarLoader = () => {
+      const albumsContainer = document.querySelector("#albumTracksTab");
+      albumsContainer.innerHTML = `
+          <div class="sidebar-tracks-loader">
+            <div class="lds-ripple">
+              <div></div>
+              <div></div>
+            </div>
+          </div>`;
+      const sidebarLoader = document.querySelector(".sidebar-tracks-loader");
+      sidebarLoader.style.display = "flex";
+    };
+
     document
       .querySelectorAll(".carosuel-slide-class")
       .forEach((albumElement, index) => {
         albumElement.addEventListener("click", async function () {
           // Get the album id from the clicked element
+          showSIdeBarLoader();
+
           const albumId = this.getAttribute("data-album-id");
           const albumNames = document.querySelectorAll(
             ".album-upper-name-playlist"
@@ -699,6 +717,7 @@ const APPController = (async function (UICtrl, APICtrl) {
         let playtracks = [];
         let tracksImages = [];
         element.addEventListener("click", async function () {
+          showSIdeBarLoader();
           const playlistNames = document.querySelectorAll(
             ".album-upper-name-playlist"
           );
@@ -735,6 +754,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       .querySelectorAll(".upper-image-artist")
       .forEach((element, index) => {
         element.addEventListener("click", async () => {
+          showSIdeBarLoader();
           let tracksImages = [];
 
           const artistNames = document.querySelectorAll(".upper-name-artist");
@@ -774,6 +794,143 @@ const APPController = (async function (UICtrl, APICtrl) {
     // if (currentArtist) {
     //   artistData(currentArtist.name);
     // }
+    const showPlaylistAgain = async () => {
+      const intervalId = setInterval(async () => {
+        const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
+        console.log("playlists", playlists);
+        showPlaylists(playlists);
+      }, 1000);
+
+      // Stop the interval after 2 seconds
+      setTimeout(() => {
+        clearInterval(intervalId);
+      }, 2000);
+    };
+
+    const editForm = document.querySelector(".edit-playlist-form");
+    editForm.style.display = "none";
+    const createForm = document.querySelector(".create-playlist-form");
+    createForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      modal.style.display = "none";
+      createPlaylist(
+        this.title.value,
+        this.description.value,
+        accessToken,
+        userProfile.id
+      );
+
+      const intervalId = setInterval(async () => {
+        const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
+        console.log("playlists", playlists);
+        showPlaylists(playlists);
+      }, 1000);
+
+      // Stop the interval after 2 seconds
+      setTimeout(() => {
+        clearInterval(intervalId);
+      }, 2000);
+      // Clear input fields after submit
+      this.title.value = "";
+      this.description.value = "";
+      // let newPlaylists = await APICtrl.getConnectedUserPlaylists(accessToken);
+      // console.log("new playlist", newPlaylists.length);
+      // showPlaylists(newPlaylists);
+
+      const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
+      console.log("created form length of playlist", deletePlaylistBtns.length);
+    });
+
+    const playlistBtn = document.querySelector(".playlist-btn");
+    const playlistHeader = document.querySelector(".playlist-header");
+
+    playlistBtn.addEventListener("click", () => {
+      playlistHeader.style.display = "block";
+
+      const editPlaylistBtns = document.querySelectorAll(".edit-playlist");
+
+      console.log("edit playlist btn", editPlaylistBtns.length);
+
+      editPlaylistBtns.forEach(async (editBtn, index) => {
+        // const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
+        const modalPlaylistName = document.querySelectorAll(".playlist-name");
+        editBtn.addEventListener("click", () => {
+          console.log("edit playlist clicked");
+          modal.style.display = "flex";
+          modalHeading.textContent = "Edit Playlist";
+          editForm.style.display = "block";
+          createForm.style.display = "none";
+          const titleInput = editForm.querySelector('input[name="title"]');
+          titleInput.value = modalPlaylistName[index].textContent;
+
+          editForm.addEventListener("submit", async (e) => {
+            e.preventDefault();
+            modal.style.display = "none";
+            updatePlaylist(
+              this.title.value,
+              this.description.value,
+              accessToken,
+              playlists[index].id
+            );
+
+            const intervalId = setInterval(async () => {
+              const playlists = await APICtrl.getConnectedUserPlaylists(
+                accessToken
+              );
+              console.log("playlists", playlists);
+              showPlaylists(playlists);
+            }, 1000);
+
+            // Stop the interval after 2 seconds
+            setTimeout(() => {
+              clearInterval(intervalId);
+            }, 2000);
+
+            // Clear input fields after submit
+            const descriptionInput = editForm.querySelector(
+              'input[name="description"]'
+            );
+            titleInput.value = "";
+            // descriptionInput.value != "" ? "" : "";
+          });
+        });
+      });
+
+      const mainPlaylistCloseBtn = document.querySelector(
+        ".main-playlist-close-btn"
+      );
+      mainPlaylistCloseBtn.addEventListener("click", () => {
+        playlistHeader.style.display = "none";
+      });
+
+      console.log("playlist lcicked", playlistHeader.style);
+    });
+    deletingPlaylist(accessToken, playlists, APICtrl.getConnectedUserPlaylists);
+    // const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
+
+    // deletePlaylistBtns.forEach((deletePlaylistBtn, index) => {
+    //   deletePlaylistBtn.addEventListener("click", () => {
+    //     console.log("deletePlaylistBtn clicked");
+    //     const playlistss = document.querySelectorAll(".playlist");
+    //     const playlistID = playlistss[index].getAttribute("data-playlist-id");
+    //     console.log("playlistID", playlistID);
+    //     deletePlaylist(playlistID, accessToken);
+
+    //     const intervalId = setInterval(async () => {
+    //       const playlists = await APICtrl.getConnectedUserPlaylists(
+    //         accessToken
+    //       );
+    //       console.log("playlists", playlists);
+    //       showPlaylists(playlists);
+    //     }, 1000);
+
+    //     // Stop the interval after 2 seconds
+    //     setTimeout(() => {
+    //       clearInterval(intervalId);
+    //     }, 2000);
+    //     console.log("deleted form array length", deletePlaylistBtns.length);
+    //   });
+    // });
 
     document
       .querySelectorAll(".album-img-container")
@@ -853,7 +1010,8 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     setInterval(() => {
       if (Date.now() >= accessTokenExpiration) {
-        window.location.href = "/connect"; // Redirect to /connect URL if expiration time is reached
+        // window.location.href = "/connect"; // Redirect to /connect URL if expiration time is reached
+        connectToSpotify();
       }
     }, 1000);
   }

@@ -3,14 +3,15 @@
         <a href="" class="flex flex-center items-center logo-link">
             <img src="../static/assets/images/websiteLogoBgRemoved-1.png" alt="" class="xl:w-[60px] w-[65px]" />
         </a>
-        <a href="/" class="flex flex-center items-center mx-4">
+        <a href="/" class="flex flex-center items-center mx-4 library-btn">
             <p class="logo_text">Your Library</p>
         </a>
-        <a href="/" class="flex flex-center items-center mx-4">
+        <span class="flex flex-center items-center mx-4 playlist-btn" style="cursor: pointer;">
             <p class="logo_text">Playlists</p>
-        </a>
+        </span>
     </div>
     <!-- {/* Desktop Navigation */} -->
+
 
     <div class="right-navigation-container">
         <div x-cloak class="w-full flex flex-center  gap-3 md:gap-8"
@@ -191,4 +192,13 @@
 <!-- Navigation end -->
 
 
+{% include 'desktop/all-playlists.html' %}
+<script>
+    // const playlistBtn = document.querySelector(".playlist-btn");
+    // const playlistHeader = document.querySelector(".playlist-header");
+
+    // playlistBtn.addEventListener("click", () => {
+    //   playlistHeader.style.display = "fixed";
+    // });
+</script>
 <script src="{{url_for('static',filename='js/navbar.js')}}" defer></script>

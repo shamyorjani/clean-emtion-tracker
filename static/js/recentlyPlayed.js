@@ -7,7 +7,7 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
     return `${minutes}:${seconds.toString().padStart(2, "0")}`;
   };
 
-  // console.log("recenlty tracks", uniqueTracks);  
+  // console.log("recenlty tracks", uniqueTracks);
   recentlyPlayedTracks.items.forEach((track) => {
     const isDuplicate = uniqueTracks.some(
       (t) => t.track.name === track.track.name
@@ -74,6 +74,8 @@ function displayAlbumTracks(
   recentTracksTabBtn.classList.remove("right");
   recentTracksTabBtn.classList.add("left");
 
+  const sidebarLoader = document.querySelector("sidebar-tracks-loader");
+
   console.log("albums tracks", albumTracks);
 
   const formatDuration = (durationMs) => {
@@ -128,6 +130,7 @@ function displayAlbumTracks(
               </div>
           </div>
               `;
+
       albumTracksContainer.appendChild(trackItem);
     }
   });
