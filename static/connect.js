@@ -237,19 +237,27 @@ const APIController = (function () {
           },
         }
       );
-
+  
       // Check if response status is OK
       if (!result.ok) {
-        throw new Error("Error fetching currently playing song");
+        throw new Error(`Error fetching currently playing song: ${result.status} ${result.statusText}`);
       }
-
-      const data = await result.json();
+  
+      const text = await result.text(); // Read the response as text
+  
+      if (!text) {
+        throw new Error("Empty response from currently playing song API");
+      }
+  
+      const data = JSON.parse(text); // Parse the JSON from the text
+  
       return data;
     } catch (error) {
       console.error("Error fetching currently playing song:", error.message);
       return null; // Return null or handle the error as needed
     }
   };
+  
 
   // Add more private methods for additional functionalities
 
@@ -777,23 +785,23 @@ const APPController = (async function (UICtrl, APICtrl) {
           );
         });
       });
-    // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
-    // const currentArtist =
-    //   currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
-    //     ? await APICtrl.getArtist(
-    //         accessToken,
-    //         currentlyPlaying.item.artists[0].id
-    //       )
-    //     : null;
-    // displayArtistName(currentlyPlaying);
-    // displayCurrentSongName(currentlyPlaying);
-    // if (currentArtist) {
-    //   displayArtistImage(currentArtist.images[0].url);
-    // }
+    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    const currentArtist =
+      currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
+        ? await APICtrl.getArtist(
+            accessToken,
+            currentlyPlaying.item.artists[0].id
+          )
+        : null;
+    displayArtistName(currentlyPlaying);
+    displayCurrentSongName(currentlyPlaying);
+    if (currentArtist) {
+      displayArtistImage(currentArtist.images[0].url);
+    }
 
-    // if (currentArtist) {
-    //   artistData(currentArtist.name);
-    // }
+    if (currentArtist) {
+      artistData(currentArtist.name);
+    }
     const showPlaylistAgain = async () => {
       const intervalId = setInterval(async () => {
         const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);

@@ -41,21 +41,30 @@ var artistData = async (artistName) => {
 };
 function displayArtistName(currentlyPlaying) {
   const artistNameElement = document.querySelector(".song-album-name");
+  const artistLeftNameElement = document.querySelector(".left-author-name");
   const audioPlayerArtistName = document.querySelector(".song-author");
-  audioPlayerArtistName.innerHTML = "";
-  artistNameElement.innerHTML = "";
 
+  console.log ("chekc kark yar :" , artistLeftNameElement);
   if (!currentlyPlaying || !currentlyPlaying.item) {
     return;
   }
   const artistName = currentlyPlaying.item.artists[0].name;
+  artistLeftNameElement.innerHTML = artistName;
   if (artistName.length > 10 && artistName.length < 15) {
     artistNameElement.style.fontSize = "1.2rem";
   } else if (artistName.length > 15) {
     artistNameElement.style.fontSize = "1rem";
   }
-  artistNameElement.innerHTML = artistName;
-  audioPlayerArtistName.innerHTML = artistName;
+  // console.log("Updated afdsasfdasfdstate:", {
+  //   artistNameElementInnerHTML: artistNameElement.innerHTML,
+  //   artistLeftNameElementInnerHTML: artistLeftNameElement.innerHTML,
+  //   audioPlayerArtistNameInnerHTML: audioPlayerArtistName.innerHTML
+  // });
+  // artistNameElement.innerHTML = artistName;
+  // audioPlayerArtistName.innerHTML = artistName;
+  // artistLeftNameElement.innerHTML = artistName;
+
+ 
 }
 
 function displayCurrentSongName(currentlyPlaying) {
