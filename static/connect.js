@@ -132,6 +132,7 @@ const APIController = (function () {
     return data;
   };
 
+  
   const _getPlaylistImage = async (accessToken, playlist_id) => {
     const result = await fetch(
       `https://api.spotify.com/v1/playlists/${playlist_id}/images`,
@@ -161,6 +162,7 @@ const APIController = (function () {
     return data;
   };
 
+  
   const _getArtist = async (accessToken, artistId) => {
     const result = await fetch(
       `https://api.spotify.com/v1/artists/${artistId}`,
@@ -365,6 +367,7 @@ const UIController = (function () {
 
 // APP Controller Module
 const APPController = (async function (UICtrl, APICtrl) {
+  
   // After the user is redirected back
   window.addEventListener("load", async () => {
     if (accessToken) {
@@ -396,9 +399,6 @@ const APPController = (async function (UICtrl, APICtrl) {
   document
     .querySelector(".logo-link")
     .setAttribute("href", window.location.href);
-  // const accessToken = new URLSearchParams(
-  //   window.location.hash.substring(1)
-  // ).get("access_token");
 
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
