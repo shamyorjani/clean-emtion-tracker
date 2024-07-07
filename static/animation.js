@@ -60,7 +60,7 @@ document.addEventListener("DOMContentLoaded", function () {
       "click",
       () => {
         console.log(
-          "clicked album element element elementelementelementelementelementelementelement" +
+          "clicked album element element " +
             element
         );
         simulateScroll("up", { passive: false });
