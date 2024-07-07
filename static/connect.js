@@ -1,8 +1,77 @@
 // API Controller Module
 const APIController = (function () {
-  const _getConnectSearch = async (accessToken, query) => {
+  const queries = [
+    "Top songs",
+    "Sad",
+    "indian Songs",
+    "Kawali",
+    "pakistani songs",
+    "Urdu Songs",
+    "Global Top songs",
+    "Most Viewed Songs",
+    "Trending",
+    "Best song", // You can replace [Year] with a specific year, e.g., "Best of 2023"
+    "Popular songs",
+    "rated songs",
+    "Top songs",
+    "greatest songs",
+    "song of the year",
+    "viral songs",
+    "all time hits",
+    "Top Hits",
+    "Global Top",
+    "Most Viewed Songs",
+    "Trending",
+    "Best of [Year]", // You can replace [Year] with a specific year, e.g., "Best of 2023"
+    "Most Popular Tracks",
+    "Chart Toppers",
+    "Viral Hits",
+    "All-Time Favorites",
+    "Greatest Hits",
+    "Essential Tracks",
+    "Popular Songs",
+    "Bestselling Singles",
+    "Ultimate Playlist",
+    "Top Rated Tracks",
+    "Top Charting Songs",
+    "Highly Rated Hits",
+    "Hit Singles",
+    "Top Tracks of All Time",
+    "Classic Hits",
+    "Fan Favorites",
+    "Record-Breaking Hits",
+    "Award-Winning Songs",
+    "Golden Oldies",
+    "Iconic Tracks",
+    // Add more queries as needed
+  ];
+
+  const _getConnectSearch = async (accessToken, query = "", type) => {
+    let url = `https://api.spotify.com/v1/search?`;
+
+    // If a query is provided, use it, otherwise, select a random query from the array
+    if (query) {
+      url += `q=${query}&`;
+    } else {
+      const randomQuery = queries[Math.floor(Math.random() * queries.length)];
+      url += `q=${encodeURIComponent(randomQuery)}&`;
+    }
+
+    url += `type=${type}&limit=20`;
+
+    const result = await fetch(url, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+
+    const data = await result.json();
+    return data;
+  };
+  const _getAlbumTracks = async (accessToken, albumId) => {
     const result = await fetch(
-      `https://api.spotify.com/v1/search?q=${query}&type=track&limit=10`,
+      `https://api.spotify.com/v1/albums/${albumId}/tracks`,
       {
         method: "GET",
         headers: {
@@ -10,10 +79,32 @@ const APIController = (function () {
         },
       }
     );
+    const data = await result.json();
+    return data.items;
+  };
 
+  const _getTrack = async (accessToken, trackId) => {
+    const result = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
     const data = await result.json();
     return data;
   };
+
+  const _getAlbum = async (accessToken, albumId) => {
+    const result = await fetch(`https://api.spotify.com/v1/albums/${albumId}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    const data = await result.json();
+    return data;
+  };
+
   const _getConnectedUserPlaylists = async (accessToken) => {
     const result = await fetch("https://api.spotify.com/v1/me/playlists", {
       method: "GET",
@@ -26,9 +117,40 @@ const APIController = (function () {
     return data.items;
   };
 
+  const _getPlaylistTracks = async (accessToken, playlist_id) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
+
+  
+  const _getPlaylistImage = async (accessToken, playlist_id) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/images`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
+
   const _getNewReleases = async (accessToken) => {
     const result = await fetch(
-      "https://api.spotify.com/v1/browse/new-releases?limit=10",
+      "https://api.spotify.com/v1/browse/new-releases?limit=50",
       {
         method: "GET",
         headers: {
@@ -40,6 +162,7 @@ const APIController = (function () {
     return data;
   };
 
+  
   const _getArtist = async (accessToken, artistId) => {
     const result = await fetch(
       `https://api.spotify.com/v1/artists/${artistId}`,
@@ -51,6 +174,20 @@ const APIController = (function () {
       }
     );
 
+    const data = await result.json();
+    return data;
+  };
+
+  const _getArtistTopTracks = async (accessToken, artistId) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/artists/${artistId}/top-tracks`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
     const data = await result.json();
     return data;
   };
@@ -79,7 +216,7 @@ const APIController = (function () {
   };
   const _getRecentlyPlayedTracks = async (accessToken) => {
     const result = await fetch(
-      "https://api.spotify.com/v1/me/player/recently-played",
+      "https://api.spotify.com/v1/me/player/recently-played?limit=6",
       {
         method: "GET",
         headers: {
@@ -119,13 +256,29 @@ const APIController = (function () {
   // Add more private methods for additional functionalities
 
   return {
-    getConnectSearch(accessToken, query) {
-      return _getConnectSearch(accessToken, query);
+    getConnectSearch(accessToken, query, type) {
+      return _getConnectSearch(accessToken, query, type);
+    },
+    getAlbumTracks(accessToken, albumId) {
+      return _getAlbumTracks(accessToken, albumId);
+    },
+
+    getTrack(accessToken, trackId) {
+      return _getTrack(accessToken, trackId);
+    },
+
+    getAlbum(accessToken, albumId) {
+      return _getAlbum(accessToken, albumId);
     },
     getConnectedUserPlaylists(accessToken) {
       return _getConnectedUserPlaylists(accessToken);
     },
-
+    getPlaylistTracks(accessToken, playlist_id) {
+      return _getPlaylistTracks(accessToken, playlist_id);
+    },
+    getPlaylistImage(accessToken, playlist_id) {
+      return _getPlaylistImage(accessToken, playlist_id);
+    },
     getTopTracks(accessToken) {
       return _getTopTracks(accessToken);
     },
@@ -144,12 +297,16 @@ const APIController = (function () {
     getNewReleases(accessToken) {
       return _getNewReleases(accessToken);
     },
+    getArtistTopTracks(accessToken, artistId) {
+      return _getArtistTopTracks(accessToken, artistId);
+    },
 
     // Add more public methods for additional functionalities
   };
 })();
 
 // UI Module
+
 const UIController = (function () {
   const DOMElements = {
     connectBtn: "#connectBtn",
@@ -167,168 +324,24 @@ const UIController = (function () {
     newReleasesImage: ".album-upper-image",
     newReleasesName: ".album-upper-name",
     newReleasesArtist: ".album-upper-artist",
-    artistBioElement: ".song-album-description",
+
+    newReleasesImagePlaylist: ".album-upper-image-playlist",
+    newReleasesNamePlaylist: ".album-upper-name-playlist",
+    newReleasesArtistPlaylist: ".album-upper-artist-playlist",
+
+    newReleasesImageArtist: ".upper-image-artist",
+    newReleasesNameArtist: ".upper-name-artist",
+
+    searchSongName: ".result-text h4", // Add the new selector for the h4 element
+    searchArtistName: ".result-text h5", // Add the new selector for the h5 element
+    searchSongImage: "result-image",
+    // inputElement: ".search-inner-box-main input[type='text']",
+    // playlistElement: ".every-result",
+    // playlistHeading : ".search-result-heading",
     // Add more selectors as needed
-    // Add more selectors as needed
-  };
-  const attachPlayTrackEvent = function (trackItem, track, accessToken) {
-    trackItem.addEventListener("click", function () {
-      // Call a function to play the selected track
-      playTrack(accessToken, track.uri);
-    });
-  };
-  const playTrack = function (accessToken, trackUri) {
-    const player = new Spotify.Player({
-      name: "Your App Name",
-      getOAuthToken: (cb) => {
-        cb(accessToken);
-      },
-    });
-    // window.onSpotifyWebPlaybackSDKReady = (accessToken, trackUri) => {
-    //   const player = new Spotify.Player({
-    //     name: "Web Playback SDK Quick Start Player",
-    //     getOAuthToken: (cb) => {
-    //       cb(accessToken);
-    //     },
-    //     volume: 0.5,
-    //   });
-
-    // Error handling
-    player.addListener("initialization_error", ({ message }) => {
-      console.log("initilizaion error");
-      console.error(message);
-    });
-    player.addListener("authentication_error", ({ message }) => {
-      console.log("authentican error" + accessToken + " " + trackUri);
-      console.error(message);
-    });
-    player.addListener("account_error", ({ message }) => {
-      console.error(message);
-    });
-    player.addListener("playback_error", ({ message }) => {
-      console.error(message);
-    });
-
-    // Playback status updates
-    player.addListener("player_state_changed", (state) => {
-      console.log(state);
-    });
-
-    // Ready
-    player.addListener("ready", ({ device_id }) => {
-      console.log("Ready with Device ID", device_id);
-      // Play the selected track
-      playOnDevice(accessToken, device_id, trackUri);
-    });
-
-    // Connect to the player
-    player.connect().then((success) => {
-      if (success) {
-        console.log("The Web Playback SDK successfully connected to Spotify!");
-      }
-    });
-    document.querySelector(".togglePlay").addEventListener("click", () => {
-      player.togglePlay().then(() => {
-        console.log("Toggled playback!");
-      });
-    });
-
-    // Spotify Web Playback SDK ready callback
-  };
-  window.onSpotifyWebPlaybackSDKReady = () => {
-    console.log("Spotify Web Playback SDK is ready.");
-  };
-
-  const playOnDevice = async function (accessToken, deviceId, trackUri) {
-    const playEndpoint = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
-
-    const result = await fetch(playEndpoint, {
-      method: "PUT",
-      headers: {
-        "Content-Type": "application/json",
-        Authorization: `Bearer ${accessToken}`,
-      },
-      body: JSON.stringify({
-        uris: [trackUri],
-      }),
-    });
-
-    const data = await result.json();
-    console.log(data);
   };
 
   return {
-    inputField: function () {
-      return {
-        connectBtn: document.querySelector(DOMElements.connectBtn),
-        playlistsContainer: document.querySelector(
-          DOMElements.playlistsContainer
-        ),
-        topTracksContainer: document.querySelector(
-          DOMElements.topTracksContainer
-        ),
-        userProfileContainer: document.querySelector(
-          DOMElements.userProfileContainer
-        ),
-        recentlyPlayedContainer: document.querySelector(
-          DOMElements.recentlyPlayedContainer
-        ),
-        togglePlaying: document.querySelector(DOMElements.togglePlaying),
-        artistName: document.querySelector(DOMElements.artistName),
-        currentSong: document.querySelector(DOMElements.currentSong),
-        songAuthor: document.querySelector(DOMElements.songAuthor),
-        leftAudioPlayerImg: document.querySelector(
-          DOMElements.leftAudioPlayerImg
-        ),
-        authorImage: document.querySelector(DOMElements.authorImage),
-        mainImage: document.querySelector(DOMElements.mainImage),
-        newReleasesImage: document.querySelector(DOMElements.newReleasesImage),
-        newReleasesName: document.querySelector(DOMElements.newReleasesName),
-        newReleasesArtist: document.querySelector(
-          DOMElements.newReleasesArtist
-        ),
-        artistBioElement: document.querySelector(DOMElements.artistBioElement),
-        // Add more selectors as needed
-      };
-    },
-
-    // UI-related methods for displaying information
-    displayUserPlaylists: function (playlists) {
-      const playlistsContainer = document.querySelector(
-        DOMElements.playlistsContainer
-      );
-      playlistsContainer.innerHTML = ""; // Clear existing content
-
-      playlists.forEach((playlist) => {
-        const playlistItem = document.createElement("div");
-        playlistItem.innerHTML = `
-        <div class="playlist-short-container">
-                <div class="playlist-icon-container">
-                    <div class="playlist-icon-inner-container">
-                        <i class="fa-regular fa-user playlist-icon"></i>
-                    </div>
-                </div>
-
-                <div>
-                    <h3 class="playlist-name">${playlist.name}</h3>
-                    <p class="playlist-names">some other names</p>
-                    <p class="playlist-names">some other names</p>
-                    <div class="music-playlist-icon">
-                        <i class="fa-solid fa-music music-playlist-icon"></i>
-                        <p class="playlist-names">song name</p>
-
-                    </div>
-
-                </div>
-                <div class="playlist-song-time">
-                    <span class="song-time">37 m</span>
-                </div>
-            </div>
-        `;
-        playlistsContainer.appendChild(playlistItem);
-      });
-    },
-
     displayTopTracks: function (topTracks) {
       const topTracksContainer = document.querySelector(
         DOMElements.topTracksContainer
@@ -341,125 +354,17 @@ const UIController = (function () {
         topTracksContainer.appendChild(trackItem);
       });
     },
-    displayUserProfile: function (userProfile) {
-      const userProfileContainer = document.querySelector(
-        DOMElements.userProfileContainer
-      );
-      userProfileContainer.innerHTML = ""; // Clear existing content
-
-      const profileItem = document.createElement("div");
-      profileItem.setAttribute("class", "flex items-center");
-      if (userProfile.images) {
-        profileItem.innerHTML = `
-                <img src="${userProfile.images[0].url}" class="profile-image" alt="Profile Image">
-                
-                <a href="${userProfile.external_urls.spotify}" id="profile-name" class= "text-[#bdc0c0]">${userProfile.display_name}</a>
-                `;
-      }
-      userProfileContainer.appendChild(profileItem);
-      //   console.log(userProfile);
-    },
-    displayRecentlyPlayedTracks: function (recentlyPlayedTracks, accessToken) {
-      const recentlyPlayedContainer = document.querySelector(
-        DOMElements.recentlyPlayedContainer
-      );
-      recentlyPlayedContainer.innerHTML = ""; // Clear existing content
-
-      recentlyPlayedTracks.items.forEach((track) => {
-        const trackItem = document.createElement("div");
-        trackItem.innerHTML = `<p>${track.track.name} by ${track.track.artists[0].name}</p>`;
-        recentlyPlayedContainer.appendChild(trackItem);
-
-        // Make the track clickable
-        // console.log(recentlyPlayedTracks);
-        // console.log(accessToken);
-        attachPlayTrackEvent(trackItem, track.track, accessToken);
-      });
-    },
-    displayArtistName: function (currentlyPlaying) {
-      const artistNameElement = document.querySelector(DOMElements.artistName);
-      const audioPlayerArtistName = document.querySelector(
-        DOMElements.songAuthor
-      );
-      audioPlayerArtistName.innerHTML = "";
-      artistNameElement.innerHTML = "";
-
-      const artistName = currentlyPlaying.item.artists[0].name;
-      artistNameElement.innerHTML = artistName;
-      audioPlayerArtistName.innerHTML = artistName;
-    },
-    displayCurrentSongName: function (currentlyPlaying) {
-      const currentSongElement = document.querySelectorAll(
-        DOMElements.currentSong
-      );
-
-      currentlyPlaying.innerHTML = "";
-      const songName = currentlyPlaying.item.name;
-      currentSongElement.forEach(
-        (currentSong) => (currentSong.innerHTML = songName)
-      );
-    },
-    displayArtistImage: function (currentArtist) {
-      const artistImageElement = document.querySelectorAll(
-        DOMElements.leftAudioPlayerImg
-      );
-      const artistImage = document.querySelector(DOMElements.authorImage);
-      const mainImage = document.querySelector(DOMElements.mainImage);
-      artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
-
-      const artistUrl = currentArtist.images[0].url;
-
-      artistImage.style.backgroundImage = `url(${artistUrl})`;
-      mainImage.style.backgroundImage = `url(${artistUrl})`;
-      artistImageElement.forEach(
-        (artistImage) =>
-          (artistImage.innerHTML = `
-      <img
-            src="${artistUrl}"
-            class="bottom-player-artist-image"
-            alt="singer_image"
-          />`)
-      );
-    },
-    displayNewReleases: function (newReleases) {
-      document
-        .querySelectorAll(DOMElements.newReleasesImage)
-        .forEach(
-          (singleImage, index) =>
-            (singleImage.innerHTML = `<img src="${newReleases.albums.items[index].images[0].url}" class="best-release-img" alt="singer_image">`)
-        );
-      document
-        .querySelectorAll(DOMElements.newReleasesName)
-        .forEach(
-          (name, index) =>
-            (name.innerHTML = newReleases.albums.items[index].name)
-        );
-
-      document
-        .querySelectorAll(DOMElements.newReleasesArtist)
-        .forEach((artist) => (artist.innerHTML = ""));
-      document
-        .querySelectorAll(DOMElements.newReleasesArtist)
-        .forEach((artist, index) => {
-          let artistNames = newReleases.albums.items[index].artists.map(
-            (artist) => artist.name
-          );
-          artist.innerHTML += artistNames.join(", ");
-        });
-    },
-
-    // Add more UI-related methods for additional functionalitiesUICtrl.inputField().newReleasesImage
   };
 })();
 
 // APP Controller Module
 const APPController = (async function (UICtrl, APICtrl) {
-  // const DOMInputs = UICtrl.inputField();
-
+  
   // After the user is redirected back
   window.addEventListener("load", async () => {
     if (accessToken) {
       const userType = await APICtrl.getUserProfile(accessToken);
+      // let accessToken;
 
       if (userType.product !== "premium") {
         // redirect to free subscription page
@@ -472,55 +377,488 @@ const APPController = (async function (UICtrl, APICtrl) {
     window.location.hash.substring(1)
   ).get("access_token");
 
+  if (!accessToken) {
+    window.location.href = "/connect";
+  }
+
+  let searchMethod = await APICtrl.getConnectSearch(
+    accessToken,
+    "sad",
+    "artist"
+  );
+
   document
     .querySelector(".logo-link")
     .setAttribute("href", window.location.href);
 
   if (accessToken) {
     const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
-    UICtrl.displayUserPlaylists(playlists);
-    console.log("playlists", playlists);
 
-    // const topTracks = await APICtrl.getTopTracks(accessToken);
-    // UICtrl.displayTopTracks(topTracks);
+    var mobileCarousel = document.querySelector(".mobile-albums-list-carousel");
+    mobileCarousel.innerHTML = "";
 
-    const userProfile = await APICtrl.getUserProfile(accessToken);
-    UICtrl.displayUserProfile(userProfile);
+    for (let index = 0; index < 10; index++) {
+      var newSlide = document.createElement("div");
+      newSlide.className = "slide";
+      newSlide.innerHTML = `
+    <div class="carosuel-slide-class">
+      <div class="album-upper-image border-none rounded-full">
+        <img
+          src="../static/assets/images/img1.jpeg"
+          class="best-release-img"
+          alt="singer_image"
+        />
+      </div>  
+      <h2 class="album-upper-name">Lorem ipsum dolor sit amet.</h2>
+      <h3 class="album-upper-artist">Lorem ipsum dolor.</h3>
+    </div>
+  `;
+      mobileCarousel.appendChild(newSlide);
+    }
 
-    // const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
-    //   accessToken
-    // );
-    // UICtrl.displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
-
-    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
-
-    const currentArtist = await APICtrl.getArtist(
+    // Reinitialize the slick carousel after adding new slides
+    $(".mobile-albums-list-carousel").slick("unslick");
+    $(".mobile-albums-list-carousel").slick({
+      // autoplay: true,
+      // infinite: true,
+      speed: 200,
+      slidesToShow: 4,
+      slidesToScroll: 1,
+      centerMode: false,
+      variableWidth: false,
+    });
+    // variables
+    var inputElement = document.querySelector(
+      '.search-inner-box-main input[type="text"]'
+    );
+    var playlistElement = document.querySelectorAll(".every-result");
+    var playlistHeading = document.querySelectorAll(".search-result-heading");
+    var searchList = ["Albums", "Playlists", "Songs"];
+    searchMethod = await APICtrl.getConnectSearch(
       accessToken,
-      currentlyPlaying.item.artists[0].id
+      "love",
+      "artist"
+    );
+    displayNewArtist(searchMethod);
+
+    //  Functions
+    // Function to update search results
+
+    async function mainSearchMethod() {
+      updateSearchResults(
+        "",
+        playlistHeading,
+        playlistElement,
+        APICtrl.getConnectSearch,
+        displaySearchPlaylists,
+        displaySearchRecommendation,
+        displaySearchSongs,
+        displaySearchAlbums,
+        searchList,
+        accessToken
+      );
+      inputElement.addEventListener("keyup", async function (event) {
+        var inputValue = inputElement.value.trim();
+        await updateSearchResults(
+          inputValue,
+          playlistHeading,
+          playlistElement,
+          APICtrl.getConnectSearch,
+          displaySearchPlaylists,
+          displaySearchRecommendation,
+          displaySearchSongs,
+          displaySearchAlbums,
+          searchList,
+          accessToken
+        );
+      });
+    }
+    mainSearchMethod();
+    const album = await APICtrl.getAlbum(accessToken, "4OXoBlapQygTdzAifJm8BL");
+    // console.log("album image", album.name);
+    const albumTracks = await APICtrl.getAlbumTracks(
+      accessToken,
+      "4OXoBlapQygTdzAifJm8BL"
+    );
+    // displayAlbumTracks(albumTracks, accessToken, album.images[0].url);
+
+    const durations = albumTracks.items
+      ? albumTracks.items.map((track) => track.duration_ms)
+      : [];
+    // console.log("Durations:", durations);
+
+    async function searchReleases(inputValue, type) {
+      let searchMethod = await APICtrl.getConnectSearch(
+        accessToken,
+        inputValue,
+        type
+      );
+
+      console.log("artit info", searchMethod.artists.items[0]);
+      if (type === "track") {
+        displaySongsRecommendation(searchMethod);
+      } else if (type === "album") {
+        displayNewAlbum(searchMethod);
+      } else if (type === "playlist") {
+        displayNewPlaylist(searchMethod);
+      } else if (type === "artist") {
+        displayNewArtist(searchMethod);
+      }
+    }
+    async function searchResults() {
+      const inputValue = inputElement.value.trim();
+      await searchReleases(inputValue, "album");
+      await searchReleases(inputValue, "track");
+      await searchReleases(inputValue, "playlist");
+      await searchReleases(inputValue, "artist");
+    }
+    inputElement.addEventListener("keydown", async function (event) {
+      if (event.key === "Enter") {
+        searchResults();
+      }
+    });
+    searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
+    displaySongsRecommendation(searchMethod);
+
+    const hideContainer = document.querySelectorAll(
+      ".album-playlist-main-container"
     );
 
-    UICtrl.displayArtistName(currentlyPlaying);
-    UICtrl.displayCurrentSongName(currentlyPlaying);
-    UICtrl.displayArtistImage(currentArtist);
+    var mickSelect = document.getElementById("mic-id");
+    var mickToggle = document.getElementById("start");
+    var recognition = new webkitSpeechRecognition();
+    recognition.lang = window.navigator.language;
+    recognition.interimResults = true;
 
+    let toggle = false;
+    mickToggle.addEventListener("click", () => {
+      if (toggle) {
+        mickSelect.style.color = "red";
+        recognition.start();
+      } else {
+        mickSelect.style.color = "white";
+        recognition.stop();
+      }
+      toggle = !toggle;
+    });
+
+    recognition.addEventListener("result", async (event) => {
+      const result = event.results[event.results.length - 1][0].transcript;
+      inputElement.value = result;
+      await updateSearchResults(result);
+    });
+    recognition.addEventListener("end", () => {
+      mickSelect.style.color = "white";
+    });
+
+    const tabs = document.querySelectorAll("#tabs a");
+    tabs.forEach((tab) => {
+      tab.addEventListener("click", async function (event) {
+        event.preventDefault();
+        tabs.forEach((t) => {
+          t.classList.remove("active-tab");
+          const activeDiv = t.parentElement.querySelector(".active");
+          const hrElement = activeDiv.querySelector("hr");
+          if (hrElement) {
+            hrElement.remove();
+          }
+        });
+        // Add 'active-tab' class to the clicked tab
+        tab.classList.add("active-tab");
+
+        // Log the active tab name
+        console.log("Active Tab:", tab.getAttribute("data-tab"));
+
+        // Add hr element to the active tab
+        const activeDiv = tab.parentElement.querySelector(".active");
+        const hrElement = document.createElement("hr");
+        hideContainer.forEach((container) => {
+          container.style.display = "flex";
+        });
+        if (tab.getAttribute("data-tab") === "overview") {
+          hrElement.classList.add("hrElementTab");
+          activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "flex";
+          });
+          let value = inputElement.value;
+          await searchReleases(value, "track");
+        } else if (tab.getAttribute("data-tab") === "sad-songs") {
+          hrElement.classList.add("hrElementTab");
+          activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
+
+          await searchReleases("sad songs", "track");
+        } else if (tab.getAttribute("data-tab") === "romantic-songs") {
+          hrElement.classList.add("hrElementTab");
+          activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
+          await searchReleases("romantic songs", "track");
+        } else if (tab.getAttribute("data-tab") === "heartbreaks") {
+          hrElement.classList.add("hrElementTab");
+          activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
+          await searchReleases("heart broken songs", "track");
+        } else if (tab.getAttribute("data-tab") === "angry-mood") {
+          hrElement.classList.add("hrElementTab");
+          activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
+          await searchReleases("angry mood", "track");
+        } else if (tab.getAttribute("data-tab") === "joyful") {
+          hrElement.classList.add("hrElementTab");
+          activeDiv.appendChild(hrElement);
+          hideContainer.forEach((container) => {
+            container.style.display = "none";
+          });
+          await searchReleases("happy mood", "track");
+        }
+      });
+    });
+
+    document
+      .querySelector(".navbar-clear-btn")
+      .addEventListener("click", function () {
+        inputElement.value = "";
+        updateSearchResults(
+          "",
+          playlistHeading,
+          playlistElement,
+          APICtrl.getConnectSearch,
+          displaySearchPlaylists,
+          displaySearchRecommendation,
+          displaySearchSongs,
+          displaySearchAlbums,
+          searchList,
+          accessToken
+        );
+      });
+
+    // APPController.init();
+    const userProfile = await APICtrl.getUserProfile(accessToken);
     const newReleases = await APICtrl.getNewReleases(accessToken);
-    console.log("New Releases : ", newReleases);
-    UICtrl.displayNewReleases(newReleases);
+    searchMethod = await APICtrl.getConnectSearch(accessToken, "", "playlist");
+    displayNewPlaylist(searchMethod);
+    // console.log("newReleases", newReleases);
+    // UICtrl display methods
+    displayUserProfile(userProfile);
+    // displayUserPlaylists(playlists);
+    const recentlyPlayedTracks = await APICtrl.getRecentlyPlayedTracks(
+      accessToken
+    );
+    showAllSongData(
+      recentlyPlayedTracks.items[0].track,
+      recentlyPlayedTracks.items[0].track.album.images[0].url
+    );
+    displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken);
+    // check
+    searchItemText();
+    displayNewReleases(newReleases);
+    document
+      .querySelectorAll(".carosuel-slide-class")
+      .forEach((albumElement, index) => {
+        albumElement.addEventListener("click", async function () {
+          // Get the album id from the clicked element
+          const albumId = this.getAttribute("data-album-id");
+          const albumNames = document.querySelectorAll(
+            ".album-upper-name-playlist"
+          );
+          const albumName = albumNames[index].textContent;
 
-    console.log("Name dak ly ", newReleases.albums.items[6].name);
-    console.log(
-      "Artist name dak ",
-      newReleases.albums.items[6].artists[0].name
+          console.log("albumName", albumName);
+
+          // Fetch the album details
+          const album = await APICtrl.getAlbum(accessToken, albumId);
+          const albumTracks = await APICtrl.getAlbumTracks(
+            accessToken,
+            albumId
+          );
+
+          // console.log(album);
+
+          // Display the album tracks and the album image
+          displayAlbumTracks(
+            albumTracks,
+            accessToken,
+            album.images[0].url,
+            albumName
+          );
+        });
+      });
+
+    document
+      .querySelectorAll(".album-upper-image-playlist")
+      .forEach((element, index) => {
+        let playtracks = [];
+        let tracksImages = [];
+        element.addEventListener("click", async function () {
+          const playlistNames = document.querySelectorAll(
+            ".album-upper-name-playlist"
+          );
+          const playlistName = playlistNames[index].textContent;
+
+          console.log("albumName", playlistName);
+          const playlistId = this.getAttribute("data-playlist-id");
+          const playlistTracks = await APICtrl.getPlaylistTracks(
+            accessToken,
+            playlistId
+          );
+          const playlistImage = await APICtrl.getPlaylistImage(
+            accessToken,
+            playlistId
+          );
+          playlistTracks.items.forEach((track) => {
+            playtracks.push(track.track);
+            tracksImages.push(track.track.album.images[0].url);
+          });
+          // playtracks.push(playlistTracks.items[index].track);
+          // console.log("playlistTracks image content", element.innerHTML);
+          console.log("playlistTracks", playtracks[0]);
+          console.log("playlist image", playlistImage);
+          displayAlbumTracks(
+            playtracks,
+            accessToken,
+            tracksImages,
+            playlistName
+          );
+        });
+      });
+
+    document
+      .querySelectorAll(".upper-image-artist")
+      .forEach((element, index) => {
+        element.addEventListener("click", async () => {
+          let tracksImages = [];
+
+          const artistNames = document.querySelectorAll(".upper-name-artist");
+          const artistName = artistNames[index].textContent;
+
+          const artistId = element.getAttribute("data-artist-id");
+          const artistTopTracks = await APICtrl.getArtistTopTracks(
+            accessToken,
+            artistId
+          );
+          artistTopTracks.tracks.forEach((track) => {
+            tracksImages.push(track.album.images[0].url);
+          });
+
+          displayAlbumTracks(
+            artistTopTracks.tracks,
+            accessToken,
+            tracksImages,
+            artistName
+          );
+        });
+      });
+    // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    // const currentArtist =
+    //   currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
+    //     ? await APICtrl.getArtist(
+    //         accessToken,
+    //         currentlyPlaying.item.artists[0].id
+    //       )
+    //     : null;
+    // displayArtistName(currentlyPlaying);
+    // displayCurrentSongName(currentlyPlaying);
+    // if (currentArtist) {
+    //   displayArtistImage(currentArtist.images[0].url);
+    // }
+
+    // if (currentArtist) {
+    //   artistData(currentArtist.name);
+    // }
+
+    document
+      .querySelectorAll(".album-img-container")
+      .forEach(async (element) => {
+        element.addEventListener("click", async () => {
+          const singleSongId = element.getAttribute("data-single-song-id");
+          const track = await APICtrl.getTrack(accessToken, singleSongId);
+          attachPlayTrackEvent(track, accessToken, track.album.images[0].url);
+          console.log(track);
+        });
+      });
+
+    const sidebarPlayBtn = document.querySelectorAll(
+      ".recent-icon-inner-container"
     );
 
-    // getting artist bio data summary
-    artistData(currentArtist.name);
-  }
+    sidebarPlayBtn.forEach((btn, index) => {
+      btn.addEventListener("click", async () => {
+        const track = uniqueTracks[index];
+        // artistData(track.track.artists[0].name);
+        console.log("track", track);
+        attachPlayTrackEvent(
+          track.track,
+          accessToken,
+          track.track.album.images[0].url
+        );
+      });
+    });
 
+    const nextButtons = document.querySelectorAll(".nextBtn");
+    const prevButtons = document.querySelectorAll(".previousBtn");
+    let next = 0;
+    let prev = recentlyPlayedTracks.length - 1;
+    nextButtons.forEach((nextButton) => {
+      nextButton.addEventListener("click", async () => {
+        next++;
+        if (next >= recentlyPlayedTracks.items.length) {
+          next = 0;
+        }
+        attachPlayTrackEvent(uniqueTracks[next].track, accessToken);
+      });
+    });
+    // prevButtons.forEach((prevButton) => {
+    //   prev--;
+    //   if (prev < 0) {
+    //     prev = recentlyPlayedTracks.length - 1;
+    //   }
+    //   if (topTracks) {
+    //     attachPlayTrackEvent(topTracks[prev], accessToken);
+    //   }
+    // });
+
+    // const repeatBtn = document.querySelector(".repeatBtn");
+    // repeatBtn.addEventListener("click", async () => {
+    //   await APICtrl.setRepeatMode(accessToken, "context");
+    //   console.log("repeat enabled");
+    // });
+    // // Function to shuffle an array
+    // function shuffleArray(array) {
+    //   for (let i = array.length - 1; i > 0; i--) {
+    //     const j = Math.floor(Math.random() * (i + 1));
+    //     [array[i], array[j]] = [array[j], array[i]];
+    //   }
+    //   return array;
+    // }
+
+    // // Shuffle button event listener
+    // var shuffleBtn = document.querySelector(".shuffleBtn");
+    // // Shuffle the topTracks array
+    // const shuffledTracks = shuffleArray(topTracks);
+
+    // // Play the first track in the sbhuffled array
+    // attachPlayTrackEvent(shuffleBtn, shuffledTracks[0], accessToken);
+
+    let accessTokenExpiration;
+    accessTokenExpiration = Date.now() + 3600 * 1000; // Set expiration time to 20 seconds
+
+    setInterval(() => {
+      if (Date.now() >= accessTokenExpiration) {
+        window.location.href = "/connect"; // Redirect to /connect URL if expiration time is reached
+      }
+    }, 1000);
+  }
   return {
-    init: function () {
-      console.log("App is starting");
-    },
+    init: function () {},
   };
 })(UIController, APIController);
 

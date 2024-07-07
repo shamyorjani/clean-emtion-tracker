@@ -1,70 +1,405 @@
-<div class="mt-16 xl:mt-20 w-full flex-center xl:pr-[75px]" id="top-audio-player">
-    <div
-        class="flex items-center justify-center text-white font-poppinsRegular 2xl:w-[70%] lg:w-[85%] xl:w-[70%] md:w-[80%]">
-        <!-- <div class="ms-4"> -->
-        <div class="right-audio-player">
-            <div class="player-upper-part md:items-center xl:flex xl:items-end gap-3 max-[400px]:flex-col md:flex">
-                <div class="left xl:mb-1">
-                    <div class="left-audio-player-img">
-                        <img src="../static/assets/images/girl1.jpg"
-                            class="current-song-artist-image"
-                            alt="singer_image">
-                    </div>
-                </div>
-                <div class="right" x-data="{heart:false}">
-                    <div class="my-5 leading-4">
-                        <h5 class="inline text-[11px] song-title">Song Title Some Name</h5>
-                        <span x-on:click="heart = !heart" class="cursor-pointer p-2">
-                            <i class="fa-solid fa-heart cursor-pointer text-[12px]"
-                                x-bind:style="heart ? 'color:red;': '' "></i>
-                        </span>
-                        <h6 class="text-[12px] text-gray-400 song-author">Sia</h6>
-                    </div>
-                    <!-- progress bar -->
-                    <div class="audio-player">
-                        <div class="audio-player-info-left">00:00</div>
-                        <div class="audio-player-progressbar" onclick="seeking(event)">
-                            <div class="audio-player-progressmeter"></div>
-                        </div>
-                        <div class="audio-player-info-right">06:00</div>
-                    </div>
-                    <!-- end progress bar -->
-                </div>
+<div
+  class="mt-16 xl:mt-20 w-full flex-center xl:pr-[75px]"
+  id="top-audio-player"
+>
+  <div
+    class="flex items-center justify-center text-white font-poppinsRegular 2xl:w-[70%] lg:w-[85%] xl:w-[70%] md:w-[80%]"
+  >
+    <!-- <div class="ms-4"> -->
+    <div class="right-audio-player">
+      <div
+        class="player-upper-part md:items-center xl:flex xl:items-end gap-3 max-[400px]:flex-col md:flex"
+      >
+        <div class="left xl:mb-1">
+          <div class="left-audio-player-img">
+            <img
+              src="../static/assets/images/girl1.jpg"
+              class="current-song-artist-image"
+              alt="singer_image"
+            />
+          </div>
+        </div>
+        <div class="right" x-data="{heart:false}">
+          <div class="my-5 leading-4">
+            <h5 class="inline text-[11px] song-title">Song Title Some Name</h5>
+            <span x-on:click="heart = !heart" class="cursor-pointer p-2">
+              <i
+                class="fa-solid fa-heart cursor-pointer text-[12px]"
+                x-bind:style="heart ? 'color:red;': '' "
+              ></i>
+            </span>
+            <h6 class="text-[12px] text-gray-400 song-author">Sia</h6>
+          </div>
+          <!-- progress bar -->
+          <div class="audio-player">
+            <div class="audio-player-info-left">00:00</div>
+            <div class="audio-player-progressbar" onclick="seeking(event)">
+              <div class="audio-player-progressmeter"></div>
             </div>
-            <!-- player-lowerpart -->
-            <div class="player-lower-part">
-                <!-- controls starts here -->
-                <div class="controls my-3">
-                    <!-- <button class="stopBtn">
+            <div class="audio-player-info-right">06:00</div>
+          </div>
+          <!-- end progress bar -->
+        </div>
+      </div>
+      <!-- player-lowerpart -->
+      <div class="player-lower-part">
+        <div class="main-volume-progress">
+          <input
+            type="range"
+            name=""
+            id=""
+            min="0"
+            max="1"
+            step="0.1"
+            value="0.6"
+            class="custom-input-range"
+          />
+        </div>
+        <!-- controls starts here -->
+        <div class="controls my-3">
+          <!-- <button class="stopBtn">
                 <i class="fa fa-stop" aria-hidden="true"></i>
               </button> -->
 
-                    <button class="shuffleBtn">
-                        <i class="fa fa-shuffle text-[12px]" aria-hidden="true"></i>
-                    </button>
-                    <button class="previousBtn">
-                        <i class="fa fa-backward-step text-[12px]" aria-hidden="true"></i>
-                    </button>
-                    <button class="playBtn flex justify-center items-center " x-on:click="controls = false"
-                        x-bind:class="controls ? '': 'hidden' ">
-                        <i class="fa-solid fa-play text-[16px] ml-[1px]" aria-hidden="true"></i>
-                    </button>
-                    <button class="pauseBtn flex justify-center items-center" x-on:click="controls = true"
-                        x-bind:class="controls ? 'hidden': '' ">
-                        <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
-                    </button>
-                    <button class="nextBtn">
-                        <i class="fa fa-forward-step text-[12px]" aria-hidden="true"></i>
-                    </button>
-                    <button class="repeatBtn">
-                        <i class="fa fa-repeat text-[12px]" aria-hidden="true"></i>
-                    </button>
-                </div>
-                <!-- controls ends here -->
-            </div>
+          <button class="shuffleBtn">
+            <i class="fa fa-shuffle text-[12px]" aria-hidden="true"></i>
+          </button>
+          <button class="previousBtn">
+            <i class="fa fa-backward-step text-[12px]" aria-hidden="true"></i>
+          </button>
+          <button class="playBtn flex justify-center items-center">
+            <i
+              class="fa-solid fa-play text-[16px] ml-[1px]"
+              aria-hidden="true"
+            ></i>
+          </button>
+          <button class="pauseBtn flex justify-center items-center">
+            <i class="fa fa-pause text-[16px]" aria-hidden="true"></i>
+          </button>
+          <button class="nextBtn">
+            <i class="fa fa-forward-step text-[12px]" aria-hidden="true"></i>
+          </button>
+          <button class="repeatBtn">
+            <i class="fa fa-repeat text-[12px]" aria-hidden="true"></i>
+          </button>
         </div>
-        <!-- player-lowerpart -->
-        <!-- </div> -->
+        <!-- controls ends here -->
+      </div>
     </div>
+    <!-- player-lowerpart -->
+    <!-- </div> -->
+  </div>
 </div>
 <!-- audio player ends here -->
+
+<!-- <script
+  src="{{url_for('static',filename='js/audio-player.js')}}"
+  defer
+></script> -->
+<script>
+  function updateTime(currentPos, totalDuration) {
+    var minutes = Math.floor(currentPos / 60000);
+    var seconds = Math.floor((currentPos % 60000) / 1000);
+    var formattedTime =
+      ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+
+    var leftPlayerTimer = document.querySelector(".audio-player-info-left");
+    leftPlayerTimer.innerHTML = formattedTime;
+
+    var bottomLeftPlayerTimer = document.querySelector(
+      ".audio-player-info-left-short"
+    );
+    bottomLeftPlayerTimer.innerHTML = formattedTime;
+
+    var totalMinutes = Math.floor(totalDuration / 60000);
+    var totalSeconds = Math.floor((totalDuration % 60000) / 1000);
+    var totalFormattedTime =
+      ("0" + totalMinutes).slice(-2) + ":" + ("0" + totalSeconds).slice(-2);
+
+    var rightPlayerTimer = document.querySelector(".audio-player-info-right");
+    rightPlayerTimer.innerHTML = totalFormattedTime;
+
+    var bottomRightPlayerTimer = document.querySelector(
+      ".audio-player-info-right-short"
+    );
+    bottomRightPlayerTimer.innerHTML = totalFormattedTime;
+
+    var progressMeter = document.querySelector(".audio-player-progressmeter");
+    var progressPercentage = (currentPos / totalDuration) * 100;
+    progressMeter.style.width = progressPercentage + "%";
+    progressMeter.style.backgroundColor = "red";
+
+    var bottomProgressMeter = document.querySelector(
+      ".bottom-player-progressmeter"
+    );
+    bottomProgressMeter.style.width = progressPercentage + "%";
+    bottomProgressMeter.style.backgroundColor = "red";
+  }
+
+  const loader = document.querySelector(".player-loader");
+  loader.style.display = "none";
+
+  let trackData = [];
+
+  function showAllSongData(track, albumImageUrl) {
+    // console.log("current track", track);
+    const artistName = document.querySelector(".song-album-name");
+    const songNames = document.querySelectorAll(".song-title");
+    const songAuthor = document.querySelector(".song-author");
+    const currentImages = document.querySelectorAll(".left-audio-player-img");
+    const mainImageBackground = document.querySelector(".main");
+    // console.log("tracks show all song data", track);
+    mainImageBackground.style.backgroundImage = `url(${albumImageUrl})`;
+    console.log("artist name", track.artists[0].name);
+    artistData(track.artists[0].name);
+    artistName.innerHTML = track.artists[0].name;
+    songAuthor.innerHTML = track.artists[0].name;
+    songNames.forEach((songName, index) => {
+      // if(index === 1){
+
+      // }
+      const songNameWords = track.name.split(" ");
+      const firstTwoWords = songNameWords.slice(0, 2);
+      const shortenedSongName = firstTwoWords.join(" ");
+
+      songName.innerHTML = shortenedSongName;
+      //songName.innerHTML = track.name.substring(0, 10);
+      // songName.innerHTML = track.name;
+    });
+
+    currentImages.forEach((currentImage) => {
+      currentImage.innerHTML = `<img 
+              src="${albumImageUrl}"
+              class="current-song-artist-image"
+              alt="singer_image"
+            />`;
+    });
+  }
+  function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
+    // artistData(track.artists[0].name);
+    trackData[0] = track;
+    trackData[1] = albumImageUrl;
+
+    // trackItem.addEventListener("click", function () {
+    // Call a function to play the selected track
+    loader.style.display = "block";
+    playTrack(accessToken, track.uri);
+    // });
+  }
+  const playTrack = function (accessToken, trackUri) {
+    const player = new Spotify.Player({
+      name: "MoodWave",
+      getOAuthToken: (cb) => {
+        cb(accessToken);
+      },
+    });
+
+    player.addListener("initialization_error", ({ message }) => {
+      console.log("initilizaion error");
+      console.error(message);
+    });
+    player.addListener("authentication_error", ({ message }) => {
+      console.log("authentican error" + accessToken + " " + trackUri);
+      console.error(message);
+    });
+    player.addListener("account_error", ({ message }) => {
+      console.error(message);
+    });
+    player.addListener("playback_error", ({ message }) => {
+      console.error(message);
+    });
+
+    // Ready
+    player.addListener("ready", ({ device_id }) => {
+      console.log("Ready with Device ID", device_id);
+      loader.style.display = "none";
+      showAllSongData(trackData[0], trackData[1]);
+
+      // Play the selected track
+      playOnDevice(accessToken, device_id, trackUri);
+      player.setVolume(0.3).then(() => {
+        console.log("Volume updated!");
+      });
+      setInterval(() => {
+        player.getCurrentState().then((state) => {
+          if (!state) {
+            console.error(
+              "User is not playing music through the Web Playback SDK"
+            );
+            return;
+          }
+
+          var currentPos = state.position;
+          var minutes = Math.floor(currentPos / 60000);
+          var seconds = Math.floor((currentPos % 60000) / 1000);
+          var formattedTime =
+            ("0" + minutes).slice(-2) + ":" + ("0" + seconds).slice(-2);
+
+          var leftPlayerTimer = document.querySelector(
+            ".audio-player-info-left"
+          );
+          leftPlayerTimer.innerHTML = formattedTime;
+          var totalDuration = state.duration;
+          var totalMinutes = Math.floor(totalDuration / 60000);
+          var totalSeconds = Math.floor((totalDuration % 60000) / 1000);
+          var totalFormattedTime =
+            ("0" + totalMinutes).slice(-2) +
+            ":" +
+            ("0" + totalSeconds).slice(-2);
+
+          var rightPlayerTimer = document.querySelector(
+            ".audio-player-info-right"
+          );
+          rightPlayerTimer.innerHTML = totalFormattedTime;
+          // console.log("Total duration of the song", totalFormattedTime);
+          // console.log("Currently position playing", formattedTime);
+
+          // Update the time
+          updateTime(currentPos, totalDuration);
+
+          // Seek when the progress bar is clicked
+          document
+            .querySelector(".audio-player-progressbar")
+            .addEventListener("click", function (e) {
+              var percent = e.offsetX / this.offsetWidth;
+              var newCurrentPos = percent * totalDuration;
+              player.seek(newCurrentPos).then(() => {
+                // console.log("Changed position!");
+              });
+            });
+
+          // Get play state and pause state
+          var isPlaying = !state.paused;
+          var isPaused = state.paused;
+
+          // Do something with the play state and pause state
+          if (isPlaying) {
+            document.querySelector(".playBtn").style.display = "none";
+            document.querySelector(".pauseBtn").style.display = "flex";
+          } else if (isPaused) {
+            document.querySelector(".playBtn").style.display = "flex";
+            document.querySelector(".pauseBtn").style.display = "none";
+          }
+
+          // console.log("Current state", state);
+        });
+      }, 1000);
+
+      document.querySelectorAll(".custom-input-range").forEach((range) => {
+        range.addEventListener("input", function () {
+          var volumeValue = parseFloat(this.value);
+          player.setVolume(volumeValue).then(() => {
+            console.log("Volume changed to", volumeValue);
+          });
+        });
+      });
+
+      document.addEventListener("keydown", (event) => {
+        if (event.ctrlKey && event.code === "ArrowUp") {
+          event.preventDefault();
+          const range = document.querySelector(".custom-input-range");
+          let value = parseFloat(range.value);
+          if (value >= 1) {
+            return 1;
+          } else {
+            value += 0.1;
+            sahiValue = value.toFixed(1);
+          }
+          player.setVolume(sahiValue).then(() => {
+            console.log("Volume changed to", sahiValue);
+          });
+        } else if (event.ctrlKey && event.code === "ArrowDown") {
+          event.preventDefault();
+          const range = document.querySelector(".custom-input-range");
+          let value = parseFloat(range.value);
+          if (value <= 0) {
+            return 0;
+          } else {
+            value -= 0.1;
+            sahiValue = value.toFixed(1);
+          }
+          player.setVolume(sahiValue).then(() => {
+            console.log("Volume changed to", sahiValue);
+          });
+        }
+      });
+      // keydown end
+    });
+
+    // Connect to the player
+    player.connect().then((success) => {
+      if (success) {
+        console.log("The Web Playback SDK successfully connected to Spotify!");
+      }
+    });
+    document.addEventListener("keydown", (event) => {
+      if (event.code === "Space") {
+        event.preventDefault();
+        player.togglePlay().then(() => {
+          console.log("Toggled playback!");
+        });
+      }
+    });
+
+    document.querySelectorAll(".playBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        player.togglePlay().then(() => {
+          console.log("Toggled playback!");
+        });
+      });
+    });
+
+    document.querySelectorAll(".pauseBtn").forEach((btn) => {
+      btn.addEventListener("click", () => {
+        player.togglePlay().then(() => {
+          console.log("Toggled playback!");
+        });
+      });
+    });
+
+    // Spotify Web Playback SDK ready callback
+  };
+  window.onSpotifyWebPlaybackSDKReady = () => {
+    console.log("Spotify Web Playback SDK is ready.");
+  };
+
+  const playOnDevice = async function (accessToken, deviceId, trackUri) {
+    const playEndpoint = `https://api.spotify.com/v1/me/player/play?device_id=${deviceId}`;
+
+    const result = await fetch(playEndpoint, {
+      method: "PUT",
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${accessToken}`,
+      },
+      body: JSON.stringify({
+        uris: [trackUri],
+      }),
+    });
+
+    const data = await result.json();
+    console.log(data);
+  };
+
+  async function getNext(currentlyPlaying) {
+    console.log("music player currenly playing", currentlyPlaying);
+  }
+</script>
+
+<script>
+  document.addEventListener("keydown", (event) => {
+    if (event.ctrlKey && event.code === "ArrowUp") {
+      event.preventDefault();
+      const range = document.querySelector(".custom-input-range");
+      let value = parseFloat(range.value);
+      value += 0.1;
+      range.value = value.toFixed(1);
+    } else if (event.ctrlKey && event.code === "ArrowDown") {
+      event.preventDefault();
+      const range = document.querySelector(".custom-input-range");
+      let value = parseFloat(range.value);
+      value -= 0.1;
+      range.value = value.toFixed(1);
+    }
+  });
+</script>

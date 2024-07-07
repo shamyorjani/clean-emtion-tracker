@@ -8,7 +8,7 @@
         align-items: center;
         height: 100vh;
         margin: 0;
-        background-image: url("./images/cheers.jpg");
+        /* background-image: url("./images/cheers.jpg"); */
         background-repeat: no-repeat;
         background-size: cover;
       }
@@ -78,6 +78,8 @@
           "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-read-currently-playing user-modify-playback-state user-read-playback-state streaming"; // Add additional scopes if needed
 
         const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${scope}&response_type=token`;
+
+        localStorage.setItem("sessionStartTime", Date.now());
 
         window.location.href = authUrl;
       }

@@ -1,0 +1,113 @@
+<div class="playlist-outer-container">
+  <div
+    class="playlist-main-container transition-all duration-700"
+    id="playlist-container"
+  >
+    <!-- <div>
+      <h1 class="sidebar-title-style">Recently Played</h1>
+    </div> -->
+
+    <div class="tabs-container">
+      <button
+        class="tab-btn sidebar-title-style right"
+        onclick="showTab('albumTracks')"
+        style="display: none"
+        id="albumTracksTabBtn"
+      >
+        Album Tracks
+      </button>
+      <button
+        class="tab-btn sidebar-title-style active-tab right"
+        onclick="showTab('recentlyPlayed')"
+        id="recentlyPlayedTabBtn"
+      >
+        Recently Played
+      </button>
+    </div>
+
+    <div class="playlist-container">
+      <div id="recentlyPlayedTab" class="tab-content">
+        <div class="playlist-short-container">
+          <div class="playlist-icon-container">
+            <div class="playlist-icon-inner-container">
+              <span class="play-icon sidebar-play-btn">
+                <i class="fas fa-play"></i>
+              </span>
+              <!-- <img src="../images/cheers.jpg" class="recent-track-image" /> -->
+            </div>
+            <div>
+              <h3 class="playlist-name">track name</h3>
+              <p class="playlist-names">track artist name</p>
+            </div>
+          </div>
+
+          <div class="playlist-song-time">
+            <span class="song-time">00:00</span>
+          </div>
+        </div>
+
+        <div class="flex justify-center w-[100%]">
+          <a href="#" class="white_btn">FIND SONG</a>
+        </div>
+      </div>
+
+      <div id="albumTracksTab" class="tab-content" style="display: none">
+        <!-- Add your album tracks content here -->
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="outline_btn text-2xl transition-all duration-500 fixed -right-[1.5%] top-1/2 z-20"
+    id="playlist-toggler"
+    onclick="togglePlaylist()"
+  >
+    <
+  </button>
+</div>
+
+<script
+  src="{{url_for('static',filename='js/recentlyPlayed.js')}}"
+  defer
+></script>
+<script>
+  // Get the necessary elements
+  const recentlyPlayedTab = document.getElementById("recentlyPlayedTab");
+  const albumTracksTab = document.getElementById("albumTracksTab");
+
+  // Function to show the selected tab
+  function showTab(tab) {
+    if (tab === "recentlyPlayed") {
+      recentlyPlayedTab.style.display = "block";
+      albumTracksTab.style.display = "none";
+
+      // console.log("recenttracks");
+    } else if (tab === "albumTracks") {
+      recentlyPlayedTab.style.display = "none";
+      albumTracksTab.style.display = "block";
+    }
+  }
+
+  // Get the necessary elements
+  const albumTracksTabBtn = document.getElementById("albumTracksTabBtn");
+  const recentlyPlayedTabBtn = document.getElementById("recentlyPlayedTabBtn");
+
+  // Function to add active-tab class to the clicked tab button
+  function setActiveTab(tabBtn) {
+    albumTracksTabBtn.classList.remove("active-tab");
+    recentlyPlayedTabBtn.classList.remove("active-tab");
+    tabBtn.classList.add("active-tab");
+  }
+
+  // Add event listeners to the tab buttons
+  albumTracksTabBtn.addEventListener("click", function () {
+    setActiveTab(albumTracksTabBtn);
+  });
+
+  recentlyPlayedTabBtn.addEventListener("click", function () {
+    setActiveTab(recentlyPlayedTabBtn);
+  });
+
+  // Set the initial active tab
+  showTab("recentlyPlayed");
+</script>

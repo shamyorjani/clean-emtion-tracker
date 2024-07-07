@@ -1,0 +1,53 @@
+<div class="playlist-outer-container" x-data="{playlist:false}">
+  <div
+    class="playlist-main-container transition-all duration-700"
+    id="playlist-container"
+    x-bind:class="playlist ? 'right-[0%]' : '-right-full' "
+  >
+    <div>
+      <h1
+        class="text-white xl:text-[1rem] text-2xl font-poppinsRegular xl:mb-14 ml-6"
+      >
+        Recently Played
+      </h1>
+    </div>
+    <div class="playlist-container">
+      <div class="playlist-short-container">
+        <div class="playlist-icon-container">
+          <div class="playlist-icon-inner-container">
+            <span class="play-icon sidebar-play-btn">
+              <i class="fas fa-play"></i>
+            </span>
+            <!-- <img src="../images/cheers.jpg" class="recent-track-image" /> -->
+          </div>
+          <div>
+            <h3 class="playlist-name">track name</h3>
+            <p class="playlist-names">track artist name</p>
+          </div>
+        </div>
+
+        <div class="playlist-song-time">
+          <span class="song-time">00:00</span>
+        </div>
+      </div>
+
+      <div class="flex justify-center w-[100%]">
+        <a href="#" class="white_btn">FIND SONG</a>
+      </div>
+    </div>
+  </div>
+
+  <button
+    class="outline_btn text-2xl transition-all duration-500 fixed -right-[1.5%] top-1/2 z-20"
+    id="playlist-toggler"
+    x-bind:class="playlist ? 'rotate-0 pr-4' : 'rotate-180 pl-4'"
+    x-on:click="playlist=!playlist"
+  >
+    <
+  </button>
+</div>
+
+<script
+  src="{{url_for('static',filename='js/recentlyPlayed.js')}}"
+  defer
+></script>

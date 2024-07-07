@@ -5,12 +5,28 @@ document.addEventListener("DOMContentLoaded", function () {
   var animatedPlayer = document.getElementById("top-audio-player");
   var animatedPlaylistToggler = document.getElementById("playlist-toggler");
   var animatedBackground = document.getElementById("fullscreen-animator");
+  var navbarEllipsis = document.querySelector(".dropdownBtn");
+  var searchInput = document.querySelector(".search_input");
 
   // Add the animate-once class to trigger the animation on page load
   animatedText.classList.add("animate-once");
   animatedPlayer.classList.add("animate-once");
   animatedPlaylistToggler.classList.add("animate-toggler");
   animatedBackground.classList.add("background-fade");
+
+  navbarEllipsis.addEventListener("click", function () {
+    // Move the animatedDiv back to the right
+    if (animatedDiv.style.right == "0%") {
+      animatedDiv.style.right = "-100%";
+    }
+  });
+
+  searchInput.addEventListener("focus", function () {
+    // Move the animatedDiv back to the right
+    if (animatedDiv.style.right == "0%") {
+      animatedDiv.style.right = "-100%";
+    }
+  });
 
   setTimeout(function () {
     animatedBackground.classList.add("hidden");
@@ -19,11 +35,50 @@ document.addEventListener("DOMContentLoaded", function () {
   const sections = document.querySelectorAll(".section");
   const mobileSections = document.querySelectorAll(".mobile-section");
   const animatedDiv = document.querySelector("#playlist-container");
+  animatedDiv.style.right = "-100%";
   const moveBackButton = document.querySelector("#playlist-toggler");
   const rightNavigation = document.querySelector(".right-navigation-container");
   const profileName = document.querySelector("#profile-name-container");
   const bottomLeftPlayer = document.querySelector(".left-media-player");
   var animatedBackground = document.getElementById("fullscreen-animator");
+
+  // Query for the .artist-upper-name, .album-upper-img, and .playlist-upper-name elements
+  const artistNames = document.querySelectorAll(".album-upper-image-playlist");
+  const playlistNames = document.querySelectorAll(".upper-image-artist");
+  const singleSong = document.querySelectorAll(".album-img-container");
+
+  // For each element, add a click event listener
+  [...artistNames, ...playlistNames, ...singleSong].forEach((element) => {
+    element.addEventListener("click", () => {
+      simulateScroll("up");
+    });
+  });
+
+  const albumImages = document.querySelectorAll(".album-upper-image");
+  albumImages.forEach((element) => {
+    element.addEventListener(
+      "click",
+      () => {
+        console.log(
+          "clicked album element element elementelementelementelementelementelementelement" +
+            element
+        );
+        simulateScroll("up", { passive: false });
+      },
+      { passive: false }
+    );
+  });
+  function simulateScroll(direction) {
+    // Create a new event object
+    const event = {
+      deltaY: direction === "down" ? 1 : -1,
+      cancelable: true,
+      preventDefault: function () {},
+    };
+
+    // Call the customScroll function with the event object
+    customScroll(event, { passive: false });
+  }
 
   let currentSectionIndex = 0;
 
@@ -45,54 +100,73 @@ document.addEventListener("DOMContentLoaded", function () {
   observer.observe(sections[sections.length - 1]);
 
   // Listen for wheel events
-  document.addEventListener(
-    "wheel",
-    (event) => {
-      event.cancelable && event.preventDefault();
-      const isScrollingDown = event.deltaY > 0;
-
-      if (isScrollingDown && currentSectionIndex < sections.length - 1) {
-        // Scroll down to the end of the current section
-        if (
-          sections[currentSectionIndex].scrollHeight -
-            sections[currentSectionIndex].scrollTop ===
-          sections[currentSectionIndex].clientHeight
-        ) {
-          // If at the end of the current section, move to the next section
-          currentSectionIndex++;
-          sections[currentSectionIndex].scrollIntoView({
-            behavior: "smooth",
-            block: "start",
-          });
-        } else {
-          // If not at the end, continue scrolling within the current section
-          sections[currentSectionIndex].scrollBy(
-            0,
-            sections[currentSectionIndex].clientHeight
-          );
-        }
-      } else if (!isScrollingDown && currentSectionIndex > 0) {
-        // Scroll up to the end of the previous section
-        if (sections[currentSectionIndex].scrollTop === 0) {
-          // If at the top of the current section, move to the previous section
-          currentSectionIndex--;
-          sections[currentSectionIndex].scrollIntoView({
-            behavior: "smooth",
-            block: "end",
-          });
-        } else {
-          // If not at the top, continue scrolling within the current section
-          sections[currentSectionIndex].scrollBy(
-            0,
-            -sections[currentSectionIndex].clientHeight
-          );
-        }
-      }
-      resetStylesIfNeeded(currentSectionIndex);
-      //   console.log(currentSectionIndex);
-    },
-    { passive: false }
+  const playlistMainContainer = document.querySelector(
+    ".playlist-main-container"
   );
+
+  playlistMainContainer.addEventListener("mouseenter", () => {
+    document.removeEventListener("wheel", customScroll);
+  });
+
+  playlistMainContainer.addEventListener("mouseleave", () => {
+    document.addEventListener("wheel", customScroll);
+  });
+
+  function customScroll(event) {
+    // Add your custom scrolling logic here
+    // This function is called when scrolling is allowed
+    if (
+      event.cancelable &&
+      !event.defaultPrevented &&
+      !event.defaultPrevented
+    ) {
+      event.preventDefault();
+    }
+
+    const isScrollingDown = event.deltaY > 0;
+
+    if (isScrollingDown && currentSectionIndex < sections.length - 1) {
+      // Scroll down to the end of the current section
+      if (
+        sections[currentSectionIndex].scrollHeight -
+          sections[currentSectionIndex].scrollTop ===
+        sections[currentSectionIndex].clientHeight
+      ) {
+        // If at the end of the current section, move to the next section
+        currentSectionIndex++;
+        sections[currentSectionIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "start",
+        });
+      } else {
+        // If not at the end, continue scrolling within the current section
+        sections[currentSectionIndex].scrollBy(
+          0,
+          sections[currentSectionIndex].clientHeight
+        );
+      }
+    } else if (!isScrollingDown && currentSectionIndex > 0) {
+      // Scroll up to the end of the previous section
+      if (sections[currentSectionIndex].scrollTop === 0) {
+        // If at the top of the current section, move to the previous section
+        currentSectionIndex--;
+        sections[currentSectionIndex].scrollIntoView({
+          behavior: "smooth",
+          block: "end",
+        });
+      } else {
+        // If not at the top, continue scrolling within the current section
+        sections[currentSectionIndex].scrollBy(
+          0,
+          -sections[currentSectionIndex].clientHeight
+        );
+      }
+    }
+    resetStylesIfNeeded(currentSectionIndex);
+  }
+
+  // Attach the wheel event listener initially
+  document.addEventListener("wheel", customScroll);
 
   // Listen for button click event
   moveBackButton.addEventListener("click", () => {
@@ -102,8 +176,6 @@ document.addEventListener("DOMContentLoaded", function () {
     } else {
       animatedDiv.style.right = "0%";
     }
-    // Hide the button after moving back
-    // moveBackButton.style.right = "-200px";
   });
 
   function animateSlide() {
@@ -142,7 +214,7 @@ document.addEventListener("DOMContentLoaded", function () {
   scrollableDiv.addEventListener("wheel", function (event) {
     // Calculate the amount to scroll based on the wheel delta
     var delta = event.deltaY || event.detail || event.wheelDelta;
-    var scrollAmount = delta > 0 ? 100 : -100; // You can adjust the scroll amount as needed
+    var scrollAmount = delta > 0 ? 50 : -50; // You can adjust the scroll amount as needed
 
     // Calculate the maximum scroll height for the div
     var maxScrollHeight =
@@ -169,8 +241,6 @@ document.addEventListener("DOMContentLoaded", function () {
       }
     }
   });
-
-  
 
   document.addEventListener("touchstart", function (event) {
     startY = event.touches[0].clientY;
