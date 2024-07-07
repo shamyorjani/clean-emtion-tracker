@@ -32,7 +32,8 @@ function displaySearchSongs(searchMethod) {
   document.querySelectorAll(".result-text h4").forEach((element, index) => {
     if (index < 3 || index >= 9) {
       let songName;
-      if (searchMethod.tracks.items && searchMethod.tracks.items[index]) {
+      // console.log("dak yar kia ata hy ", searchMethod.tracks);
+      if (searchMethod.tracks.items) {
         if (index >= 9) {
           songName = searchMethod.tracks.items[index - 9]?.name;
         } else {
