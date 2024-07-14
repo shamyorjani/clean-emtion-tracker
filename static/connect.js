@@ -237,27 +237,28 @@ const APIController = (function () {
           },
         }
       );
-  
+
       // Check if response status is OK
       if (!result.ok) {
-        throw new Error(`Error fetching currently playing song: ${result.status} ${result.statusText}`);
+        throw new Error(
+          `Error fetching currently playing song: ${result.status} ${result.statusText}`
+        );
       }
-  
+
       const text = await result.text(); // Read the response as text
-  
+
       if (!text) {
         throw new Error("Empty response from currently playing song API");
       }
-  
+
       const data = JSON.parse(text); // Parse the JSON from the text
-  
+
       return data;
     } catch (error) {
       console.error("Error fetching currently playing song:", error.message);
       return null; // Return null or handle the error as needed
     }
   };
-  
 
   // Add more private methods for additional functionalities
 
@@ -504,7 +505,7 @@ const APPController = (async function (UICtrl, APICtrl) {
         type
       );
 
-      console.log("artit info", searchMethod.artists.items[0]);
+      console.log("artit info", searchMethod.artists);
       if (type === "track") {
         displaySongsRecommendation(searchMethod);
       } else if (type === "album") {
@@ -517,6 +518,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     }
     async function searchResults() {
       const inputValue = inputElement.value.trim();
+      console.log("input value", inputValue);
       await searchReleases(inputValue, "album");
       await searchReleases(inputValue, "track");
       await searchReleases(inputValue, "playlist");

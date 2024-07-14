@@ -44,27 +44,23 @@ function displayArtistName(currentlyPlaying) {
   const artistLeftNameElement = document.querySelector(".left-author-name");
   const audioPlayerArtistName = document.querySelector(".song-author");
 
-  console.log ("chekc kark yar :" , artistLeftNameElement);
+  console.log("chekc kark yar :", artistLeftNameElement);
   if (!currentlyPlaying || !currentlyPlaying.item) {
     return;
   }
   const artistName = currentlyPlaying.item.artists[0].name;
   artistLeftNameElement.innerHTML = artistName;
+  console.log(
+    "artist name",
+    artistName,
+    "artisnameleftelement",
+    artistLeftNameElement
+  );
   if (artistName.length > 10 && artistName.length < 15) {
     artistNameElement.style.fontSize = "1.2rem";
   } else if (artistName.length > 15) {
     artistNameElement.style.fontSize = "1rem";
   }
-  // console.log("Updated afdsasfdasfdstate:", {
-  //   artistNameElementInnerHTML: artistNameElement.innerHTML,
-  //   artistLeftNameElementInnerHTML: artistLeftNameElement.innerHTML,
-  //   audioPlayerArtistNameInnerHTML: audioPlayerArtistName.innerHTML
-  // });
-  // artistNameElement.innerHTML = artistName;
-  // audioPlayerArtistName.innerHTML = artistName;
-  // artistLeftNameElement.innerHTML = artistName;
-
- 
 }
 
 function displayCurrentSongName(currentlyPlaying) {
@@ -88,9 +84,9 @@ function displayArtistImage(currentArtist) {
   artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
 
   const artistUrl = currentArtist;
-
-  artistImage.style.backgroundImage = `url(${artistUrl})`;
-  mainImage.style.backgroundImage = `url(${artistUrl})`;
+  console.log("artist url", artistUrl);
+  artistImage.style.backgroundImage = `url('${artistUrl}')`;
+  mainImage.style.backgroundImage = `url('${artistUrl}')`;
   artistImageElement.forEach(
     (artistImage) =>
       (artistImage.innerHTML = `
