@@ -71,6 +71,9 @@
         .querySelector(".button")
         .addEventListener("click", connectToSpotify);
 
+      if (window.location.href.includes("connection")) {
+        connectToSpotify();
+      }
       async function connectToSpotify() {
         const clientId = "23ab69c678df492d958a9220fb60bfe9";
         const redirectUri = "http://localhost:5000/callback";

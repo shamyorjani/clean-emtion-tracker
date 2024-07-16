@@ -8,6 +8,7 @@ setup(
     install_requires=[
         'flask',
         'deepface',
+        'opencv-python',  # Add opencv-python dependency
         # Add any other dependencies here
     ],
     entry_points={

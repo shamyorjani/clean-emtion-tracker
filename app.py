@@ -15,38 +15,36 @@ app.config['PREFERRED_URL_SCHEME'] = 'http'
 model = DeepFace.build_model("Emotion")
 
 # Define emotion labels
-emotion_labels = ['angry', 'disgust', 'fear',
-                  'happy', 'sad', 'surprise', 'neutral']
+emotion_labels = ['angry', 'disgust', 'fear', 'happy', 'sad', 'surprise', 'neutral']
 
 # Load face cascade classifier
-face_cascade = cv2.CascadeClassifier(
-    cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
+face_cascade = cv2.CascadeClassifier(cv2.data.haarcascades + 'haarcascade_frontalface_default.xml')
 
 # Global variable to store emotion
 emotion_result = ''
-
 
 def detect_emotion(frame):
     # Convert frame to grayscale
     gray_frame = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
 
     # Detect faces in the frame
-    faces = face_cascade.detectMultiScale(
-        gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
+    faces = face_cascade.detectMultiScale(gray_frame, scaleFactor=1.1, minNeighbors=5, minSize=(30, 30))
 
     for (x, y, w, h) in faces:
         # Extract the face ROI (Region of Interest)
-        face_roi = gray_frame[y:y + h, x:x + w]
+        face_roi = frame[y:y + h, x:x + w]  # Use original colored frame
 
         # Resize the face ROI to match the input shape of the model
-        resized_face = cv2.resize(
-            face_roi, (48, 48), interpolation=cv2.INTER_AREA)
+        resized_face = cv2.resize(face_roi, (48, 48), interpolation=cv2.INTER_AREA)
 
         # Normalize the resized face image
         normalized_face = resized_face / 255.0
 
+        # Convert to float32
+        normalized_face = normalized_face.astype('float32')
+
         # Reshape the image to match the input shape of the model
-        reshaped_face = normalized_face.reshape(1, 48, 48, 1)
+        reshaped_face = normalized_face.reshape(1, 48, 48, 3)
 
         # Predict emotions using the pre-trained model
         preds = model.predict(reshaped_face)[0]
@@ -55,15 +53,13 @@ def detect_emotion(frame):
 
         # Draw rectangle around face and label with predicted emotion
         cv2.rectangle(frame, (x, y), (x + w, y + h), (0, 0, 255), 2)
-        cv2.putText(frame, emotion, (x, y - 10),
-                    cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
+        cv2.putText(frame, emotion, (x, y - 10), cv2.FONT_HERSHEY_SIMPLEX, 0.9, (0, 0, 255), 2)
 
         # Update global variable with the detected emotion
         global emotion_result
         emotion_result = emotion
 
     return frame
-
 
 def generate_frames():
     cap = cv2.VideoCapture(0)
@@ -80,7 +76,7 @@ def generate_frames():
             yield (b'--frame\r\n'
                    b'Content-Type: image/jpeg\r\n\r\n' + frame + b'\r\n')
 
-    # After 5 seconds, stop the video stream
+    # After 50 seconds, stop the video stream
     cap.release()
     time.sleep(1)  # Ensure the last frame is processed before redirection
     with app.app_context():
@@ -88,16 +84,13 @@ def generate_frames():
         # Yield a special frame to signal the end of the video stream
         yield b'--frame\r\nContent-Type: image/jpeg\r\n\r\n' + b'\r\n'
 
-
 @app.route('/')
 def index():
     return render_template('results.html', emotion=emotion_result)
 
-
 @app.route('/connect')
 def connect():
     return render_template('connect.html')
-
 
 @app.route('/video_feed')
 def video_feed():
@@ -106,6 +99,10 @@ def video_feed():
 @app.route('/get_emotion')
 def get_emotion():
     return render_template('index.html')
+
+@app.route('/connection')
+def connection():
+    return render_template('connect.html')
 
 @app.route('/callback')
 def callback():
@@ -119,7 +116,6 @@ def free_subscription():
 def show_results():
     app.logger.info("Emotion detected: %s", emotion_result)
     return render_template('index.html', emotion=emotion_result)
-
 
 if __name__ == "__main__":
     app.run(debug=True)
