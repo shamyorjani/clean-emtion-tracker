@@ -42,9 +42,13 @@
         <button :class="desktopNavSearchopen ? '': 'hidden'" id="start" x-cloak>
           <span><i class="fa-solid fa-microphone" id="mic-id"></i></span>
         </button>
-        <button :class="desktopNavSearchopen ? '': 'hidden'" x-cloak>
+        <a
+          href="/get_emotion"
+          :class="desktopNavSearchopen ? '': 'hidden'"
+          x-cloak
+        >
           <span><i class="fa-solid fa-camera"></i></span>
-        </button>
+        </a>
       </div>
 
       <button
@@ -72,47 +76,21 @@
         <div class="result-container">
           <div class="result">
             <div class="result-image"></div>
-            <div class="result-text">
+            <div class="result-text" x-on:click="desktopNavSearchopen=false">
               <h4>arijit singh - sad songs - hindi</h4>
               <h5 class="text-slate-300">mood wave</h5>
             </div>
           </div>
           <div class="result">
             <div class="result-image"></div>
-            <div class="result-text">
+            <div class="result-text" x-on:click="desktopNavSearchopen=false">
               <h4>arijit singh - sad songs - hindi</h4>
               <h5 class="text-slate-300">mood wave</h5>
             </div>
           </div>
           <div class="result">
             <div class="result-image"></div>
-            <div class="result-text">
-              <h4>arijit singh - sad songs - hindi</h4>
-              <h5 class="text-slate-300">mood wave</h5>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="every-result">
-        <div class="search-result-heading">playlist</div>
-        <div class="result-container">
-          <div class="result">
-            <div class="result-image"></div>
-            <div class="result-text">
-              <h4>arijit singh - sad songs - hindi</h4>
-              <h5 class="text-slate-300">mood wave</h5>
-            </div>
-          </div>
-          <div class="result">
-            <div class="result-image"></div>
-            <div class="result-text">
-              <h4>arijit singh - sad songs - hindi</h4>
-              <h5 class="text-slate-300">mood wave</h5>
-            </div>
-          </div>
-          <div class="result">
-            <div class="result-image"></div>
-            <div class="result-text">
+            <div class="result-text" x-on:click="desktopNavSearchopen=false">
               <h4>arijit singh - sad songs - hindi</h4>
               <h5 class="text-slate-300">mood wave</h5>
             </div>
@@ -165,6 +143,32 @@
           <div class="result">
             <div class="result-image"></div>
             <div class="result-text">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+        </div>
+      </div>
+      <div class="every-result">
+        <div class="search-result-heading">playlist</div>
+        <div class="result-container">
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text" x-on:click="desktopNavSearchopen=false">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text" x-on:click="desktopNavSearchopen=false">
+              <h4>arijit singh - sad songs - hindi</h4>
+              <h5 class="text-slate-300">mood wave</h5>
+            </div>
+          </div>
+          <div class="result">
+            <div class="result-image"></div>
+            <div class="result-text" x-on:click="desktopNavSearchopen=false">
               <h4>arijit singh - sad songs - hindi</h4>
               <h5 class="text-slate-300">mood wave</h5>
             </div>

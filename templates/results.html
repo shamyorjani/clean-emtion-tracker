@@ -8,7 +8,12 @@
 
   <body class="bg-[#181b1f] overflow-hidden"
     x-data="{controls:false, mobileHome:true, mobileAlbums:false, mobileArtist:false, desktopNavSearchopen:false}">
+<script>
+  var emotionValue = "{{ emotion }}";
+  console.log(emotionValue);
+</script>
     <div id="fullscreen-animator"></div>
+
     <div class="loader-container">
       <div class="lds-ripple">
         <div></div>

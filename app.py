@@ -103,6 +103,9 @@ def connect():
 def video_feed():
     return Response(generate_frames(), mimetype='multipart/x-mixed-replace; boundary=frame')
 
+@app.route('/get_emotion')
+def get_emotion():
+    return render_template('index.html')
 
 @app.route('/callback')
 def callback():

@@ -1,6 +1,5 @@
 <!DOCTYPE html>
 <html lang="en">
-
   <head>
     <meta charset="UTF-8" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
@@ -19,13 +18,17 @@
 
   <body onload="redirectAfterVideo()">
     <!-- Your existing HTML content -->
-    <div class="flex justify-center items-center align-middle h-screen text-center w-full">
+    <div
+      class="flex justify-center items-center align-middle h-screen text-center w-full"
+    >
       <!-- <h1 class="bg-gray-500 text-5xl">Emotion Detection</h1> -->
       <div>
-        <img src="{{ url_for('video_feed') }}" alt="Emotion Detection"
-          style="width: 1200px; height: 800px; margin: 0 auto" />
+        <img
+          src="{{ url_for('video_feed') }}"
+          alt="Emotion Detection"
+          style="width: 1200px; height: 800px; margin: 0 auto"
+        />
       </div>
     </div>
   </body>
-
 </html>

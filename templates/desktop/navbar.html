@@ -3,9 +3,9 @@
         <a href="" class="flex flex-center items-center logo-link">
             <img src="../static/assets/images/websiteLogoBgRemoved-1.png" alt="" class="xl:w-[60px] w-[65px]" />
         </a>
-        <a href="/" class="flex flex-center items-center mx-4 library-btn">
-            <p class="logo_text">Your Library</p>
-        </a>
+        <span class="hover:cursor-pointer flex flex-center items-center mx-4" id="emotions_btn">
+            <p class="logo_text">Emotions</p>
+        </span>
         <span class="flex flex-center items-center mx-4 playlist-btn" style="cursor: pointer;">
             <p class="logo_text">Playlists</p>
         </span>
@@ -164,9 +164,14 @@
                             class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             Update</div>
                         <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                        <div @click="contextMenuOpen=false"
+                        <div id="logout-btn" @click="contextMenuOpen=false"
                             class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
                             Logout</div>
+                            <script>
+                                document.getElementById('logout-btn').addEventListener('click', function() {
+                                    window.location.href = '/connect';
+                                });
+                            </script>
 
                     </div>
                 </div>

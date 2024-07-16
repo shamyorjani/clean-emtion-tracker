@@ -1,6 +1,10 @@
 function displaySearchRecommendation(searchMethod) {
   document.querySelectorAll(".result-text h4").forEach((element, index) => {
     let songName = searchMethod.tracks.items[index].name;
+    element.setAttribute(
+      "data-single-song-id",
+      searchMethod.tracks.items[index].id
+    );
     if (songName.length > 30) {
       songName = songName.substring(0, 27) + "...";
     }
@@ -26,6 +30,27 @@ function displaySearchRecommendation(searchMethod) {
       element.style.backgroundImage = `url(${searchMethod.tracks.items[index].album.images[0].url})`;
     }
   });
+  document
+    .querySelectorAll(".result-text h4[data-single-song-id] ")
+    .forEach((element, index) => {
+      element.addEventListener("click", async function () {
+        hideSideBar();
+
+        try {
+          const alpineElement = document.querySelector("body");
+          const desktopNavSearchopen =
+            alpineElement.__x.$data.desktopNavSearchopen;
+        } catch (error) {
+          console.log("gg g g g gg g error", error);
+        }
+
+        // showSIdeBarLoader();
+        const trackId = this.getAttribute("data-single-song-id");
+        const track = await APIController.getTrack(accessToken, trackId);
+        console.log("track image url=>", track);
+        attachPlayTrackEvent(track, accessToken, track.album.images[0].url);
+      });
+    });
 }
 
 function displaySearchSongs(searchMethod) {
@@ -35,8 +60,16 @@ function displaySearchSongs(searchMethod) {
       if (searchMethod.tracks.items && searchMethod.tracks.items[index]) {
         if (index >= 9) {
           songName = searchMethod.tracks.items[index - 9]?.name;
+          element.setAttribute(
+            "data-single-song-id",
+            searchMethod.tracks.items[index - 9].id
+          );
         } else {
           songName = searchMethod.tracks.items[index]?.name;
+          element.setAttribute(
+            "data-single-song-id",
+            searchMethod.tracks.items[index]?.id
+          );
         }
         if (songName && songName.length > 30) {
           songName = songName.substring(0, 27) + "...";
@@ -92,6 +125,11 @@ function displaySearchSongs(searchMethod) {
 function displaySearchAlbums(searchMethod) {
   document.querySelectorAll(".result-text h4").forEach((element, index) => {
     if (index >= 3 && index < 6) {
+      element.setAttribute(
+        "data-album-id",
+        searchMethod.albums.items[index - 3].id
+      );
+
       let albumName = searchMethod.albums.items[index - 3]?.name;
       if (albumName && albumName.length > 30) {
         albumName = albumName.substring(0, 27) + "...";
@@ -99,6 +137,24 @@ function displaySearchAlbums(searchMethod) {
       element.innerHTML = albumName || "";
     }
   });
+  document
+    .querySelectorAll(".result-text h4[data-album-id]")
+    .forEach((element) => {
+      console.log("sesarch album element", element);
+      element.removeAttribute("data-single-song-id");
+      element.addEventListener("click", async function () {
+        showSIdeBarLoader();
+        const albumId = this.getAttribute("data-album-id");
+        const album = await APIController.getAlbum(accessToken, albumId);
+
+        const albumTracks = await APIController.getAlbumTracks(
+          accessToken,
+          albumId
+        );
+        displayAlbumTracks(albumTracks, accessToken, album.images[0].url);
+      });
+      // Your code here
+    });
   document.querySelectorAll(".result-text h5").forEach((element, index) => {
     if (
       index >= 3 &&
@@ -141,6 +197,11 @@ function displaySearchPlaylists(searchMethod) {
       searchMethod.playlists.items[index]
     ) {
       let songName = searchMethod.playlists.items[index].name;
+      element.setAttribute(
+        "data-playlist-id",
+        searchMethod.playlists.items[index].id
+      );
+      element.setAttribute("data-playlist-name", songName);
       if (songName.length > 30) {
         songName = songName.substring(0, 27) + "...";
       }
@@ -177,6 +238,43 @@ function displaySearchPlaylists(searchMethod) {
       element.style.backgroundImage = `url(${searchMethod.playlists.items[index].images[0].url})`;
     }
   });
+  document
+    .querySelectorAll(".result-text h4[data-playlist-id]")
+    .forEach((element, index) => {
+      element.removeAttribute("data-single-song-id");
+      let playtracks = [];
+      let tracksImages = [];
+      element.addEventListener("click", async function () {
+        showSIdeBarLoader();
+        const playlistName = element.getAttribute("data-playlist-name");
+
+        console.log("playlist name", playlistName);
+        const playlistId = this.getAttribute("data-playlist-id");
+        const playlistTracks = await APIController.getPlaylistTracks(
+          accessToken,
+          playlistId
+        );
+        const playlistImage = await APIController.getPlaylistImage(
+          accessToken,
+          playlistId
+        );
+        playlistTracks.items.forEach((track) => {
+          playtracks.push(track.track);
+          try {
+            if (track.track.album.images[0]) {
+              tracksImages.push(track.track.album.images[0].url);
+            }
+          } catch (error) {
+            console.log("error", error);
+          }
+        });
+        // playtracks.push(playlistTracks.items[index].track);
+        // console.log("playlistTracks image content", element.innerHTML);
+        console.log("playlistTracks", playtracks[0]);
+        console.log("playlist image", playlistImage);
+        displayAlbumTracks(playtracks, accessToken, tracksImages, playlistName);
+      });
+    });
 }
 
 function displaySongsRecommendation(searchMethod) {

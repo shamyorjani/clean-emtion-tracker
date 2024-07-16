@@ -311,6 +311,7 @@ const APIController = (function () {
     // Add more public methods for additional functionalities
   };
 })();
+window.APIController = APIController;
 
 // UI Module
 
@@ -382,6 +383,7 @@ const APPController = (async function (UICtrl, APICtrl) {
   const accessToken = new URLSearchParams(
     window.location.hash.substring(1)
   ).get("access_token");
+  window.accessToken = accessToken;
 
   if (!accessToken) {
     // window.location.href = "/connect";
@@ -674,18 +676,27 @@ const APPController = (async function (UICtrl, APICtrl) {
     searchItemText();
     displayNewReleases(newReleases);
 
+    const showSideBar = () => {
+      const animatedDiv = document.querySelector("#playlist-container");
+      animatedDiv.style.right = "0%";
+    };
+    const hideSideBar = () => {
+      const animatedDiv = document.querySelector("#playlist-container");
+      animatedDiv.style.right = "-100%";
+    };
     const showSIdeBarLoader = () => {
+      showSideBar();
       const albumsContainer = document.querySelector("#albumTracksTab");
       albumsContainer.innerHTML = `
           <div class="sidebar-tracks-loader">
-            <div class="lds-ripple">
-              <div></div>
-              <div></div>
-            </div>
+            <div class="lds-ripple"><div>
           </div>`;
       const sidebarLoader = document.querySelector(".sidebar-tracks-loader");
       sidebarLoader.style.display = "flex";
     };
+    window.showSIdeBarLoader = showSIdeBarLoader;
+    window.showSideBar = showSideBar;
+    window.hideSideBar = hideSideBar;
 
     document
       .querySelectorAll(".carosuel-slide-class")
@@ -824,11 +835,13 @@ const APPController = (async function (UICtrl, APICtrl) {
       e.preventDefault();
       modal.style.display = "none";
       createPlaylist(
-        this.title.value,
-        this.description.value,
+        e.target[0].value,
+        e.target[1].value,
         accessToken,
         userProfile.id
       );
+      e.target[0].value = "";
+      e.target[1].value = "";
 
       const intervalId = setInterval(async () => {
         const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
@@ -849,6 +862,12 @@ const APPController = (async function (UICtrl, APICtrl) {
 
       const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
       console.log("created form length of playlist", deletePlaylistBtns.length);
+
+      // deletingPlaylist(
+      //   accessToken,
+      //   playlists,
+      //   APICtrl.getConnectedUserPlaylists
+      // );
     });
 
     const playlistBtn = document.querySelector(".playlist-btn");
@@ -861,50 +880,57 @@ const APPController = (async function (UICtrl, APICtrl) {
 
       console.log("edit playlist btn", editPlaylistBtns.length);
 
-      editPlaylistBtns.forEach(async (editBtn, index) => {
-        // const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
+      // editPlaylistBtns.forEach(async (editBtn, index) => {
+      const editPlaylist = async (editBtn) => {
+        const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
         const modalPlaylistName = document.querySelectorAll(".playlist-name");
-        editBtn.addEventListener("click", () => {
-          console.log("edit playlist clicked");
-          modal.style.display = "flex";
-          modalHeading.textContent = "Edit Playlist";
-          editForm.style.display = "block";
-          createForm.style.display = "none";
-          const titleInput = editForm.querySelector('input[name="title"]');
-          titleInput.value = modalPlaylistName[index].textContent;
+        // editBtn.addEventListener("click", () => {
+        console.log("edit playlist clicked");
+        modal.style.display = "flex";
+        modalHeading.textContent = "Edit Playlist";
+        editForm.style.display = "block";
+        createForm.style.display = "none";
+        const titleInput = editForm.querySelector('input[name="title"]');
+        titleInput.value = editBtn.getAttribute("data-edit-name");
+        const descriptionInput = editForm.querySelector(
+          'input[name="description"]'
+        );
+        descriptionInput.value = editBtn.getAttribute("data-edit-desc");
 
-          editForm.addEventListener("submit", async (e) => {
-            e.preventDefault();
-            modal.style.display = "none";
-            updatePlaylist(
-              this.title.value,
-              this.description.value,
-              accessToken,
-              playlists[index].id
+        editForm.addEventListener("submit", async (e) => {
+          e.preventDefault();
+          modal.style.display = "none";
+          updatePlaylist(
+            e.target[0].value,
+            e.target[1].value,
+            accessToken,
+            playlists[index].id
+          );
+
+          const intervalId = setInterval(async () => {
+            const playlists = await APICtrl.getConnectedUserPlaylists(
+              accessToken
             );
+            console.log("playlists", playlists);
+            showPlaylists(playlists);
+          }, 1000);
 
-            const intervalId = setInterval(async () => {
-              const playlists = await APICtrl.getConnectedUserPlaylists(
-                accessToken
-              );
-              console.log("playlists", playlists);
-              showPlaylists(playlists);
-            }, 1000);
+          // Stop the interval after 2 seconds
+          setTimeout(() => {
+            clearInterval(intervalId);
+          }, 2000);
 
-            // Stop the interval after 2 seconds
-            setTimeout(() => {
-              clearInterval(intervalId);
-            }, 2000);
-
-            // Clear input fields after submit
-            const descriptionInput = editForm.querySelector(
-              'input[name="description"]'
-            );
-            titleInput.value = "";
-            // descriptionInput.value != "" ? "" : "";
-          });
+          // Clear input fields after submit
+          const descriptionInput = editForm.querySelector(
+            'input[name="description"]'
+          );
+          titleInput.value = "";
+          // descriptionInput.value != "" ? "" : "";
         });
-      });
+        // });
+      };
+      window.editPlaylist = editPlaylist;
+      // });
 
       const mainPlaylistCloseBtn = document.querySelector(
         ".main-playlist-close-btn"
@@ -915,7 +941,7 @@ const APPController = (async function (UICtrl, APICtrl) {
 
       console.log("playlist lcicked", playlistHeader.style);
     });
-    deletingPlaylist(accessToken, playlists, APICtrl.getConnectedUserPlaylists);
+    // deletingPlaylist(accessToken, playlists, APICtrl.getConnectedUserPlaylists);
     // const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
 
     // deletePlaylistBtns.forEach((deletePlaylistBtn, index) => {

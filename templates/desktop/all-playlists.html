@@ -321,6 +321,7 @@
       .then((response) => response.json())
       .then((data) => {
         console.log("Playlist created successfully:", data);
+        
         notification.style.right = "10px";
         notification.style.right = "10px";
         setTimeout(() => {
@@ -384,6 +385,7 @@
     const playlistContainer = document.querySelector(
       ".inner-playlist-container"
     );
+    // console.log('playlist length inside show playlist function',playlists);
     playlistContainer.innerHTML = "";
     playlists.forEach((playlist) => {
       const playlistDiv = document.createElement("div");
@@ -403,8 +405,8 @@
               }</div>
             </div>
             <div class="playlist-edit-btn">
-              <img src='{{url_for('static',filename='assets/icons/pen-to-square-regular.svg')}}' class="edit-playlist">
-              <img src='{{url_for('static',filename='assets/icons/trash-solid.svg')}}' class="delete-playlist">
+              <img src='{{url_for('static',filename='assets/icons/pen-to-square-regular.svg')}}' data-edit-name="${playlist.name}" data-edit-desc="${playlist.description}" class="edit-playlist" onclick="editPlaylist(this)">
+              <img src='{{url_for('static',filename='assets/icons/trash-solid.svg')}}' class="delete-playlist" onclick="deletePlaylistBtnClicked(this)" id='${playlist.id}'>
             </div>
           </div>
         `;
@@ -417,21 +419,32 @@
 
 
 
-  
-  const deletingPlaylist = async(accessToken,playlists,getPlaylists)=>{
+  // const deletingPlaylist = async(accessToken,playlists,getPlaylists)=>{
     
-    const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
+  // }
+  const getConnectedUserPlaylists = async (accessToken) => {
+    const result = await fetch("https://api.spotify.com/v1/me/playlists", {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
 
-    deletePlaylistBtns.forEach((deletePlaylistBtn, index) => {
-      deletePlaylistBtn.addEventListener("click", () => {
+    const data = await result.json();
+    return data.items;
+  };
+  
+
+
+  function deletePlaylistBtnClicked(deleteBtn,playlists){
         console.log("deletePlaylistBtn clicked");
-        const playlistss = document.querySelectorAll(".playlist");
-        const playlistID = playlistss[index].getAttribute("data-playlist-id");
+        // const playlistss = document.querySelectorAll(".playlist");
+        const playlistID = deleteBtn.id;
         console.log("playlistID", playlistID);
         deletePlaylist(playlistID, accessToken);
     
         const intervalId = setInterval(async () => {
-          const playlists = await getPlaylists(accessToken);
+          const playlists = await getConnectedUserPlaylists(accessToken);
           console.log("playlists", playlists);
           showPlaylists(playlists);
         }, 1000);
@@ -440,10 +453,11 @@
         setTimeout(() => {
           clearInterval(intervalId);
         }, 2000);
-        console.log("deleted form array length", deletePlaylistBtns.length);
-      });
-    });
-  }
+        // console.log("deleted form array length", deletePlaylistBtns.length);
+        
+      }
+
+  window.deletePlaylistBtnClicked = deletePlaylistBtnClicked;
 
   const allPlaylistIMage = document.querySelectorAll('.playlist-image');
   allPlaylistIMage.forEach((image)=>{

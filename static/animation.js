@@ -68,6 +68,12 @@ document.addEventListener("DOMContentLoaded", function () {
       { passive: false }
     );
   });
+
+  const emotionsBtn = document.getElementById("emotions_btn");
+  emotionsBtn.addEventListener("click", () => {
+    simulateScroll("down");
+  });
+
   function simulateScroll(direction) {
     // Create a new event object
     const event = {
