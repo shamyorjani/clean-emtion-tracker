@@ -85,10 +85,11 @@
     flex-direction: column;
     justify-content: space-between;
     flex: 2;
+    /* gap: 30px; */
   }
   .playlist-edit-btn {
     display: flex;
-    align-items: start;
+    align-items: center;
     justify-content: end;
     gap: 10px;
     flex: 1;
@@ -97,14 +98,7 @@
     width: 30%;
     cursor: pointer ;
   }
-  /* .playlist-edit-btn .delete {
-    text-decoration: none;
-    color: #fff;
-    padding: 10px 20px;
-    color: #fff;
-    text-decoration: none;
-    border-radius: 5px;
-  } */
+
   .modal {
     display: none;
     position: fixed;
@@ -289,6 +283,7 @@
       </form>
     </div>
   </div>
+  
 
 
   <span class="notification">Successfully created playlist!</span>
@@ -390,13 +385,13 @@
     playlists.forEach((playlist) => {
       const playlistDiv = document.createElement("div");
       playlistDiv.classList.add("playlist");
-      playlistDiv.setAttribute("data-playlist-id", playlist.id);
+      
       playlistDiv.innerHTML = `
-          <img src="${
+          <img onclick="showPlaylistDetails(this)" src="${
             playlist.images == null
               ? "https://via.placeholder.com/200"
               : playlist.images[0].url
-          }" class="playlist-image" alt="Playlist Image" />
+          }" class="playlist-image hover:cursor-pointer" data-playlist-id="${playlist.id}" data-playlist-name="${playlist.name}" alt="Playlist Image" />
           <div class="playlist-inner-bottom">
             <div class="playlist-info">
               <div class="playlist-name">${playlist.name}</div>
@@ -405,7 +400,9 @@
               }</div>
             </div>
             <div class="playlist-edit-btn">
-              <img src='{{url_for('static',filename='assets/icons/pen-to-square-regular.svg')}}' data-edit-name="${playlist.name}" data-edit-desc="${playlist.description}" class="edit-playlist" onclick="editPlaylist(this)">
+              <input type='file' id='upload-playlist-image-input' onchange="uploadImage(this)" data-playlist-id="${playlist.id}" style='display:none' />
+              <img src='{{url_for('static',filename='assets/icons/cloud-arrow-up-solid.svg')}}' id="upload-playlist-image" onclick="uploadPlaylistImage(this)">
+              <img src='{{url_for('static',filename='assets/icons/pen-to-square-regular.svg')}}' data-edit-name="${playlist.name}" data-edit-desc="${playlist.description}" data-playlist-id="${playlist.id}" class="edit-playlist" onclick="editPlaylist(this)">
               <img src='{{url_for('static',filename='assets/icons/trash-solid.svg')}}' class="delete-playlist" onclick="deletePlaylistBtnClicked(this)" id='${playlist.id}'>
             </div>
           </div>
@@ -415,7 +412,166 @@
     console.log('playlist length inside show playlist function',playlists.length);
   };
 
+  const uploadPlaylistImage = (uploadBtn)=>{
+    document.querySelector('#upload-playlist-image-input').click();
+  }
+
+  function readFileAsDataURL(file) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onload = () => resolve(reader.result);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(file);
+  });
+}
+
+function blobToBase64(blob) {
+  return new Promise((resolve, reject) => {
+    const reader = new FileReader();
+    reader.onloadend = () => resolve(reader.result.split(",")[1]);
+    reader.onerror = (error) => reject(error);
+    reader.readAsDataURL(blob);
+  });
+}
+
+  const uploadImage =  async (e)=>{
+    console.log('upload playlist image input changed',e);
+    const playlist_id = e.getAttribute('data-playlist-id');
+    const file = e.files[0];
+    
+
+    if (!file || !file.type.startsWith('image/')) {
+      alert('Please upload a valid image file.');
+      return;
+    }
+
+    // Read the file as a Data URL
+    const dataUrl = await readFileAsDataURL(file);
+    
+    // Create an Image object
+    const img = new Image();
+    img.src = dataUrl;
+    img.onload = async () => {
+      // Resize and convert to JPEG using Pica
+      const canvas = document.createElement('canvas');
+      const pica = window.pica();
+      const resizedCanvas = await pica.resize(img, canvas, {
+        width: 500, // Set your desired width
+        height: 500, // Set your desired height
+        preserveAspectRatio: true,
+      });
+
+      const jpegDataUrl = await pica.toBlob(resizedCanvas, 'image/jpeg', 0.8); // Adjust quality (0.0 to 1.0)
+
+      // Convert the blob to base64 string
+      const base64Jpeg = await blobToBase64(jpegDataUrl);
+
+      
+      await uploadCustomPlaylistImage(accessToken, playlist_id, base64Jpeg);
+
+      // Now you can use base64Jpeg to upload the image to the server
+      console.log(base64Jpeg);
+      // Use the upload logic from the previous example to upload base64Jpeg to Spotify
+    };
+
+    
+    const intervalId = setInterval(async () => {
+        const playlists = await getConnectedUserPlaylists(accessToken);
+        // console.log("playlists", playlists);
+        showPlaylists(playlists);
+      }, 2000);
+
+      // Stop the interval after 2 seconds
+      setTimeout(() => {
+        clearInterval(intervalId);
+      }, 6000);
+
+  }
+
+  const getPlaylistTracks = async (accessToken, playlist_id) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/tracks`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
   
+  const uploadCustomPlaylistImage = async (accessToken, playlist_id, image) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/images`,
+      {
+        method: "PUT",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+          "Content-Type": "image/jpeg",
+        },
+        body: image,
+      }
+    ); 
+  
+    const data = await result;
+    return data;
+  };
+
+  const getPlaylistImage = async (accessToken, playlist_id) => {
+    const result = await fetch(
+      `https://api.spotify.com/v1/playlists/${playlist_id}/images`,
+      {
+        method: "GET",
+        headers: {
+          Authorization: "Bearer " + accessToken,
+        },
+      }
+    );
+
+    const data = await result.json();
+    return data;
+  };
+
+  const showPlaylistDetails = async (playlistDiv) => {
+    const playlistID = playlistDiv.getAttribute("data-playlist-id");
+    console.log("playlistID CRUD got hit=>>>>", playlistID);
+    showSIdeBarLoader();
+    const playlistName = playlistDiv.getAttribute("data-playlist-name");
+    // const playlistName = playlistNames[index].textContent;
+
+    console.log("playlist name", playlistName);
+    const playlistId = playlistDiv.getAttribute("data-playlist-id");
+    const playlistTracks = await getPlaylistTracks(
+      accessToken,
+      playlistId
+    );
+    // console.log("playlistTracks", playlistTracks);
+    const playlistImage = await getPlaylistImage(
+      accessToken,
+      playlistId
+    );
+
+    let playTracks = [];
+    let tracksImages = [];
+    playlistTracks.items.forEach((track) => {
+      playTracks.push(track.track);
+      tracksImages.push(track.track.album.images[0].url);
+    });
+    // playtracks.push(playlistTracks.items[index].track);
+    // console.log("playlistTracks image content", element.innerHTML);
+    console.log("playlistTracks", playTracks[0]);
+    console.log("playlist image", playlistImage);
+    displayAlbumTracks(
+      playTracks,
+      accessToken,
+      tracksImages,
+      playlistName
+    );
+    
+  };
 
 
 

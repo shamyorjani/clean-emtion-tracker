@@ -830,6 +830,7 @@ const APPController = (async function (UICtrl, APICtrl) {
 
     const editForm = document.querySelector(".edit-playlist-form");
     editForm.style.display = "none";
+
     const createForm = document.querySelector(".create-playlist-form");
     createForm.addEventListener("submit", async (e) => {
       e.preventDefault();
@@ -853,21 +854,13 @@ const APPController = (async function (UICtrl, APICtrl) {
       setTimeout(() => {
         clearInterval(intervalId);
       }, 2000);
+
       // Clear input fields after submit
       this.title.value = "";
       this.description.value = "";
-      // let newPlaylists = await APICtrl.getConnectedUserPlaylists(accessToken);
-      // console.log("new playlist", newPlaylists.length);
-      // showPlaylists(newPlaylists);
 
       const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
       console.log("created form length of playlist", deletePlaylistBtns.length);
-
-      // deletingPlaylist(
-      //   accessToken,
-      //   playlists,
-      //   APICtrl.getConnectedUserPlaylists
-      // );
     });
 
     const playlistBtn = document.querySelector(".playlist-btn");
@@ -882,19 +875,20 @@ const APPController = (async function (UICtrl, APICtrl) {
 
       // editPlaylistBtns.forEach(async (editBtn, index) => {
       const editPlaylist = async (editBtn) => {
-        const playlists = await APICtrl.getConnectedUserPlaylists(accessToken);
-        const modalPlaylistName = document.querySelectorAll(".playlist-name");
-        // editBtn.addEventListener("click", () => {
+        const playlistId = editBtn.getAttribute("data-playlist-id");
+
         console.log("edit playlist clicked");
         modal.style.display = "flex";
         modalHeading.textContent = "Edit Playlist";
         editForm.style.display = "block";
         createForm.style.display = "none";
+
         const titleInput = editForm.querySelector('input[name="title"]');
-        titleInput.value = editBtn.getAttribute("data-edit-name");
         const descriptionInput = editForm.querySelector(
-          'input[name="description"]'
+          'textarea[name="description"]'
         );
+
+        titleInput.value = editBtn.getAttribute("data-edit-name");
         descriptionInput.value = editBtn.getAttribute("data-edit-desc");
 
         editForm.addEventListener("submit", async (e) => {
@@ -904,7 +898,7 @@ const APPController = (async function (UICtrl, APICtrl) {
             e.target[0].value,
             e.target[1].value,
             accessToken,
-            playlists[index].id
+            playlistId
           );
 
           const intervalId = setInterval(async () => {
@@ -920,17 +914,10 @@ const APPController = (async function (UICtrl, APICtrl) {
             clearInterval(intervalId);
           }, 2000);
 
-          // Clear input fields after submit
-          const descriptionInput = editForm.querySelector(
-            'input[name="description"]'
-          );
           titleInput.value = "";
-          // descriptionInput.value != "" ? "" : "";
         });
-        // });
       };
       window.editPlaylist = editPlaylist;
-      // });
 
       const mainPlaylistCloseBtn = document.querySelector(
         ".main-playlist-close-btn"
@@ -941,32 +928,6 @@ const APPController = (async function (UICtrl, APICtrl) {
 
       console.log("playlist lcicked", playlistHeader.style);
     });
-    // deletingPlaylist(accessToken, playlists, APICtrl.getConnectedUserPlaylists);
-    // const deletePlaylistBtns = document.querySelectorAll(".delete-playlist");
-
-    // deletePlaylistBtns.forEach((deletePlaylistBtn, index) => {
-    //   deletePlaylistBtn.addEventListener("click", () => {
-    //     console.log("deletePlaylistBtn clicked");
-    //     const playlistss = document.querySelectorAll(".playlist");
-    //     const playlistID = playlistss[index].getAttribute("data-playlist-id");
-    //     console.log("playlistID", playlistID);
-    //     deletePlaylist(playlistID, accessToken);
-
-    //     const intervalId = setInterval(async () => {
-    //       const playlists = await APICtrl.getConnectedUserPlaylists(
-    //         accessToken
-    //       );
-    //       console.log("playlists", playlists);
-    //       showPlaylists(playlists);
-    //     }, 1000);
-
-    //     // Stop the interval after 2 seconds
-    //     setTimeout(() => {
-    //       clearInterval(intervalId);
-    //     }, 2000);
-    //     console.log("deleted form array length", deletePlaylistBtns.length);
-    //   });
-    // });
 
     document
       .querySelectorAll(".album-img-container")
