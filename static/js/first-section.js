@@ -57,7 +57,6 @@ function displayArtistName(currentlyPlaying) {
   } else if (artistName.length > 15) {
     artistNameElement.style.fontSize = "1rem";
   }
-<<<<<<< HEAD
   // console.log("Updated afdsasfdasfdstate:", {
   //   artistNameElementInnerHTML: artistNameElement.innerHTML,
   //   artistLeftNameElementInnerHTML: artistLeftNameElement.innerHTML,
@@ -66,8 +65,6 @@ function displayArtistName(currentlyPlaying) {
   // artistNameElement.innerHTML = artistName;
   // audioPlayerArtistName.innerHTML = artistName;
   // artistLeftNameElement.innerHTML = artistName;
-=======
->>>>>>> 94b4f934f6306186946a85eed7208bb1b810cc20
 }
 
 function displayCurrentSongName(currentlyPlaying) {
@@ -83,20 +80,3 @@ function displayCurrentSongName(currentlyPlaying) {
 }
 
 
-<<<<<<< HEAD
-=======
-  const artistUrl = currentArtist;
-  console.log("artist url", artistUrl);
-  artistImage.style.backgroundImage = `url('${artistUrl}')`;
-  mainImage.style.backgroundImage = `url('${artistUrl}')`;
-  artistImageElement.forEach(
-    (artistImage) =>
-      (artistImage.innerHTML = `
-      <img
-            src="${artistUrl}"
-            class="bottom-player-artist-image"
-            alt="singer_image"
-          />`)
-  );
-}
->>>>>>> 94b4f934f6306186946a85eed7208bb1b810cc20
