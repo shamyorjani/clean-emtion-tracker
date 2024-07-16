@@ -1,8 +1,4 @@
 var artistBio = [];
-
-// const loader = document.querySelector(".loader-section-container");
-// loader.style.display = "none"; // Show the loader
-
 var artistData = async (artistName) => {
   // if (typeof artistName !== "string") {
   //   artistName = String(artistName);
@@ -44,7 +40,7 @@ function displayArtistName(currentlyPlaying) {
   const artistLeftNameElement = document.querySelector(".left-author-name");
   const audioPlayerArtistName = document.querySelector(".song-author");
 
-  console.log ("chekc kark yar :" , artistLeftNameElement);
+  console.log("chekc kark yar :", artistLeftNameElement);
   if (!currentlyPlaying || !currentlyPlaying.item) {
     return;
   }
@@ -63,8 +59,6 @@ function displayArtistName(currentlyPlaying) {
   // artistNameElement.innerHTML = artistName;
   // audioPlayerArtistName.innerHTML = artistName;
   // artistLeftNameElement.innerHTML = artistName;
-
- 
 }
 
 function displayCurrentSongName(currentlyPlaying) {
@@ -79,25 +73,4 @@ function displayCurrentSongName(currentlyPlaying) {
   );
 }
 
-function displayArtistImage(currentArtist) {
-  const artistImageElement = document.querySelectorAll(
-    ".left-audio-player-img"
-  );
-  const artistImage = document.querySelector(".author-image");
-  const mainImage = document.querySelector(".main");
-  artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
 
-  const artistUrl = currentArtist;
-
-  artistImage.style.backgroundImage = `url(${artistUrl})`;
-  mainImage.style.backgroundImage = `url(${artistUrl})`;
-  artistImageElement.forEach(
-    (artistImage) =>
-      (artistImage.innerHTML = `
-      <img
-            src="${artistUrl}"
-            class="bottom-player-artist-image"
-            alt="singer_image"
-          />`)
-  );
-}
