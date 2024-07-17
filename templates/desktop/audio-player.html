@@ -170,7 +170,7 @@
     });
 
     currentImages.forEach((currentImage) => {
-      currentImage.innerHTML = `<img 
+      currentImage.innerHTML = `<img
               src="${albumImageUrl}"
               class="current-song-artist-image"
               alt="singer_image"
@@ -180,7 +180,13 @@
   function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
     // artistData(track.artists[0].name);
     trackData[0] = track;
-    trackData[1] = albumImageUrl;
+    trackData[1] =
+      trackData[0]?.track?.album?.images[0]?.url ?? trackData[0]?.album?.images[0]?.url ?? trackData[0]?.images[0]?.url;
+    // const albumImageUrl = albumImages?.[0]?.url; // Provide a default URL if both are undefined
+
+    // Assign the URL to trackData[1]
+    // trackData[1] = albumImageUrl;
+    console.log("track data", trackData);
 
     // trackItem.addEventListener("click", function () {
     // Call a function to play the selected track

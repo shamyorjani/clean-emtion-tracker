@@ -8,6 +8,9 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
   };
 
   // console.log("recenlty tracks", uniqueTracks);
+
+  uniqueTracks.length = 0;
+
   recentlyPlayedTracks.items.forEach((track) => {
     const isDuplicate = uniqueTracks.some(
       (t) => t.track.name === track.track.name
@@ -53,6 +56,8 @@ function displayRecentlyPlayedTracks(recentlyPlayedTracks, accessToken) {
 
 let uniqueTracks = [];
 
+window.uniqueTracks = uniqueTracks;
+
 function displayAlbumTracks(
   albumTracks,
   accessToken,
@@ -85,12 +90,14 @@ function displayAlbumTracks(
   };
   let counter = 0;
 
-  const uniqueTracks = [];
+  // const uniqueTracks = [];
 
   const selectionName = document.createElement("h1");
   selectionName.textContent = selectionNameContent;
   selectionName.classList.add("selection-name");
   albumTracksContainer.appendChild(selectionName);
+
+  uniqueTracks.length = 0;
 
   albumTracks.forEach((track, index) => {
     // console.log("track", track);

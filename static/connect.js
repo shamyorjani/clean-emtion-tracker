@@ -957,17 +957,74 @@ const APPController = (async function (UICtrl, APICtrl) {
       });
     });
 
-    const nextButtons = document.querySelectorAll(".nextBtn");
     const prevButtons = document.querySelectorAll(".previousBtn");
+    prevButtons.forEach((prevButton) => {
+      prevButton.addEventListener("click", async () => {
+        console.log("next ===> ", next);
+        console.log("unique tracks ===> ", uniqueTracks);
+
+        if (next <= 0) {
+          next = uniqueTracks.length - 1;
+        } else {
+          next--;
+        }
+        let nextTrack, nextTrackImage;
+
+        if (uniqueTracks[next]?.track?.album?.images?.[0]?.url) {
+          nextTrack = uniqueTracks[next].track;
+          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
+        } else if (uniqueTracks[next]?.album?.images?.[0]?.url) {
+          nextTrack = uniqueTracks[next].album;
+          nextTrackImage = uniqueTracks[next].album.images[0].url;
+        } else {
+          console.error(
+            "No valid track or album images found for the next track."
+          );
+        }
+
+        if (nextTrack && nextTrackImage) {
+          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
+        } else {
+          console.error("No valid track or album found for the next track.");
+        }
+      });
+    });
+    const nextButtons = document.querySelectorAll(".nextBtn");
     let next = 0;
-    let prev = recentlyPlayedTracks.length - 1;
+
     nextButtons.forEach((nextButton) => {
       nextButton.addEventListener("click", async () => {
-        next++;
-        if (next >= recentlyPlayedTracks.items.length) {
+        console.log("next ===> ", next);
+        console.log("unique tracks ===> ", uniqueTracks);
+
+        if (next >= uniqueTracks.length - 1) {
           next = 0;
+        } else {
+          next++;
         }
-        attachPlayTrackEvent(uniqueTracks[next].track, accessToken);
+
+        let nextTrack, nextTrackImage;
+
+        if (uniqueTracks[next]?.track?.album?.images?.[0]?.url) {
+          nextTrack = uniqueTracks[next].track;
+          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
+        } else if (uniqueTracks[next]?.album?.images?.[0]?.url) {
+          nextTrack = uniqueTracks[next].album;
+          nextTrackImage = uniqueTracks[next].album.images[0].url;
+        } else {
+          console.error(
+            "No valid track or album images found for the next track."
+          );
+        }
+
+        if (nextTrack && nextTrackImage) {
+          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
+        } else {
+          console.error("No valid track or album found for the next track.");
+        }
+        console.log(error);
+        next--;
+        console.log("next ===> ", next);
       });
     });
     // prevButtons.forEach((prevButton) => {
