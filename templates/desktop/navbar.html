@@ -4,7 +4,7 @@
             <img src="../static/assets/images/websiteLogoBgRemoved-1.png" alt="" class="xl:w-[60px] w-[65px]" />
         </a>
         <span class="hover:cursor-pointer flex flex-center items-center mx-4" id="emotions_btn">
-            <p class="logo_text">Emotions</p>
+            <p class="logo_text">Emotions {{ emotion }}</p>
         </span>
         <span class="flex flex-center items-center mx-4 playlist-btn" style="cursor: pointer;">
             <p class="logo_text">Playlists</p>
@@ -166,7 +166,7 @@
                         <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
                         <div id="logout-btn" @click="contextMenuOpen=false"
                             class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                            Logout</div>
+                            Logout </div>
                             <script>
                                 document.getElementById('logout-btn').addEventListener('click', function() {
                                     window.location.href = '/connect';
