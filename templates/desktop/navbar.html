@@ -31,17 +31,11 @@
                     class="absolute top-0 w-56 mt-12 right-full" x-cloak>
                     <div id="dropdown-menu"
                         class="p-1 mt-1 z-[999999] text-sm bg-[#2C2F35] border rounded-md shadow-sm shadow-black border-[#2C2F35] text-white">
-                        <a href="#" @click="menuBarOpen=false"
-                            class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                        <a href="https://www.spotify.com/pk-en/account/overview/?utm_source=spotify&utm_medium=menu&utm_campaign=your_account" @click="menuBarOpen=false"
+                            class="relative flex justify-between w-full cursor-pointer select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
                             <span>Account</span>
                             <span
                                 class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-black">⌘A</span>
-                        </a>
-                        <a href="#_" @click="menuBarOpen=false"
-                            class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                            <span>Profile</span>
-                            <span
-                                class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⌘P</span>
                         </a>
                         <!-- Era of Songs -->
 
@@ -100,8 +94,14 @@
                             Update
                         </div>
                         <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                        <div class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                            Logout
+                        <div>
+                            <a href="/connect" @click="menuBarOpen=false"
+                            class="relative flex justify-between w-full cursor-pointer select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                            <span>Logout</span>
+                            <span
+                                class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-black">⌘L</span>
+                        </a>
+                            
                         </div>
 
                     </div>
@@ -109,11 +109,11 @@
             </div>
             <!-- end dropdown menu -->
 
-            <div id="profile-name-container">
+            <div class="cursor-pointer" id="profile-name-container">
                 <div id="profile-name-icon">
                     <i class="fa-solid fa-user text-[12.9px] text-white"></i>
                 </div>
-                <a href="#" class="profile-name text-[#bdc0c0]">ehtishamfarman</a>
+                <a href="http://localhost:5000/connect" class="profile-name text-[#bdc0c0]">ehtishamfarman</a>
             </div>
 
         </div>
