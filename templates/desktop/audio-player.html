@@ -151,7 +151,7 @@
     const mainImageBackground = document.querySelector(".main");
     // console.log("tracks show all song data", track);
     mainImageBackground.style.backgroundImage = `url(${albumImageUrl})`;
-    console.log("artist name", track.artists[0].name);
+    console.log("artist name", track);
     artistData(track.artists[0].name);
     artistName.innerHTML = track.artists[0].name;
     songAuthor.innerHTML = track.artists[0].name;
@@ -177,16 +177,24 @@
             />`;
     });
   }
+
   function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
     // artistData(track.artists[0].name);
-    trackData[0] = track;
-    trackData[1] =
-      trackData[0]?.track?.album?.images[0]?.url ?? trackData[0]?.album?.images[0]?.url ?? trackData[0]?.images[0]?.url;
+    console.log("track data", track);
+
+    // trackData[1] =
+    try {
+      trackData[0] = track.track;
+      trackData[1] = track.track.album.images[0].url;
+    } catch (error) {
+      trackData[0] = track;
+      trackData[1] = track.album.images[0].url;
+    }
+
     // const albumImageUrl = albumImages?.[0]?.url; // Provide a default URL if both are undefined
 
     // Assign the URL to trackData[1]
     // trackData[1] = albumImageUrl;
-    console.log("track data", trackData);
 
     // trackItem.addEventListener("click", function () {
     // Call a function to play the selected track

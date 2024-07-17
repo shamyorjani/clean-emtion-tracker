@@ -755,8 +755,11 @@ const APPController = (async function (UICtrl, APICtrl) {
             playlistId
           );
           playlistTracks.items.forEach((track) => {
-            playtracks.push(track.track);
-            tracksImages.push(track.track.album.images[0].url);
+            playtracks.push(track?.track ?? track);
+            tracksImages.push(
+              track?.track?.album?.images[0]?.url ??
+                track?.album?.images[0]?.url
+            );
           });
           // playtracks.push(playlistTracks.items[index].track);
           // console.log("playlistTracks image content", element.innerHTML);
@@ -948,12 +951,15 @@ const APPController = (async function (UICtrl, APICtrl) {
       btn.addEventListener("click", async () => {
         const track = uniqueTracks[index];
         // artistData(track.track.artists[0].name);
-        console.log("track", track);
-        attachPlayTrackEvent(
-          track.track,
-          accessToken,
-          track.track.album.images[0].url
-        );
+        try {
+          const trackImage = track.track.album.images[0].url;
+          console.log("track", track);
+          attachPlayTrackEvent(track.track, accessToken, trackImage);
+        } catch (error) {
+          const trackImage = track.album.images[0].url;
+          console.log("track", track.track);
+          attachPlayTrackEvent(track, accessToken, trackImage);
+        }
       });
     });
 
@@ -970,22 +976,14 @@ const APPController = (async function (UICtrl, APICtrl) {
         }
         let nextTrack, nextTrackImage;
 
-        if (uniqueTracks[next]?.track?.album?.images?.[0]?.url) {
-          nextTrack = uniqueTracks[next].track;
-          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
-        } else if (uniqueTracks[next]?.album?.images?.[0]?.url) {
-          nextTrack = uniqueTracks[next].album;
+        try {
           nextTrackImage = uniqueTracks[next].album.images[0].url;
-        } else {
-          console.error(
-            "No valid track or album images found for the next track."
-          );
-        }
-
-        if (nextTrack && nextTrackImage) {
+          nextTrack = uniqueTracks[next];
           attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
-        } else {
-          console.error("No valid track or album found for the next track.");
+        } catch (error) {
+          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
+          nextTrack = uniqueTracks[next].track;
+          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
         }
       });
     });
@@ -995,7 +993,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     nextButtons.forEach((nextButton) => {
       nextButton.addEventListener("click", async () => {
         console.log("next ===> ", next);
-        console.log("unique tracks ===> ", uniqueTracks);
+        console.log("unique tracks ===> ", uniqueTracks[0]);
 
         if (next >= uniqueTracks.length - 1) {
           next = 0;
@@ -1003,27 +1001,21 @@ const APPController = (async function (UICtrl, APICtrl) {
           next++;
         }
 
-        let nextTrack, nextTrackImage;
+        // console.log(uniqueTracks[next].track.album === undefined);
 
-        if (uniqueTracks[next]?.track?.album?.images?.[0]?.url) {
-          nextTrack = uniqueTracks[next].track;
-          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
-        } else if (uniqueTracks[next]?.album?.images?.[0]?.url) {
-          nextTrack = uniqueTracks[next].album;
+        let nextTrack;
+        let nextTrackImage;
+
+        try {
           nextTrackImage = uniqueTracks[next].album.images[0].url;
-        } else {
-          console.error(
-            "No valid track or album images found for the next track."
-          );
+          nextTrack = uniqueTracks[next];
+          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
+        } catch (error) {
+          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
+          nextTrack = uniqueTracks[next].track;
+          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
         }
 
-        if (nextTrack && nextTrackImage) {
-          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
-        } else {
-          console.error("No valid track or album found for the next track.");
-        }
-        console.log(error);
-        next--;
         console.log("next ===> ", next);
       });
     });
