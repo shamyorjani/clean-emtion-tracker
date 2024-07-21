@@ -675,6 +675,7 @@ const APPController = (async function (UICtrl, APICtrl) {
       await searchReleases(final_input, "playlist");
       await searchReleases(final_input, "artist");
     }
+    await updateResults('sad')
     const dropdownMenu = document.getElementById("dropdown-menu");
     const updateButton = document.getElementById("update-button");
     if (updateButton) {
