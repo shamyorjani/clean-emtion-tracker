@@ -10,13 +10,13 @@
     x-data="{controls:false, mobileHome:true, mobileAlbums:false, mobileArtist:false, desktopNavSearchopen:false}">
 <script>
   
-  async function fetchEmotion() {
-      const response = await fetch("/emotion");
-      const data = await response.json();
-      document.getElementById("emotion_result").textContent =
-        "Detected Emotion: " + data.emotion;
-    }
-  fetchEmotion();
+  // async function fetchEmotion() {
+  //     const response = await fetch("/emotion");
+  //     const data = await response.json();
+  //     document.getElementById("emotion_result").textContent =
+  //       "Detected Emotion: " + data.emotion;
+  //   }
+  // fetchEmotion();
   
 </script>
     <div id="fullscreen-animator"></div>
