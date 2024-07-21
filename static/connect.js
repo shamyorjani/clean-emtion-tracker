@@ -238,20 +238,28 @@ const APIController = (function () {
         }
       );
 
+
       // Check if response status is OK
       if (!result.ok) {
         throw new Error(
           `Error fetching currently playing song: ${result.status} ${result.statusText}`
         );
+        throw new Error(
+          `Error fetching currently playing song: ${result.status} ${result.statusText}`
+        );
       }
 
+
       const text = await result.text(); // Read the response as text
+
 
       if (!text) {
         throw new Error("Empty response from currently playing song API");
       }
 
+
       const data = JSON.parse(text); // Parse the JSON from the text
+
 
       return data;
     } catch (error) {
@@ -457,6 +465,143 @@ const APPController = (async function (UICtrl, APICtrl) {
     //  Functions
     // Function to update search results
 
+    // Setting inputValues
+    const eras = [
+      "2020s",
+      "2010s",
+      "2000s",
+      "1990s",
+      "1980s",
+      "1970s",
+      "1960s",
+      "1950s",
+    ];
+    const container = document.getElementById("eras-list");
+    let selectedEra = "";
+    let selectedSongType = "";
+    let selectedLanguage = "";
+
+    eras.forEach((era) => {
+      const eraDiv = document.createElement("div");
+      eraDiv.className =
+        "relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none";
+      eraDiv.innerHTML = `
+            <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2 h-2 fill-current">
+                    <circle cx="12" cy="12" r="10"></circle>
+                </svg>
+            </span>
+            <span>${era}</span>
+        `;
+      eraDiv.querySelector("svg").style.display = "none";
+
+      // Add click event listener to each eraDiv
+      eraDiv.addEventListener("click", function () {
+        // Hide all SVGs
+        const allSvgs = container.querySelectorAll("svg");
+        allSvgs.forEach((svg) => (svg.style.display = "none"));
+
+        // Show the clicked one
+        const svg = eraDiv.querySelector("svg");
+        svg.style.display = "block";
+        selectedEra = era;
+      });
+
+      container.appendChild(eraDiv);
+    });
+    // Song types
+    const songTypes = [
+      "Hindustani Classical",
+      "Carnatic Classical",
+      "Bollywood Songs",
+      "Devotional Music (Bhajans)",
+      "Devotional Music (Sufi Music)",
+      "Folk Music (Bhangra)",
+      "Folk Music (Rajasthani Folk)",
+      "Indi-pop",
+      "Qawwali",
+      "Ghazals",
+      "Pakistani Film Music",
+      "Folk Music (Punjabi Folk)",
+      "Folk Music (Balochi Folk)",
+      "Modern Pakistani Pop",
+      "Sufi Music (Kafi)",
+      "Sufi Music (Sufi Rock)",
+    ];
+
+    const songTypeContainer = document.getElementById("songs-list");
+
+    songTypes.forEach((song) => {
+      const songDiv = document.createElement("div");
+      songDiv.className =
+        "relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none";
+      songDiv.innerHTML = `
+        <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2 h-2 fill-current">
+            <circle cx="12" cy="12" r="10"></circle>
+          </svg>
+        </span>
+        <span>${song}</span>
+      `;
+      songDiv.querySelector("svg").style.display = "none";
+
+      songDiv.addEventListener("click", function () {
+        const allSvgs = songTypeContainer.querySelectorAll("svg");
+        allSvgs.forEach((svg) => (svg.style.display = "none"));
+        songDiv.querySelector("svg").style.display = "block";
+        selectedSongType = song;
+      });
+
+      songTypeContainer.appendChild(songDiv);
+    });
+    // Song Language
+    const languages = [
+      "Urdu",
+      "English",
+      "Spanish",
+      "French",
+      "German",
+      "Italian",
+      "Portuguese",
+      "Japanese",
+      "Korean",
+      "Chinese",
+      "Russian",
+      "Arabic",
+      "Dutch",
+      "Swedish",
+      "Norwegian",
+      "Danish",
+    ];
+    const songLanguageContainer = document.getElementById("languages-list");
+
+    languages.forEach((language) => {
+      const languageDiv = document.createElement("div");
+      languageDiv.className =
+        "relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none";
+      languageDiv.innerHTML = `
+        <span class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
+          <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4">
+            <polyline points="20 6 9 17 4 12"></polyline>
+          </svg>
+        </span>
+        <span>${language}</span>
+      `;
+      languageDiv.querySelector("svg").style.display = "none";
+
+      languageDiv.addEventListener("click", function () {
+        const svg = languageDiv.querySelector("svg");
+        if (svg.style.display === "none") {
+          svg.style.display = "block";
+          selectedLanguage = selectedLanguage + ", " + language;
+        } else {
+          svg.style.display = "none";
+        }
+      });
+
+      songLanguageContainer.appendChild(languageDiv);
+    });
+
     async function mainSearchMethod() {
       updateSearchResults(
         "",
@@ -507,7 +652,7 @@ const APPController = (async function (UICtrl, APICtrl) {
         type
       );
 
-      console.log("artit info", searchMethod.artists);
+      console.log("artist info", searchMethod.artists);
       if (type === "track") {
         displaySongsRecommendation(searchMethod);
       } else if (type === "album") {
@@ -526,117 +671,135 @@ const APPController = (async function (UICtrl, APICtrl) {
       await searchReleases(inputValue, "playlist");
       await searchReleases(inputValue, "artist");
     }
-    inputElement.addEventListener("keydown", async function (event) {
-      if (event.key === "Enter") {
-        searchResults();
-      }
-    });
-    searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
-    displaySongsRecommendation(searchMethod);
+    async function updateResults(final_input) {
+      await searchReleases(final_input, "album");
+      await searchReleases(final_input, "track");
+      await searchReleases(final_input, "playlist");
+      await searchReleases(final_input, "artist");
+    }
+    await updateResults('sad')
+    const dropdownMenu = document.getElementById("dropdown-menu");
+    const updateButton = document.getElementById("update-button");
+    if (updateButton) {
+      updateButton.addEventListener("click", async function () {
+        let final_input =
+          selectedEra + " " + selectedSongType + " in " + selectedLanguage;
+        dropdownMenu.classList.add("hidden");
+        dropdownMenu.classList.remove("hidden");
+        // console.log("final_input", final_input);
+        await updateResults(final_input);
+      });
+      inputElement.addEventListener("keydown", async function (event) {
+        if (event.key === "Enter") {
+          searchResults();
+        }
+      });
+      searchMethod = await APICtrl.getConnectSearch(accessToken, "", "track");
+      displaySongsRecommendation(searchMethod);
 
-    const hideContainer = document.querySelectorAll(
-      ".album-playlist-main-container"
-    );
+      const hideContainer = document.querySelectorAll(
+        ".album-playlist-main-container"
+      );
 
-    var mickSelect = document.getElementById("mic-id");
-    var mickToggle = document.getElementById("start");
-    var recognition = new webkitSpeechRecognition();
-    recognition.lang = window.navigator.language;
-    recognition.interimResults = true;
+      var mickSelect = document.getElementById("mic-id");
+      var mickToggle = document.getElementById("start");
+      var recognition = new webkitSpeechRecognition();
+      recognition.lang = window.navigator.language;
+      recognition.interimResults = true;
 
-    let toggle = false;
-    mickToggle.addEventListener("click", () => {
-      if (toggle) {
-        mickSelect.style.color = "red";
-        recognition.start();
-      } else {
+      let toggle = false;
+      mickToggle.addEventListener("click", () => {
+        if (toggle) {
+          mickSelect.style.color = "red";
+          recognition.start();
+        } else {
+          mickSelect.style.color = "white";
+          recognition.stop();
+        }
+        toggle = !toggle;
+      });
+
+      recognition.addEventListener("result", async (event) => {
+        const result = event.results[event.results.length - 1][0].transcript;
+        inputElement.value = result;
+        await updateSearchResults(result);
+      });
+      recognition.addEventListener("end", () => {
         mickSelect.style.color = "white";
-        recognition.stop();
-      }
-      toggle = !toggle;
-    });
+      });
 
-    recognition.addEventListener("result", async (event) => {
-      const result = event.results[event.results.length - 1][0].transcript;
-      inputElement.value = result;
-      await updateSearchResults(result);
-    });
-    recognition.addEventListener("end", () => {
-      mickSelect.style.color = "white";
-    });
+      const tabs = document.querySelectorAll("#tabs a");
+      tabs.forEach((tab) => {
+        tab.addEventListener("click", async function (event) {
+          event.preventDefault();
+          tabs.forEach((t) => {
+            t.classList.remove("active-tab");
+            const activeDiv = t.parentElement.querySelector(".active");
+            const hrElement = activeDiv.querySelector("hr");
+            if (hrElement) {
+              hrElement.remove();
+            }
+          });
+          // Add 'active-tab' class to the clicked tab
+          tab.classList.add("active-tab");
 
-    const tabs = document.querySelectorAll("#tabs a");
-    tabs.forEach((tab) => {
-      tab.addEventListener("click", async function (event) {
-        event.preventDefault();
-        tabs.forEach((t) => {
-          t.classList.remove("active-tab");
-          const activeDiv = t.parentElement.querySelector(".active");
-          const hrElement = activeDiv.querySelector("hr");
-          if (hrElement) {
-            hrElement.remove();
-          }
-        });
-        // Add 'active-tab' class to the clicked tab
-        tab.classList.add("active-tab");
+          // Log the active tab name
+          console.log("Active Tab:", tab.getAttribute("data-tab"));
 
-        // Log the active tab name
-        console.log("Active Tab:", tab.getAttribute("data-tab"));
-
-        // Add hr element to the active tab
-        const activeDiv = tab.parentElement.querySelector(".active");
-        const hrElement = document.createElement("hr");
-        hideContainer.forEach((container) => {
-          container.style.display = "flex";
-        });
-        if (tab.getAttribute("data-tab") === "overview") {
-          hrElement.classList.add("hrElementTab");
-          activeDiv.appendChild(hrElement);
+          // Add hr element to the active tab
+          const activeDiv = tab.parentElement.querySelector(".active");
+          const hrElement = document.createElement("hr");
           hideContainer.forEach((container) => {
             container.style.display = "flex";
           });
-          let value = inputElement.value;
-          await searchReleases(value, "track");
-        } else if (tab.getAttribute("data-tab") === "sad-songs") {
-          hrElement.classList.add("hrElementTab");
-          activeDiv.appendChild(hrElement);
-          hideContainer.forEach((container) => {
-            container.style.display = "none";
-          });
+          if (tab.getAttribute("data-tab") === "overview") {
+            hrElement.classList.add("hrElementTab");
+            activeDiv.appendChild(hrElement);
+            hideContainer.forEach((container) => {
+              container.style.display = "flex";
+            });
+            let value = inputElement.value;
+            await searchReleases(value, "track");
+          } else if (tab.getAttribute("data-tab") === "sad-songs") {
+            hrElement.classList.add("hrElementTab");
+            activeDiv.appendChild(hrElement);
+            hideContainer.forEach((container) => {
+              container.style.display = "none";
+            });
 
-          await searchReleases("sad songs", "track");
-        } else if (tab.getAttribute("data-tab") === "romantic-songs") {
-          hrElement.classList.add("hrElementTab");
-          activeDiv.appendChild(hrElement);
-          hideContainer.forEach((container) => {
-            container.style.display = "none";
-          });
-          await searchReleases("romantic songs", "track");
-        } else if (tab.getAttribute("data-tab") === "heartbreaks") {
-          hrElement.classList.add("hrElementTab");
-          activeDiv.appendChild(hrElement);
-          hideContainer.forEach((container) => {
-            container.style.display = "none";
-          });
-          await searchReleases("heart broken songs", "track");
-        } else if (tab.getAttribute("data-tab") === "angry-mood") {
-          hrElement.classList.add("hrElementTab");
-          activeDiv.appendChild(hrElement);
-          hideContainer.forEach((container) => {
-            container.style.display = "none";
-          });
-          await searchReleases("angry mood", "track");
-        } else if (tab.getAttribute("data-tab") === "joyful") {
-          hrElement.classList.add("hrElementTab");
-          activeDiv.appendChild(hrElement);
-          hideContainer.forEach((container) => {
-            container.style.display = "none";
-          });
-          await searchReleases("happy mood", "track");
-        }
+            await searchReleases("sad songs", "track");
+          } else if (tab.getAttribute("data-tab") === "romantic-songs") {
+            hrElement.classList.add("hrElementTab");
+            activeDiv.appendChild(hrElement);
+            hideContainer.forEach((container) => {
+              container.style.display = "none";
+            });
+            await searchReleases("romantic songs", "track");
+          } else if (tab.getAttribute("data-tab") === "heartbreaks") {
+            hrElement.classList.add("hrElementTab");
+            activeDiv.appendChild(hrElement);
+            hideContainer.forEach((container) => {
+              container.style.display = "none";
+            });
+            await searchReleases("heart broken songs", "track");
+          } else if (tab.getAttribute("data-tab") === "angry-mood") {
+            hrElement.classList.add("hrElementTab");
+            activeDiv.appendChild(hrElement);
+            hideContainer.forEach((container) => {
+              container.style.display = "none";
+            });
+            await searchReleases("angry mood", "track");
+          } else if (tab.getAttribute("data-tab") === "joyful") {
+            hrElement.classList.add("hrElementTab");
+            activeDiv.appendChild(hrElement);
+            hideContainer.forEach((container) => {
+              container.style.display = "none";
+            });
+            await searchReleases("happy mood", "track");
+          }
+        });
       });
-    });
-
+    }
     document
       .querySelector(".navbar-clear-btn")
       .addEventListener("click", function () {

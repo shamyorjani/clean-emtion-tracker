@@ -19,8 +19,8 @@
             {% include 'desktop/navbar-search-input.html' %}
             <!-- dropdown menu -->
             <div x-data="{
-            dropdownOpen: false
-        }" class="relative">
+            dropdownOpen: false,
+        }" class="relative ">
 
                 <button @click="dropdownOpen=true, desktopNavSearchopen=false"
                     class="flex items-center justify-center transition-colors focus:outline-none disabled:opacity-50 disabled:pointer-events-none dropdownBtn">
@@ -29,160 +29,91 @@
                 <div x-show="dropdownOpen" @click.away="dropdownOpen=false" x-transition:enter="ease-out duration-200"
                     x-transition:enter-start="-translate-y-2" x-transition:enter-end="translate-y-0"
                     class="absolute top-0 w-56 mt-12 right-full" x-cloak>
-                    <div
+                    <div id="dropdown-menu"
                         class="p-1 mt-1 z-[999999] text-sm bg-[#2C2F35] border rounded-md shadow-sm shadow-black border-[#2C2F35] text-white">
-                        <a href="#_" @click="menuBarOpen=false"
-                            class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                        <a href="https://www.spotify.com/pk-en/account/overview/?utm_source=spotify&utm_medium=menu&utm_campaign=your_account" @click="menuBarOpen=false"
+                            class="relative flex justify-between w-full cursor-pointer select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
                             <span>Account</span>
                             <span
                                 class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-black">⌘A</span>
                         </a>
-                        <a href="#_" @click="menuBarOpen=false"
-                            class="relative flex justify-between w-full cursor-default select-none group items-center rounded px-2 py-1.5 hover:bg-white hover:text-neutral-900 outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
-                            <span>Profile</span>
-                            <span
-                                class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-neutral-600">⌘P</span>
-                        </a>
                         <!-- Era of Songs -->
 
                         <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                        <div class="relative w-full group">
-                            <div
-                                class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
-                                <span>Era of Songs</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="w-4 h-4 ml-auto">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
-                            </div>
-                            <div data-submenu
-                                class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                            <div class="relative w-full group">
                                 <div
-                                    class="z-[999999] min-w-[8rem] overflow-hidden rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48">
-
-                                    <div x-data="{ contextMenuPeople: 'adam', eras: ['2020s', '2010s', '2000s', '1990s', '1980s', '1970s', '1960s', '1950s'] }"
-                                        class="relative">
-                                        <template x-for="(era, index) in eras" :key="index">
-                                            <div @click="contextMenuPeople=era.toLowerCase(); contextMenuOpen=false"
-                                                class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                                                <span x-show="contextMenuPeople == era.toLowerCase()"
-                                                    class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="w-2 h-2 fill-current">
-                                                        <circle cx="12" cy="12" r="10"></circle>
-                                                    </svg></span>
-                                                <span x-text="era"></span>
-                                            </div>
-                                        </template>
-                                    </div>
-
+                                    class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
+                                    <span>Era of Songs</span>
+                                    <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
+                                        fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
+                                        stroke-linejoin="round" class="w-4 h-4 ml-auto">
+                                        <polyline points="9 18 15 12 9 6"></polyline>
+                                    </svg>
                                 </div>
-                            </div>
+                                <div class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                                <div class="z-[999999] min-w-[8rem] overflow-hidden rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48">
+                                    <div class="relative" id="eras-list">
+                                    </div>
+                                </div>
+                            </div>      
                         </div>
                         <!-- End of Era of Songs -->
 
                         <!-- Type of Songs -->
                         <div class="relative w-full group">
-                            <div
-                                class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
-                                <span>Songs Types</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="w-4 h-4 ml-auto">
-                                    <polyline points="9 18 15 12 9 6"></polyline>
-                                </svg>
+                            <div class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
+                              <span>Songs Types</span>
+                              <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-auto">
+                                <polyline points="9 18 15 12 9 6"></polyline>
+                              </svg>
                             </div>
-                            <div data-submenu
-                                class="absolute z-[999999] top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100 overflow-y-scroll overflow-x-hidden">
-                                <div x-data="{ 
-                                    contextMenuPeople: 'adam', 
-                                    eras: ['Hindustani Classical', 'Carnatic Classical', 'Bollywood Songs', 'Devotional Music (Bhajans)', 'Devotional Music (Sufi Music)', 'Folk Music (Bhangra)', 'Folk Music (Rajasthani Folk)', 'Indi-pop', 'Qawwali', 'Ghazals', 'Pakistani Film Music', 'Folk Music (Punjabi Folk)', 'Folk Music (Balochi Folk)', 'Modern Pakistani Pop', 'Sufi Music (Kafi)', 'Sufi Music (Sufi Rock)']
-                                }">
-                                    <div class="min-w-[8rem] rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48 h-96 z-[999999] overflow-y-auto">
-                                        <div class="relative">
-                                            <template x-for="(song, index) in eras" :key="index">
-                                                <div @click="contextMenuPeople=song.toLowerCase(); contextMenuOpen=false" class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                                                    <span x-show="contextMenuPeople == song.toLowerCase()" class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-2 h-2 fill-current">
-                                                            <circle cx="12" cy="12" r="10"></circle>
-                                                        </svg>
-                                                    </span>
-                                                    <span x-text="song"></span>
-                                                </div>
-                                            </template>
-                                        </div>
-                                    </div>
-                                </div>
-                                
+                            <div data-submenu class="absolute z-[999999] top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100 overflow-y-scroll overflow-x-hidden">
+                              <div class="min-w-[8rem] rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48 h-96 z-[999999] overflow-y-auto" id="songs-list">
+                                <!-- List of song types will be appended here by JavaScript -->
+                              </div>
                             </div>
-                        </div>
-                        <!-- End of the of songs -->
+                          </div>                        <!-- End of the of songs -->
 
                         <!-- Languages of Songs -->
                         <div class="relative w-full group">
-                            <div
-                                class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
+                            <div class="flex cursor-default select-none items-center rounded px-2 hover:bg-white hover:text-black py-1.5 outline-none">
                                 <span>Songs Languages</span>
-                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"
-                                    fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"
-                                    stroke-linejoin="round" class="w-4 h-4 ml-auto">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" class="w-4 h-4 ml-auto">
                                     <polyline points="9 18 15 12 9 6"></polyline>
                                 </svg>
                             </div>
-                            <div data-submenu
-                                class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
-                                <div
-                                    class="z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48">
-
-                                    <div
-                                        x-data="{ languages: ['Urdu', 'English', 'Spanish', 'French', 'German', 'Italian', 'Portuguese', 'Japanese', 'Korean', 'Chinese', 'Russian', 'Arabic', 'Dutch', 'Swedish', 'Norwegian', 'Danish'] }">
-                                        <template x-for="(language, index) in languages" :key="index">
-                                            <div x-data="{ showDetails: false }" @click="showDetails = !showDetails"
-                                                class="relative flex cursor-default select-none items-center rounded py-1.5 pl-8 pr-2 hover:bg-neutral-100 hover:text-black outline-none data-[disabled]:opacity-50">
-                                                <span x-show="showDetails"
-                                                    class="absolute left-2 flex h-3.5 w-3.5 items-center justify-center"><svg
-                                                        xmlns="http://www.w3.org/2000/svg" width="24" height="24"
-                                                        viewBox="0 0 24 24" fill="none" stroke="currentColor"
-                                                        stroke-width="2" stroke-linecap="round" stroke-linejoin="round"
-                                                        class="w-4 h-4">
-                                                        <polyline points="20 6 9 17 4 12"></polyline>
-                                                    </svg></span>
-                                                <span x-text="language"></span>
-                                            </div>
-                                        </template>
-                                    </div>
+                            <div data-submenu class="absolute top-0 right-0 invisible mr-1 duration-200 ease-out translate-x-full opacity-0 group-hover:mr-0 group-hover:visible group-hover:opacity-100">
+                                <div class="z-50 min-w-[8rem] overflow-hidden rounded-md border shadow-sm shadow-black border-[#2C2F35] bg-[#2C2F35] p-1 animate-in slide-in-from-left-1 w-48" id="languages-list">
+                                    <!-- List of languages will be appended here by JavaScript -->
                                 </div>
-
                             </div>
                         </div>
                         <!-- End of Languages of Songs -->
 
-                        <div @click="contextMenuOpen=false"
-                            class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                            Update</div>
+                        <div @click="dropdownOpen=false" id="update-button" class="relative flex cursor-pointer select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
+                            Update
+                        </div>
                         <div class="h-px my-1 -mx-1 bg-neutral-200"></div>
-                        <div id="logout-btn" @click="contextMenuOpen=false"
-                            class="relative flex cursor-default select-none items-center rounded px-2 py-1.5 hover:bg-neutral-100 hover:text-black text-sm outline-none data-[disabled]:pointer-events-none data-[disabled]:opacity-50">
-                            Logout </div>
-                            <script>
-                                document.getElementById('logout-btn').addEventListener('click', function() {
-                                    window.location.href = '/connect';
-                                });
-                            </script>
+                        <div>
+                            <a href="/connect" @click="menuBarOpen=false"
+                            class="relative flex justify-between w-full cursor-pointer select-none group items-center rounded px-2 py-1.5 hover:bg-[#fff] hover:text-black outline-none data-[disabled]:opacity-50 data-[disabled]:pointer-events-none">
+                            <span>Logout</span>
+                            <span
+                                class="ml-auto text-xs tracking-widest text-neutral-400 group-hover:text-black">⌘L</span>
+                        </a>
+                            
+                        </div>
 
                     </div>
                 </div>
             </div>
             <!-- end dropdown menu -->
 
-            <div id="profile-name-container">
+            <div class="cursor-pointer" id="profile-name-container">
                 <div id="profile-name-icon">
                     <i class="fa-solid fa-user text-[12.9px] text-white"></i>
                 </div>
-                <a href="#" class="profile-name text-[#bdc0c0]">ehtishamfarman</a>
+                <a href="http://localhost:5000/connect" class="profile-name text-[#bdc0c0]">ehtishamfarman</a>
             </div>
 
         </div>

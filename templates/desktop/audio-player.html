@@ -148,6 +148,7 @@
     const songNames = document.querySelectorAll(".song-title");
     const songAuthor = document.querySelector(".song-author");
     const currentImages = document.querySelectorAll(".left-audio-player-img");
+    const nextAuthorImage = document.querySelector(".author-image");
     const mainImageBackground = document.querySelector(".main");
     // console.log("tracks show all song data", track);
     mainImageBackground.style.backgroundImage = `url(${albumImageUrl})`;
@@ -176,6 +177,11 @@
               alt="singer_image"
             />`;
     });
+    nextAuthorImage.innerHTML = `<img 
+              src="${albumImageUrl}"
+              class="w-[100%] h-[100%] rounded-full"
+              alt="singer_image"
+            />`;
   }
 
   function attachPlayTrackEvent(track, accessToken, albumImageUrl) {

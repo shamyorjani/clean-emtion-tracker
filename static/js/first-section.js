@@ -1,8 +1,4 @@
 var artistBio = [];
-
-// const loader = document.querySelector(".loader-section-container");
-// loader.style.display = "none"; // Show the loader
-
 var artistData = async (artistName) => {
   // if (typeof artistName !== "string") {
   //   artistName = String(artistName);
@@ -61,6 +57,14 @@ function displayArtistName(currentlyPlaying) {
   } else if (artistName.length > 15) {
     artistNameElement.style.fontSize = "1rem";
   }
+  // console.log("Updated afdsasfdasfdstate:", {
+  //   artistNameElementInnerHTML: artistNameElement.innerHTML,
+  //   artistLeftNameElementInnerHTML: artistLeftNameElement.innerHTML,
+  //   audioPlayerArtistNameInnerHTML: audioPlayerArtistName.innerHTML
+  // });
+  // artistNameElement.innerHTML = artistName;
+  // audioPlayerArtistName.innerHTML = artistName;
+  // artistLeftNameElement.innerHTML = artistName;
 }
 
 function displayCurrentSongName(currentlyPlaying) {
@@ -75,25 +79,4 @@ function displayCurrentSongName(currentlyPlaying) {
   );
 }
 
-function displayArtistImage(currentArtist) {
-  const artistImageElement = document.querySelectorAll(
-    ".left-audio-player-img"
-  );
-  const artistImage = document.querySelector(".author-image");
-  const mainImage = document.querySelector(".main");
-  artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
 
-  const artistUrl = currentArtist;
-  console.log("artist url", artistUrl);
-  artistImage.style.backgroundImage = `url('${artistUrl}')`;
-  mainImage.style.backgroundImage = `url('${artistUrl}')`;
-  artistImageElement.forEach(
-    (artistImage) =>
-      (artistImage.innerHTML = `
-      <img
-            src="${artistUrl}"
-            class="bottom-player-artist-image"
-            alt="singer_image"
-          />`)
-  );
-}
