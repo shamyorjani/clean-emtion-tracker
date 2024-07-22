@@ -238,7 +238,6 @@ const APIController = (function () {
         }
       );
 
-
       // Check if response status is OK
       if (!result.ok) {
         throw new Error(
@@ -249,17 +248,13 @@ const APIController = (function () {
         );
       }
 
-
       const text = await result.text(); // Read the response as text
-
 
       if (!text) {
         throw new Error("Empty response from currently playing song API");
       }
 
-
       const data = JSON.parse(text); // Parse the JSON from the text
-
 
       return data;
     } catch (error) {
@@ -677,13 +672,23 @@ const APPController = (async function (UICtrl, APICtrl) {
       await searchReleases(final_input, "playlist");
       await searchReleases(final_input, "artist");
     }
-    await updateResults('sad')
+    const detected_emotion = document
+      .getElementById("detected_emotion")
+      .getAttribute("data-emotion");
+    // console.log('emotion edetected dsfsa +++++>>> ', detected_emotion.textContent);
+    updateResults(detected_emotion);
     const dropdownMenu = document.getElementById("dropdown-menu");
     const updateButton = document.getElementById("update-button");
     if (updateButton) {
       updateButton.addEventListener("click", async function () {
+        simulateScroll("down");
         let final_input =
-          selectedEra + " " + selectedSongType + " in " + selectedLanguage;
+          detected_emotion +
+          selectedEra +
+          " " +
+          selectedSongType +
+          " in " +
+          selectedLanguage;
         dropdownMenu.classList.add("hidden");
         dropdownMenu.classList.remove("hidden");
         // console.log("final_input", final_input);
@@ -964,7 +969,29 @@ const APPController = (async function (UICtrl, APICtrl) {
           );
         });
       });
-    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    // try {
+    //   if (currentlyPlaying == null) {
+    const recentTracks = await APICtrl.getRecentlyPlayedTracks(accessToken);
+    console.log("recent tracks current try catch===>>", recentTracks.items[0]);
+    // const playBtn = document.querySelector(".playBtn");
+
+    // playBtn.addEventListener("click", () => {
+    try {
+      attachPlayTrackEvent(
+        recentTracks.items[0].track,
+        accessToken,
+        recentTracks.items[0].track.album.images[0].url
+      );
+    } catch (error) {
+      console.log(error);
+    }
+
+    // });
+    // }
+    // } catch (error) {
+    //   console.log(error);
+    // }
     const currentArtist =
       currentlyPlaying && currentlyPlaying.item && currentlyPlaying.item.artists
         ? await APICtrl.getArtist(

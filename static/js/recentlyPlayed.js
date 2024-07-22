@@ -149,6 +149,11 @@ function displayAlbumTracks(
   sidebarPlayBtn.forEach((btn, index) => {
     btn.addEventListener("click", () => {
       console.log("clicked");
+
+      const animatedDiv = document.querySelector("#playlist-container");
+      animatedDiv.style.right = "-100%";
+      const searchCLoseBtn = document.getElementById("search-area-close-btn");
+      searchCLoseBtn.click();
       const track = albumTracks[index];
       // artistData(track.artists[0].name);
 
