@@ -80,3 +80,26 @@ function displayCurrentSongName(currentlyPlaying) {
 }
 
 
+
+function displayArtistImage(currentArtist) {
+  const artistImageElement = document.querySelectorAll(
+    ".left-audio-player-img"
+  );
+  const artistImage = document.querySelector(".author-image");
+  const mainImage = document.querySelector(".main");
+  artistImageElement.forEach((artistImage) => (artistImage.innerHTML = ""));
+
+  const artistUrl = currentArtist;
+  console.log("artist url", artistUrl);
+  artistImage.style.backgroundImage = `url('${artistUrl}')`;
+  mainImage.style.backgroundImage = `url('${artistUrl}')`;
+  artistImageElement.forEach(
+    (artistImage) =>
+      (artistImage.innerHTML = `
+      <img
+            src="${artistUrl}"
+            class="bottom-player-artist-image"
+            alt="singer_image"
+          />`)
+  );
+}
