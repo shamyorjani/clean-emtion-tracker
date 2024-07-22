@@ -33,22 +33,19 @@ function displaySearchRecommendation(searchMethod) {
   document
     .querySelectorAll(".result-text h4[data-single-song-id] ")
     .forEach((element, index) => {
-      element.addEventListener("click", async function () {
+      element.addEventListener("click", async function (e) {
         hideSideBar();
 
-        try {
-          const alpineElement = document.querySelector("body");
-          const desktopNavSearchopen =
-            alpineElement.__x.$data.desktopNavSearchopen;
-        } catch (error) {
-          console.log("gg g g g gg g error", error);
-        }
-
         // showSIdeBarLoader();
-        const trackId = this.getAttribute("data-single-song-id");
-        const track = await APIController.getTrack(accessToken, trackId);
-        console.log("track image url=>", track);
-        attachPlayTrackEvent(track, accessToken, track.album.images[0].url);
+        try {
+          console.log("track id from displaysearch recommend", element);
+          const trackId = element.getAttribute("data-single-song-id");
+          const track = await APIController.getTrack(accessToken, trackId);
+          console.log("track image url=>", track);
+          attachPlayTrackEvent(track, accessToken, track.album.images[0].url);
+        } catch (error) {
+          console.log(error);
+        }
       });
     });
 }

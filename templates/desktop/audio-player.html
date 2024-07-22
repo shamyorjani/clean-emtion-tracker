@@ -183,19 +183,53 @@
               alt="singer_image"
             />`;
   }
-
-  function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
+  const getTrack = async (accessToken, trackId) => {
+    const result = await fetch(`https://api.spotify.com/v1/tracks/${trackId}`, {
+      method: "GET",
+      headers: {
+        Authorization: "Bearer " + accessToken,
+      },
+    });
+    const data = await result.json();
+    return data;
+  };
+ async function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
     // artistData(track.artists[0].name);
     console.log("track data", track);
 
     // trackData[1] =
     try {
+      console.log("track", track);
       trackData[0] = track.track;
       trackData[1] = track.track.album.images[0].url;
     } catch (error) {
-      trackData[0] = track;
-      trackData[1] = track.album.images[0].url;
+      console.log(error);
     }
+
+    try {
+        console.log("track", track);
+        trackData[0] = track;
+        trackData[1] = track.album.images[0].url;
+      } catch (error) {
+        console.log(error);
+      }
+
+      try {
+      console.log("track", track);
+      trackData[0] = track.track;
+      trackData[1] = track.track.album.images[0].url;
+    } catch (error) {
+      console.log(error);
+    }
+
+    try {
+        console.log("track", track);
+        trackData[0] = track;
+        const newTrack = await getTrack(accessToken, track.id)
+        trackData[1] = newTrack.album.images[0].url
+      } catch (error) {
+        console.log(error);
+      }
 
     // const albumImageUrl = albumImages?.[0]?.url; // Provide a default URL if both are undefined
 
@@ -239,7 +273,7 @@
 
       // Play the selected track
       playOnDevice(accessToken, device_id, trackUri);
-      player.setVolume(0).then(() => {
+      player.setVolume(0.1).then(() => {
         console.log("Volume updated!");
       });
       setInterval(() => {

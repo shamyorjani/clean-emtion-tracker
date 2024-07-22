@@ -73,7 +73,7 @@ document.addEventListener("DOMContentLoaded", function () {
   emotionsBtn.addEventListener("click", () => {
     simulateScroll("down");
   });
-
+window.simulateScroll = simulateScroll
   function simulateScroll(direction) {
     // Create a new event object
     const event = {
