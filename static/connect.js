@@ -1214,7 +1214,9 @@ const APPController = (async function (UICtrl, APICtrl) {
         }
 
         try {
-          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
+          const newTrack = uniqueTracks[next].id;
+          const gotTrack = await APICtrl.getTrack(accessToken, newTrack);
+          nextTrackImage = gotTrack.album.images[0].url;
           nextTrack = uniqueTracks[next].track;
           attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
         } catch (error) {
