@@ -177,7 +177,7 @@
               alt="singer_image"
             />`;
     });
-    nextAuthorImage.innerHTML = `<img
+    nextAuthorImage.innerHTML = `<img 
               src="${albumImageUrl}"
               class="w-[100%] h-[100%] rounded-full"
               alt="singer_image"
@@ -193,7 +193,7 @@
     const data = await result.json();
     return data;
   };
-  async function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
+ async function attachPlayTrackEvent(track, accessToken, albumImageUrl) {
     // artistData(track.artists[0].name);
     console.log("track data", track);
 
@@ -207,14 +207,14 @@
     }
 
     try {
-      console.log("track", track);
-      trackData[0] = track;
-      trackData[1] = track.album.images[0].url;
-    } catch (error) {
-      console.log(error);
-    }
+        console.log("track", track);
+        trackData[0] = track;
+        trackData[1] = track.album.images[0].url;
+      } catch (error) {
+        console.log(error);
+      }
 
-    try {
+      try {
       console.log("track", track);
       trackData[0] = track.track;
       trackData[1] = track.track.album.images[0].url;
@@ -223,13 +223,13 @@
     }
 
     try {
-      console.log("track", track);
-      trackData[0] = track;
-      const newTrack = await getTrack(accessToken, track.id);
-      trackData[1] = newTrack.album.images[0].url;
-    } catch (error) {
-      console.log(error);
-    }
+        console.log("track", track);
+        trackData[0] = track;
+        const newTrack = await getTrack(accessToken, track.id)
+        trackData[1] = newTrack.album.images[0].url
+      } catch (error) {
+        console.log(error);
+      }
 
     loader.style.display = "block";
     playTrack(accessToken, track.uri);
@@ -323,19 +323,11 @@
 
           // Do something with the play state and pause state
           if (isPlaying) {
-            document.querySelectorAll(".playBtn").forEach((button) => {
-              button.style.display = "none";
-            });
-            document.querySelectorAll(".pauseBtn").forEach((button) => {
-              button.style.display = "flex";
-            });
+            document.querySelector(".playBtn").style.display = "none";
+            document.querySelector(".pauseBtn").style.display = "flex";
           } else if (isPaused) {
-            document.querySelectorAll(".playBtn").forEach((button) => {
-              button.style.display = "flex";
-            });
-            document.querySelectorAll(".pauseBtn").forEach((button) => {
-              button.style.display = "none";
-            });
+            document.querySelector(".playBtn").style.display = "flex";
+            document.querySelector(".pauseBtn").style.display = "none";
           }
 
           // console.log("Current state", state);

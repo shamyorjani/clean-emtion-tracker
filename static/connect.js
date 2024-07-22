@@ -1179,7 +1179,7 @@ const APPController = (async function (UICtrl, APICtrl) {
     });
 
     const nextButtons = document.querySelectorAll(".nextBtn");
-    console.log('next button====>>>, ', nextButtons);
+    console.log("next button====>>>, ", nextButtons);
     let next = 0;
 
     nextButtons.forEach((nextButton) => {
@@ -1203,11 +1203,23 @@ const APPController = (async function (UICtrl, APICtrl) {
           nextTrack = uniqueTracks[next];
           attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
         } catch (error) {
+          console.log(error);
+        }
+        try {
           nextTrackImage = uniqueTracks[next].track.album.images[0].url;
           nextTrack = uniqueTracks[next].track;
           attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
+        } catch (error) {
+          console.log(error);
         }
 
+        try {
+          nextTrackImage = uniqueTracks[next].track.album.images[0].url;
+          nextTrack = uniqueTracks[next].track;
+          attachPlayTrackEvent(nextTrack, accessToken, nextTrackImage);
+        } catch (error) {
+          console.log(error);
+        }
         console.log("next ===> ", next);
       });
     });
