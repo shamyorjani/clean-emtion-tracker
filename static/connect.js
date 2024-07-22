@@ -969,7 +969,7 @@ const APPController = (async function (UICtrl, APICtrl) {
           );
         });
       });
-    // const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
+    const currentlyPlaying = await APICtrl.getCurrentlyPlaying(accessToken);
     // try {
     //   if (currentlyPlaying == null) {
     const recentTracks = await APICtrl.getRecentlyPlayedTracks(accessToken);
@@ -1177,7 +1177,9 @@ const APPController = (async function (UICtrl, APICtrl) {
         }
       });
     });
+
     const nextButtons = document.querySelectorAll(".nextBtn");
+    console.log('next button====>>>, ', nextButtons);
     let next = 0;
 
     nextButtons.forEach((nextButton) => {
