@@ -8,9 +8,23 @@
     <!-- <link rel="stylesheet" href="./styles.css" /> -->
 
     <script>
+      async function connectToSpotify() {
+        const clientId = "23ab69c678df492d958a9220fb60bfe9";
+        const redirectUri = "http://localhost:5000/callback";
+        const scope =
+          "playlist-read-private user-top-read user-read-private user-read-email user-read-recently-played user-read-currently-playing user-modify-playback-state user-read-playback-state streaming playlist-modify-public playlist-modify-private ugc-image-upload"; // Add additional scopes if needed
+
+        const authUrl = `https://accounts.spotify.com/authorize?client_id=${clientId}&redirect_uri=${redirectUri}&scope=${encodeURIComponent(
+          scope
+        )}&response_type=token`;
+
+        localStorage.setItem("sessionStartTime", Date.now());
+
+        window.location.href = authUrl;
+      }
       function redirectAfterVideo() {
         setTimeout(function () {
-          window.location.href = "/connection";
+          connectToSpotify();
         }, 5000); // Redirect after 5 seconds
       }
     </script>

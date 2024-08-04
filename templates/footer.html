@@ -34,13 +34,31 @@
 
 <script src="https://sdk.scdn.co/spotify-player.js"></script>
 
-<script src="{{url_for('static',filename='connect.js')}}"  defer></script>
+<script src="{{url_for('static',filename='connect.js')}}" defer></script>
 
 <script>
   if (!window.location.href.includes("access_token")) {
     const url = new URL(window.location.href);
     const token = url.hash.split("&")[0].split("=")[1];
     localStorage.setItem("token", token);
-    window.location.href = "/connect";
+    window.location.href = "/get_emotion";
+    // connectToSpotify();
   }
+  window.addEventListener("beforeunload", function () {
+    sessionStorage.setItem("isReload", "true");
+  });
+
+  // Check the flag when the page loads
+  window.addEventListener("load", function () {
+    if (sessionStorage.getItem("isReload")) {
+      console.log("Page was reloaded");
+      // Do something on reload
+
+      window.location.href = "/";
+      // Clear the flag
+      sessionStorage.removeItem("isReload");
+    } else {
+      console.log("Page was loaded normally");
+    }
+  });
 </script>
